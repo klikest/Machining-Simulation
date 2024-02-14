@@ -3,6 +3,9 @@
 
 CuttingSimulation::CuttingSimulation()
 {
+	SimulationWindow = NULL;
+	width = NULL;
+	height = NULL;
 }
 
 
@@ -37,6 +40,9 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 
 
 
+	ptr_render_scene = std::make_unique<Render>();
+
+	ptr_render_scene->Init(SimulationWindow);
 }
 
 
@@ -52,7 +58,7 @@ void CuttingSimulation::Run()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
+		ptr_render_scene->Draw(SimulationWindow);
 
 		glfwSwapBuffers(SimulationWindow);
 

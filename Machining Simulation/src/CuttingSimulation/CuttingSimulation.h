@@ -2,15 +2,17 @@
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
-
-
 #include<glm\gtc\type_ptr.hpp>
+
+#include "Render/Render.h"
 
 
 class CuttingSimulation
 {
 public:
 	GLFWwindow* SimulationWindow;
+
+	std::unique_ptr<Render> ptr_render_scene;
 
 	int width;
 	int height;

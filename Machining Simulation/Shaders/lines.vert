@@ -1,14 +1,17 @@
-#version 330 core
-layout (location = 0) in vec3 aPos;
+#version 430
 
-uniform vec4 color;
+layout (location=0) in vec3 position;  // coord
+
+out vec4 vColor;  
+
+uniform mat4 view;
 uniform mat4 proj;
 
-out vec4 LineColor;
-
-void main()
+void main(void) 
 {
-	LineColor = color;
 
-   gl_Position = proj * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    vColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); 
+   
+    gl_Position = proj * view * vec4(position, 1.0f);
+
 }
