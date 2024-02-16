@@ -10,8 +10,13 @@ class FrameBuffer
 {
 public:
 	GLuint fbo;
+	GLuint rbo;
+	GLuint texture_id;
 	FrameBuffer();
 	~FrameBuffer();
 	void Init();
+	void Bind();
+	void Unbind();
+	void Rescale(float width, float height);
 };
 

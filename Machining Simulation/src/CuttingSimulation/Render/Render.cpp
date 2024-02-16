@@ -47,6 +47,9 @@ void Render::Draw(GLFWwindow* window)
     camera.MoveCamera(window, deltaTime);
     camera.SetCamMatrixToShader(line_shader.ID);
 
+    glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glUseProgram(line_shader.ID);
     glBindVertexArray(VAO_line); 
     glDrawArrays(GL_LINE_STRIP, 0, 3);
