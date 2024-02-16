@@ -160,6 +160,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c" />
+    <ClCompile Include="src\CuttingSimulation\Scene\Dexel.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Scene\DexelScene.cpp" />
     <ClCompile Include="include\x32\imgui\imgui.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_demo.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_draw.cpp" />
@@ -177,6 +179,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Scene\Dexel.h" />
+    <ClInclude Include="src\CuttingSimulation\Scene\DexelScene.h" />
     <ClInclude Include="include\x32\imgui\imconfig.h" />
     <ClInclude Include="include\x32\imgui\imgui.h" />
     <ClInclude Include="include\x32\imgui\imgui_impl_glfw.h" />
@@ -231,8 +235,8 @@
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\default.frag" />
-    <None Include="Shaders\default.vert" />
+    <None Include="Shaders\dexel.frag" />
+    <None Include="Shaders\dexel.vert" />
     <None Include="Shaders\lines.frag" />
     <None Include="Shaders\lines.vert" />
   </ItemGroup>

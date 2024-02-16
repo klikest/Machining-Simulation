@@ -28,7 +28,7 @@ void App::Run()
 
 	ptr_CuttingSimulationApp = std::make_unique<CuttingSimulation>();
 
-	ptr_CuttingSimulationApp->CreateSimWindow(1000, 800, "Machining Simulation");
+	ptr_CuttingSimulationApp->CreateSimWindow(1280, 920, "Machining Simulation");
 	ptr_CuttingSimulationApp->Run();
 }
 

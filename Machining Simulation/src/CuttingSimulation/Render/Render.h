@@ -13,11 +13,17 @@ public:
 	float currentFrame = 0.f;
 
 	Shader line_shader;
+	Shader dexel_shader;
 	Camera camera;
 
 	GLuint VAO_line = 0;
 	GLuint VBO_vert_line = 0;
 	GLuint VBO_color_line = 0;
+
+	GLuint VAO_dexel = 0;
+	GLuint VBO_vert_dexel = 0;
+	//GLuint VBO_color_dexel = 0;
+
 	Render();
 	~Render();
 

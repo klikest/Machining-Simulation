@@ -63,6 +63,12 @@
     <ClCompile Include="include\x32\imgui\imgui_widgets.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Scene\DexelScene.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Scene\Dexel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h">
@@ -167,11 +173,17 @@
     <ClInclude Include="include\x32\imgui\imstb_truetype.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Scene\DexelScene.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Scene\Dexel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\lines.vert" />
     <None Include="Shaders\lines.frag" />
-    <None Include="Shaders\default.frag" />
-    <None Include="Shaders\default.vert" />
+    <None Include="Shaders\dexel.frag" />
+    <None Include="Shaders\dexel.vert" />
   </ItemGroup>
 </Project>
