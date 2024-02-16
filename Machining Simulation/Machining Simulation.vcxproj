@@ -160,34 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c" />
-    <ClCompile Include="include\x64\imgui\imgui.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_demo.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_draw.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_impl_glfw.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_impl_opengl3.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_tables.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui\imgui_widgets.cpp">
-      <DeploymentContent>true</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="include\x64\imgui_\imgui.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_demo.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_draw.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_impl_glfw.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_tables.cpp" />
-    <ClCompile Include="include\x64\imgui_\imgui_widgets.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_tables.cpp" />
+    <ClCompile Include="include\x32\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\GUI.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\FrameBuffer.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Camera.cpp" />
@@ -198,6 +177,15 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\x32\imgui\imconfig.h" />
+    <ClInclude Include="include\x32\imgui\imgui.h" />
+    <ClInclude Include="include\x32\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="include\x32\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="include\x32\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="include\x32\imgui\imgui_internal.h" />
+    <ClInclude Include="include\x32\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\x32\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\x32\imgui\imstb_truetype.h" />
     <ClInclude Include="include\x64\imgui\imconfig.h">
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>

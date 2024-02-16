@@ -16,7 +16,8 @@ public:
 
 	void SetCurretWindow(GLFWwindow* simWindow);
 	void Init();
+	void ShowExampleAppDockSpace(bool* p_open);
 	void Render(FrameBuffer fbo);
-	void Close();
+	~GUI();
 };
 
