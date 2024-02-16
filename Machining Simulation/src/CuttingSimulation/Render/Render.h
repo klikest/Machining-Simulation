@@ -15,9 +15,11 @@ public:
 	Shader line_shader;
 	Camera camera;
 
-	GLuint VAO_line;
-	GLuint VBO_vert_line;
-	GLuint VBO_color_line;
+	GLuint VAO_line = 0;
+	GLuint VBO_vert_line = 0;
+	GLuint VBO_color_line = 0;
+	Render();
+	~Render();
 
 	void Init(GLFWwindow* window);
 	void Draw(GLFWwindow* window);

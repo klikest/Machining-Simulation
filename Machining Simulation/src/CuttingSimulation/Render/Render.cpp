@@ -2,6 +2,15 @@
 
 
 
+Render::Render()
+{
+
+}
+
+Render::~Render()
+{
+}
+
 void Render::Init(GLFWwindow* window)
 {
 	line_shader.CreateShaderProgram((char*)"Shaders/lines.vert", (char*)"Shaders/lines.frag");

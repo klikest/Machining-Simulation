@@ -41,8 +41,11 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 
 
 	ptr_render_scene = std::make_unique<Render>();
-
 	ptr_render_scene->Init(SimulationWindow);
+
+	ptr_gui = std::make_unique<GUI>();
+	ptr_gui->SetCurretWindow(SimulationWindow);
+	ptr_gui->Init();
 }
 
 
@@ -59,6 +62,8 @@ void CuttingSimulation::Run()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		ptr_render_scene->Draw(SimulationWindow);
+
+		ptr_gui->Render();
 
 		glfwSwapBuffers(SimulationWindow);
 

@@ -5,6 +5,7 @@
 #include<glm\gtc\type_ptr.hpp>
 
 #include "Render/Render.h"
+#include "Render/GUI.h"
 
 
 class CuttingSimulation
@@ -13,6 +14,7 @@ public:
 	GLFWwindow* SimulationWindow;
 
 	std::unique_ptr<Render> ptr_render_scene;
+	std::unique_ptr<GUI> ptr_gui;
 
 	int width;
 	int height;
