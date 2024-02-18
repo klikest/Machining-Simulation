@@ -17,15 +17,25 @@ void Render::Init(GLFWwindow* window)
    
     float vertices[] = {
     0, 0, 0,
-     100, 100, 100,
-    -100, 100, -100
+    10, 0, 0,
+
+    0, 0, 0,
+    0, 10, 0,
+
+    0, 0, 0,
+    0, 0, 10
     };
 
 
     float colors[] = {
-    0, 0, 1,
+    1, 0, 0,
+    1, 0, 0,
+
     0, 1, 0,
-    1, 0, 0
+    0, 1, 0,
+
+    0, 0, 1,
+    0, 0, 1,
         };
 
     glGenVertexArrays(1, &VAO_line);
@@ -49,7 +59,7 @@ void Render::Init(GLFWwindow* window)
     glBindVertexArray(0);
 
 
-    camera.Init(window, glm::vec3(-100.0f, 0.0f, 3.0f), -40, -40);
+    camera.Init(window, glm::vec3(-51.0f, 19.0f, 31.0f), -25, -13);
 
 }
 
@@ -66,7 +76,7 @@ void Render::Draw(GLFWwindow* window)
     glUseProgram(line_shader.ID);
     glBindVertexArray(VAO_line); 
     glEnable(GL_LINE_SMOOTH);
-    glDrawArrays(GL_LINE_STRIP, 0, 3);
+    glDrawArrays(GL_LINES, 0, 9);
 
 }
 

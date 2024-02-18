@@ -1,6 +1,7 @@
 #include "GUI.h"
 
 
+
 void GUI::SetCurretWindow(GLFWwindow* simWindow)
 {
 	curretWindow = simWindow;
@@ -111,7 +112,82 @@ void GUI::ShowExampleAppDockSpace(bool* p_open)
     ImGui::End();
 }
 
-void GUI::Render(FrameBuffer fbo)
+
+void GUI::RenderMainScene(FrameBuffer fbo)
+{
+    ImGui::Begin("Scene");
+
+    main_window_width = ImGui::GetContentRegionAvail().x;
+    main_window_height = ImGui::GetContentRegionAvail().y;
+
+    fbo.Rescale(main_window_width, main_window_height);
+
+
+    glViewport(0, 0, main_window_width, main_window_height);
+
+    // we get the screen position of the window
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    // and here we can add our created texture as image to ImGui
+    // unfortunately we need to use the cast to void* or I didn't find another way tbh
+    ImGui::GetWindowDrawList()->AddImage(
+        (void*)fbo.texture_id,
+        ImVec2(pos.x, pos.y),
+        ImVec2(pos.x + main_window_width, pos.y + main_window_height),
+        ImVec2(0, 1),
+        ImVec2(1, 0)
+    );
+
+    ImGui::End();
+}
+
+void GUI::RenderSceneInfo(Render* render)
+{
+
+    
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    ImGui::Begin("Info");
+
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+
+    if (ImGui::CollapsingHeader("Camera info"))
+    {
+        ImGui::Text("Fov = %.3f", render->camera.fov);
+        ImGui::Text("Yaw = %.3f", render->camera.yaw);
+        ImGui::Text("Pitch = %.3f", render->camera.pitch);
+        ImGui::Text("X pos = %.3f", render->camera.cameraPos.x);
+        ImGui::Text("Y pos = %.3f", render->camera.cameraPos.y);
+        ImGui::Text("Z pos = %.3f", render->camera.cameraPos.z);
+    }
+
+    if (ImGui::CollapsingHeader("Scene info"))
+    {
+
+    }
+
+
+
+    ImGui::End();
+
+
+    ImGui::Begin("Plot Data");
+
+    std::vector<float> data;
+
+    for (float i = 0; i < 100; i++)
+    {
+        data.push_back( sinf(i/10) );
+    }
+
+    ImGui::PlotLines("Some Plot", data.data(), data.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
+
+    ImGui::End();
+}
+
+
+void GUI::RenderGUI(FrameBuffer fbo, Render* render)
 {
 	
 
@@ -119,53 +195,23 @@ void GUI::Render(FrameBuffer fbo)
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-
     bool show = true;
     ShowExampleAppDockSpace(&show);
 
-	ImGui::Begin("Scene");
-
-	main_window_width = ImGui::GetContentRegionAvail().x;
-	main_window_height = ImGui::GetContentRegionAvail().y;
-
-	fbo.Rescale(main_window_width, main_window_height);
-
-
-	glViewport(0, 0, main_window_width, main_window_height);
-
-	// we get the screen position of the window
-	ImVec2 pos = ImGui::GetCursorScreenPos();
-
-	// and here we can add our created texture as image to ImGui
-	// unfortunately we need to use the cast to void* or I didn't find another way tbh
-	ImGui::GetWindowDrawList()->AddImage(
-		(void*)fbo.texture_id,
-		ImVec2(pos.x, pos.y),
-		ImVec2(pos.x + main_window_width, pos.y + main_window_height),
-		ImVec2(0, 1),
-		ImVec2(1, 0)
-	);
-
-	ImGui::End();
-
-
-
-	ImGui::ShowDemoWindow();
+    
+    RenderMainScene(fbo);
+    RenderSceneInfo(render);
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		GLFWwindow* backup_current_context = glfwGetCurrentContext();
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(backup_current_context);
-	}
 }
 
 
+GUI::GUI()
+{
 
+}
 
 
 GUI::~GUI()

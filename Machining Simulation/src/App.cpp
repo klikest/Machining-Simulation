@@ -18,7 +18,7 @@ void App::InitApp()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);  // comment this line in a release build!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	//glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);  // comment this line in a release build!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
 
 }

@@ -65,7 +65,7 @@ void CuttingSimulation::Run()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		ptr_gui->Render(*ptr_fbo);
+		ptr_gui->RenderGUI(*ptr_fbo, ptr_render_scene.get());
 
 		ptr_fbo->Bind();
 
