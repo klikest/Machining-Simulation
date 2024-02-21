@@ -188,9 +188,20 @@ void GUI::RenderSceneInfo(Render* render)
 
     //ImGui::PlotLines("Some Plot", data.data(), data.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
     
-    ImPlot::BeginPlot("My Plot", ImVec2(-1, -1));
-    ImPlot::PlotLine("Some Plot", x_data.data(), y_data.data(), x_data.size() );
+
+
+    ImPlot::BeginSubplots("My Subplots", 1, 2, ImVec2(-1, -1), ImPlotSubplotFlags_NoTitle);
+
+    ImPlot::BeginPlot("Cut Force", ImVec2(-1, -1));
+    ImPlot::PlotLine("Cut force plot", x_data.data(), y_data.data(), x_data.size());
     ImPlot::EndPlot();
+
+    ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1));
+    ImPlot::PlotLine("Some Plot 2", x_data.data(), y_data.data(), x_data.size());
+    ImPlot::EndPlot();
+
+
+    ImPlot::EndSubplots();
 
     ImGui::End();
 }
