@@ -6,6 +6,8 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 
+#include "FrameBuffer.h"
+
 class Camera
 {
 public:
@@ -19,7 +21,7 @@ public:
     GLfloat lastX;
     GLfloat lastY;
     int width, height;
-    GLfloat fov = 45.0f;
+    GLfloat fov = 60.0f;
     bool firstMouse = true;
 
     glm::mat4 pMat;
@@ -33,6 +35,7 @@ public:
     void Init(GLFWwindow* window, glm::vec3 campos_, float yaw_, float pitch);
     void MoveCamera(GLFWwindow* window, GLfloat deltaTime);
     void SetCamMatrixToShader(GLuint ShaderProg);
+    void UpdateAspectRate(float aspect);
     glm::mat4 GetViewMatrix();
     glm::mat4 GetProjMatrix();
 

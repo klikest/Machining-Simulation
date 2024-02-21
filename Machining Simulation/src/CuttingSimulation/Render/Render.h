@@ -4,6 +4,7 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Camera.h"
+#include "FrameBuffer.h"
 #include <vector>
 
 class Render
@@ -37,7 +38,7 @@ public:
 	void AddCoords(glm::vec3 Pos);
 	void AddLines(std::vector<float> vertices, std::vector<float> colors);
 	void DrawLines();
-	void Draw(GLFWwindow* window);
+	void Draw(GLFWwindow* window, float aspect);
 
 private:
 	void CalcDeltaTime();

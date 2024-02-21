@@ -160,6 +160,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c" />
+    <ClCompile Include="include\x32\imgui\implot.cpp" />
+    <ClCompile Include="include\x32\imgui\implot_items.cpp" />
     <ClCompile Include="src\CuttingSimulation\Scene\Dexel.cpp" />
     <ClCompile Include="src\CuttingSimulation\Scene\DexelScene.cpp" />
     <ClCompile Include="include\x32\imgui\imgui.cpp" />
@@ -179,6 +181,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\x32\imgui\implot.h" />
+    <ClInclude Include="include\x32\imgui\implot_internal.h" />
     <ClInclude Include="src\CuttingSimulation\Scene\Dexel.h" />
     <ClInclude Include="src\CuttingSimulation\Scene\DexelScene.h" />
     <ClInclude Include="include\x32\imgui\imconfig.h" />
@@ -190,42 +194,6 @@
     <ClInclude Include="include\x32\imgui\imstb_rectpack.h" />
     <ClInclude Include="include\x32\imgui\imstb_textedit.h" />
     <ClInclude Include="include\x32\imgui\imstb_truetype.h" />
-    <ClInclude Include="include\x64\imgui\imconfig.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imgui.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imgui_impl_glfw.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imgui_impl_opengl3.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imgui_impl_opengl3_loader.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imgui_internal.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imstb_rectpack.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imstb_textedit.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui\imstb_truetype.h">
-      <DeploymentContent>true</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="include\x64\imgui_\imconfig.h" />
-    <ClInclude Include="include\x64\imgui_\imgui.h" />
-    <ClInclude Include="include\x64\imgui_\imgui_impl_glfw.h" />
-    <ClInclude Include="include\x64\imgui_\imgui_impl_opengl3.h" />
-    <ClInclude Include="include\x64\imgui_\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="include\x64\imgui_\imgui_internal.h" />
-    <ClInclude Include="include\x64\imgui_\imstb_rectpack.h" />
-    <ClInclude Include="include\x64\imgui_\imstb_textedit.h" />
-    <ClInclude Include="include\x64\imgui_\imstb_truetype.h" />
     <ClInclude Include="src\CuttingSimulation\Render\GUI.h" />
     <ClInclude Include="src\CuttingSimulation\Render\FrameBuffer.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Camera.h" />

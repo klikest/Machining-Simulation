@@ -12,6 +12,10 @@ public:
 	GLuint fbo;
 	GLuint rbo;
 	GLuint texture_id;
+
+	float width;
+	float height;
+
 	FrameBuffer();
 	~FrameBuffer();
 	void Init();

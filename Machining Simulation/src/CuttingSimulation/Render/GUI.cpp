@@ -11,6 +11,7 @@ void GUI::Init()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+    ImPlot::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -120,6 +121,8 @@ void GUI::RenderMainScene(FrameBuffer fbo)
     main_window_width = ImGui::GetContentRegionAvail().x;
     main_window_height = ImGui::GetContentRegionAvail().y;
 
+    aspect = main_window_width / main_window_height;
+
     fbo.Rescale(main_window_width, main_window_height);
 
 
@@ -174,14 +177,20 @@ void GUI::RenderSceneInfo(Render* render)
 
     ImGui::Begin("Plot Data");
 
-    std::vector<float> data;
+    std::vector<float> x_data;
+    std::vector<float> y_data;
 
     for (float i = 0; i < 100; i++)
     {
-        data.push_back( sinf(i/10) );
+        x_data.push_back(i / 10);
+        y_data.push_back( sinf(i/10) );
     }
 
-    ImGui::PlotLines("Some Plot", data.data(), data.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
+    //ImGui::PlotLines("Some Plot", data.data(), data.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
+    
+    ImPlot::BeginPlot("My Plot", ImVec2(-1, -1));
+    ImPlot::PlotLine("Some Plot", x_data.data(), y_data.data(), x_data.size() );
+    ImPlot::EndPlot();
 
     ImGui::End();
 }
@@ -219,4 +228,5 @@ GUI::~GUI()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+    ImPlot::DestroyContext();
 }

@@ -125,10 +125,10 @@ void Render::DrawLines()
 
 }
 
-void Render::Draw(GLFWwindow* window)
+void Render::Draw(GLFWwindow* window, float aspect)
 {
     CalcDeltaTime();
-
+    camera.UpdateAspectRate(aspect);
     camera.MoveCamera(window, deltaTime);
     camera.SetCamMatrixToShader(line_shader.ID);
 

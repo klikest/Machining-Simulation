@@ -123,6 +123,11 @@ void Camera::SetCamMatrixToShader(GLuint ShaderProg)
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(pMat));
 }
 
+void Camera::UpdateAspectRate(float aspect)
+{
+    pMat = glm::perspective(1.0472f, aspect, 0.1f, 10000.0f);
+}
+
 
 glm::mat4 Camera::GetViewMatrix()
 {
