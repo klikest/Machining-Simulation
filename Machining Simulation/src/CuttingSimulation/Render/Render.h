@@ -4,6 +4,7 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Camera.h"
+#include <vector>
 
 class Render
 {
@@ -22,12 +23,20 @@ public:
 
 	GLuint VAO_dexel = 0;
 	GLuint VBO_vert_dexel = 0;
-	//GLuint VBO_color_dexel = 0;
+	GLuint VBO_color_dexel = 0;
+
+
+	std::vector<float> line_vertices;
+	std::vector<float> line_colors;
+
 
 	Render();
 	~Render();
 
 	void Init(GLFWwindow* window);
+	void AddCoords(glm::vec3 Pos);
+	void AddLines(std::vector<float> vertices, std::vector<float> colors);
+	void DrawLines();
 	void Draw(GLFWwindow* window);
 
 private:
