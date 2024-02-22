@@ -116,6 +116,8 @@ void Camera::MoveCamera(GLFWwindow* window, GLfloat deltaTime)
 
 void Camera::SetCamMatrixToShader(GLuint ShaderProg)
 {
+    glUseProgram(ShaderProg);
+
     unsigned int viewLoc = glGetUniformLocation(ShaderProg, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(vMat));
 

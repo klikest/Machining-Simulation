@@ -5,6 +5,7 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Camera.h"
 #include "FrameBuffer.h"
+#include "Scene/DexelScene.h"
 #include <vector>
 
 class Render
@@ -14,16 +15,19 @@ public:
 	float lastFrame = 0.0f;
 	float currentFrame = 0.f;
 
-	Shader line_shader;
-	Shader dexel_shader;
 	Camera camera;
 
+
+	Shader line_shader;
 	GLuint VAO_line = 0;
 	GLuint VBO_vert_line = 0;
 	GLuint VBO_color_line = 0;
 
+
+	Shader dexel_shader;
 	GLuint VAO_dexel = 0;
-	GLuint VBO_vert_dexel = 0;
+	GLuint VBO_vert_cube_for_dexels = 0;
+	GLuint VBO_offsets_dexel = 0;
 	GLuint VBO_color_dexel = 0;
 
 
@@ -37,8 +41,9 @@ public:
 	void Init(GLFWwindow* window);
 	void AddCoords(glm::vec3 Pos);
 	void AddLines(std::vector<float> vertices, std::vector<float> colors);
+	void DrawScene(DexelScene* scene);
 	void DrawLines();
-	void Draw(GLFWwindow* window, float aspect);
+	void Draw(GLFWwindow* window, DexelScene* scene, float aspect);
 
 private:
 	void CalcDeltaTime();

@@ -49,6 +49,9 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 
 	ptr_fbo = std::make_unique<FrameBuffer>();
 	ptr_fbo->Init();
+
+	ptr_dexel_scene = std::make_unique<DexelScene>();
+	ptr_dexel_scene->CreateCylBlank(10, 50, 1);
 }
 
 
@@ -69,7 +72,7 @@ void CuttingSimulation::Run()
 
 		ptr_fbo->Bind();
 
-		ptr_render_scene->Draw(SimulationWindow, ptr_gui->aspect );
+		ptr_render_scene->Draw(SimulationWindow, ptr_dexel_scene.get(), ptr_gui->aspect);
 
 		ptr_fbo->Unbind();
 
