@@ -33,6 +33,7 @@ public:
 
 	std::vector<float> line_vertices;
 	std::vector<float> line_colors;
+	std::vector<float> Cube_VertexPositions;
 
 
 	Render();

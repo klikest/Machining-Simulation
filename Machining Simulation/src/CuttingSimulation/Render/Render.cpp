@@ -17,7 +17,7 @@ void Render::Init(GLFWwindow* window)
 	line_shader.CreateShaderProgram((char*)"Shaders/lines.vert", (char*)"Shaders/lines.frag");
     dexel_shader.CreateShaderProgram((char*)"Shaders/dexel.vert", (char*)"Shaders/dexel.frag");
 
-    float vertexPositions[108] = {
+    Cube_VertexPositions = {
     0.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
      1.0f, 0.0f, 0.0f,  1.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
      1.0f, 0.0f, 0.0f,  1.0f, 0.0f,  1.0f,  1.0f,  1.0f, 0.0f,
@@ -40,10 +40,7 @@ void Render::Init(GLFWwindow* window)
     glGenVertexArrays(1, &VAO_dexel);
     glGenBuffers(1, &VBO_vert_cube_for_dexels);
     glGenBuffers(1, &VBO_offsets_dexel);
-    //glGenBuffers(1, &VBO_color_dexel);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_vert_cube_for_dexels);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_DYNAMIC_DRAW);
+    glGenBuffers(1, &VBO_color_dexel);
 
 
     camera.Init(window, glm::vec3(-51.0f, 19.0f, 31.0f), -25, -13);
@@ -91,36 +88,71 @@ void Render::AddLines(std::vector<float> vertices, std::vector<float> colors)
 
 void Render::DrawScene(DexelScene* scene)
 {
-    std::vector<glm::vec4> offsets = {glm::vec4(0, 0, 0, 10), glm::vec4(10, 0, 0, 10) };
     /*
     glUseProgram(dexel_shader.ID);
     glBindVertexArray(VAO_dexel);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_vert_cube_for_dexels);
-    glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Cube_VertexPositions.size(), Cube_VertexPositions.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_offsets_dexel);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * offsets.size(), offsets.data(), GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    std::vector<glm::vec4> offsets = { glm::vec4(0, 0, 0, 10), glm::vec4(10, 0, 0, 10) };
+    std::vector<glm::vec3> colors = { glm::vec3(1, 0, 0), glm::vec3(0, 1, 0) };
 
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_offsets_dexel);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * offsets.size(), offsets.data(), GL_DYNAMIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(1, 1);
 
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_color_dexel);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * colors.size(), colors.data(), GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(2, 1);
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, offsets.size());
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 2);
     */
+
+
+
+    glUseProgram(dexel_shader.ID);
+    glBindVertexArray(VAO_dexel);
+
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_vert_cube_for_dexels);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Cube_VertexPositions.size(), Cube_VertexPositions.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+    std::vector<glm::vec3> offsets = { glm::vec3(0, 0, 0, 10), glm::vec3(10, 0, 0, 10) };
+
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_offsets_dexel);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * offsets.size(), offsets.data(), GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(1, 1);
+
+
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_color_dexel);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * colors.size(), colors.data(), GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(2, 1);
+
+
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 2);
+
+
+
+
 }
 
 
@@ -167,7 +199,7 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect)
     DrawLines();
 
     camera.SetCamMatrixToShader(dexel_shader.ID);
-    //DrawScene(scene);
+    DrawScene(scene);
 }
 
 void Render::CalcDeltaTime()
