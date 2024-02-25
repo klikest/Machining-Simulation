@@ -2,6 +2,9 @@
 
 DexelScene::DexelScene()
 {
+    X_grid_size = 0;
+    Y_grid_size = 0;
+    blank_grid = nullptr;
 }
 
 DexelScene::~DexelScene()

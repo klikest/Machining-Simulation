@@ -86,6 +86,68 @@ void Render::AddLines(std::vector<float> vertices, std::vector<float> colors)
 }
 
 
+void Render::AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color)
+{
+    std::vector<float>vertices = {
+        min_rect.x, min_rect.y, min_rect.z,
+        max_rect.x, min_rect.y, min_rect.z,
+        min_rect.x, min_rect.y, min_rect.z,
+        min_rect.x, max_rect.y, min_rect.z,
+        min_rect.x, min_rect.y, min_rect.z,
+        min_rect.x, min_rect.y, max_rect.z,
+        max_rect.x, max_rect.y, max_rect.z,
+        min_rect.x, max_rect.y, max_rect.z,
+        max_rect.x, max_rect.y, max_rect.z,
+        max_rect.x, min_rect.y, max_rect.z,
+        max_rect.x, max_rect.y, max_rect.z,
+        max_rect.x, max_rect.y, min_rect.z,
+        max_rect.x, min_rect.y, min_rect.z,
+        max_rect.x, min_rect.y, max_rect.z,
+        min_rect.x, min_rect.y, max_rect.z,
+        max_rect.x, min_rect.y, max_rect.x,
+        min_rect.x, max_rect.y, min_rect.z,
+        max_rect.x, max_rect.y, min_rect.z,
+        min_rect.z, max_rect.y, min_rect.z,
+        min_rect.z, max_rect.y, max_rect.z,
+        min_rect.x, min_rect.y, max_rect.z,
+        min_rect.x, max_rect.y, max_rect.z,
+        max_rect.z, min_rect.y, min_rect.z,
+        max_rect.z, max_rect.y, min_rect.z
+    };
+    std::vector<float>colors = {
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z,
+        color.x, color.y, color.z
+    };
+
+    line_vertices.insert(line_vertices.end(), vertices.begin(), vertices.end());
+    line_colors.insert(line_colors.end(), colors.begin(), colors.end());
+}
+
+
+
+
 void Render::DrawScene(DexelScene* scene)
 {
     glUseProgram(dexel_shader.ID);
@@ -166,10 +228,12 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect)
 
     AddCoords(glm::vec3(0, 0, 0));
     AddLines({ 0, 0, 0, 10, 10, 10 }, { 1, 1, 1, 1, 0.5, 0.5 });
+
+    AddRectangle(glm::vec3(-10, -10, -10), glm::vec3(10, 10, 10), glm::vec3(1, 1, 0));
     DrawLines();
 
     camera.SetCamMatrixToShader(dexel_shader.ID);
-    DrawScene(scene);
+    //DrawScene(scene);
 }
 
 void Render::CalcDeltaTime()

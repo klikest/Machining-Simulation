@@ -42,6 +42,7 @@ public:
 	void Init(GLFWwindow* window);
 	void AddCoords(glm::vec3 Pos);
 	void AddLines(std::vector<float> vertices, std::vector<float> colors);
+	void AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color);
 	void DrawScene(DexelScene* scene);
 	void DrawLines();
 	void Draw(GLFWwindow* window, DexelScene* scene, float aspect);
