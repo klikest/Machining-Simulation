@@ -72,7 +72,7 @@ void CuttingSimulation::Run()
 
 		ptr_fbo->Bind();
 
-		ptr_render_scene->Draw(SimulationWindow, ptr_dexel_scene.get(), ptr_gui->aspect);
+		ptr_render_scene->Draw(SimulationWindow, ptr_dexel_scene.get(), ptr_gui->aspect, ptr_gui.get());
 
 		ptr_fbo->Unbind();
 

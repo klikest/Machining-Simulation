@@ -1,16 +1,20 @@
 #pragma once
+
 #include <GLM/glm.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
-class Dexel
+#include "Dexel.h"
+
+
+class DexelGrid
 {
 public:
+	int X_size;
+	int Y_size;
 
-	Dexel();
-	~Dexel();
+	Dexel** Grid;
 
-	unsigned short start = 0;
-	unsigned short end = 0;
-	unsigned short color = 0;
+	glm::vec3 rect_min;
+	glm::vec3 rect_max;
 };
 

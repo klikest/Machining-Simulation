@@ -8,6 +8,7 @@ static string readShaderSource(char* filePath) {
 	if (!fileStream)
 	{
 		cout << "Shader file not found\n\n";
+		return "";
 	}
 	else
 	{

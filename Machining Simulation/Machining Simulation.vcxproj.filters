@@ -75,7 +75,10 @@
     <ClCompile Include="include\x32\imgui\implot_items.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DexelGrid.cpp">
+    <ClCompile Include="src\CuttingSimulation\Render\Scene\DexelGrid.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Scene\parse_stl.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +143,10 @@
     <ClInclude Include="include\x32\imgui\implot_internal.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DexelGrid.h">
+    <ClInclude Include="src\CuttingSimulation\Render\Scene\DexelGrid.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Scene\parse_stl.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,9 +2,7 @@
 
 DexelScene::DexelScene()
 {
-    X_grid_size = 0;
-    Y_grid_size = 0;
-    blank_grid = nullptr;
+
 }
 
 DexelScene::~DexelScene()
@@ -27,17 +25,7 @@ bool Scalar_cyl(float r, float x, float y)
 
 void DexelScene::CreateCylBlank(float d, float h, float acc)
 {
-    X_grid_size = d + 5;
-    Y_grid_size = d + 5;
 
-    blank_grid = new Dexel[X_grid_size * Y_grid_size];
-
-    for (int i = 0; i < X_grid_size * Y_grid_size; i++)
-    {
-        blank_grid[i].start = 0;
-        blank_grid[i].end = h;
-        blank_grid[i].color = 1;
-    }
 
 }
 

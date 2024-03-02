@@ -6,18 +6,15 @@
 #include <GLM/gtc/matrix_transform.hpp>
 
 #include "Dexel.h"
-
+#include "DexelGrid.h"
 
 class DexelScene
 {
 public:
 
 
-	Dexel* blank_grid;
-
-	int X_grid_size;
-	int Y_grid_size;
-
+	DexelGrid* Blank;
+	DexelGrid* Tool;
 
 	DexelScene();
 	~DexelScene();

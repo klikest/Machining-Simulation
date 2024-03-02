@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
+#include <imgui/imfilebrowser.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/implot.h>
@@ -9,11 +10,13 @@
 #include "Render.h"
 
 #include <vector>
-
+class Render;
 class GUI
 {
 public:
 	GLFWwindow* curretWindow;
+
+	ImGui::FileBrowser fileDialog;
 
 	float main_window_width = 0;
 	float main_window_height = 0;
