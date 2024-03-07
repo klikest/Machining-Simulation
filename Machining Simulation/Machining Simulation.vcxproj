@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c" />
+    <ClCompile Include="src\CuttingSimulation\Render\Lines.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Scene\DexelGrid.cpp" />
     <ClCompile Include="include\x32\imgui\implot.cpp" />
     <ClCompile Include="include\x32\imgui\implot_items.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Render\Lines.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Scene\DexelGrid.h" />
     <ClInclude Include="include\x32\imgui\implot.h" />
     <ClInclude Include="include\x32\imgui\implot_internal.h" />

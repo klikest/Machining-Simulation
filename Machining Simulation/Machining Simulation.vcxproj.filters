@@ -81,6 +81,9 @@
     <ClCompile Include="src\CuttingSimulation\Render\Scene\parse_stl.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Lines.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h">
@@ -147,6 +150,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\CuttingSimulation\Render\Scene\parse_stl.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Lines.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

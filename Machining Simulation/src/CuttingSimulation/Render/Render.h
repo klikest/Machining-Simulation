@@ -7,8 +7,10 @@
 #include "FrameBuffer.h"
 #include "Scene/DexelScene.h"
 #include "Scene/parse_stl.h"
+#include "Lines.h"
 #include "GUI.h"
 #include <vector>
+
 class GUI;
 class Render
 {
@@ -17,13 +19,13 @@ public:
 	float lastFrame = 0.0f;
 	float currentFrame = 0.f;
 
+
+	std::unique_ptr<Lines> lines;
+
 	Camera camera;
 
 
 	Shader line_shader;
-	GLuint VAO_line = 0;
-	GLuint VBO_vert_line = 0;
-	GLuint VBO_color_line = 0;
 
 
 	Shader dexel_shader;
@@ -40,11 +42,6 @@ public:
 	std::vector<float> mesh_vertices;
 	std::vector<float> mesh_colors;
 
-
-
-
-	std::vector<float> line_vertices;
-	std::vector<float> line_colors;
 	std::vector<float> Cube_VertexPositions;
 
 
@@ -58,11 +55,7 @@ public:
 	void Init(GLFWwindow* window);
 	void ReadMesh(std::string stl_file_name);
 	void DrawMesh(GUI* gui);
-	void AddCoords(glm::vec3 Pos);
-	void AddLines(std::vector<float> vertices, std::vector<float> colors);
-	void AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color);
 	void DrawScene(DexelScene* scene);
-	void DrawLines();
 	void Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui);
 
 private:

@@ -12,7 +12,7 @@ int main()
 	ptr_App->Run();
 	ptr_App->Close();
 
-	//system("pause");
+	system("pause");
 
 	return 0;
 }
