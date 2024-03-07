@@ -1,15 +1,16 @@
 #pragma once
-#include "Shader.h"
 #include <GLM/glm.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
+#include "Shader.h"
+#include "parse_stl.h"
+#include <filesystem>
 #include <vector>
 
-class Lines
+class Mesh
 {
 public:
 
-	Lines();
 
 	Shader shader;
 	GLuint VAO = 0;
@@ -19,11 +20,13 @@ public:
 	std::vector<float> vertices;
 	std::vector<float> colors;
 
+	Mesh();
+
 	void Init();
 
-	void AddLines(std::vector<float> new_vertices, std::vector<float> new_colors);
-	void AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color);
-	void AddCoords(glm::vec3 Pos);
-	void Draw();
+	void ReadMeshSTL(std::string stl_file_name);
+
+	void DrawMesh();
+
 };
 

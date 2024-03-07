@@ -160,12 +160,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c" />
+    <ClCompile Include="src\CuttingSimulation\Render\Scene.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Mesh.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Lines.cpp" />
-    <ClCompile Include="src\CuttingSimulation\Render\Scene\DexelGrid.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\DexelGrid.cpp" />
     <ClCompile Include="include\x32\imgui\implot.cpp" />
     <ClCompile Include="include\x32\imgui\implot_items.cpp" />
-    <ClCompile Include="src\CuttingSimulation\Render\Scene\Dexel.cpp" />
-    <ClCompile Include="src\CuttingSimulation\Render\Scene\DexelScene.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Dexel.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\DexelScene.cpp" />
     <ClCompile Include="include\x32\imgui\imgui.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_demo.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_draw.cpp" />
@@ -177,19 +179,21 @@
     <ClCompile Include="src\CuttingSimulation\Render\FrameBuffer.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Camera.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Render.cpp" />
-    <ClCompile Include="src\CuttingSimulation\Render\Scene\parse_stl.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\parse_stl.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Shader.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\CuttingSimulation\CuttingSimulation.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Render\Scene.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\Mesh.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Lines.h" />
-    <ClInclude Include="src\CuttingSimulation\Render\Scene\DexelGrid.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\DexelGrid.h" />
     <ClInclude Include="include\x32\imgui\implot.h" />
     <ClInclude Include="include\x32\imgui\implot_internal.h" />
-    <ClInclude Include="src\CuttingSimulation\Render\Scene\Dexel.h" />
-    <ClInclude Include="src\CuttingSimulation\Render\Scene\DexelScene.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\Dexel.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\DexelScene.h" />
     <ClInclude Include="include\x32\imgui\imconfig.h" />
     <ClInclude Include="include\x32\imgui\imgui.h" />
     <ClInclude Include="include\x32\imgui\imgui_impl_glfw.h" />
@@ -203,7 +207,7 @@
     <ClInclude Include="src\CuttingSimulation\Render\FrameBuffer.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Camera.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Render.h" />
-    <ClInclude Include="src\CuttingSimulation\Render\Scene\parse_stl.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\parse_stl.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Shader.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h" />

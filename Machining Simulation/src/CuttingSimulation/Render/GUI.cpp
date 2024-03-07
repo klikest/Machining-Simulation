@@ -160,7 +160,7 @@ void GUI::RenderSceneInfo(Render* render)
             std::string new_path = fileDialog.GetSelected().string();
             fileDialog.ClearSelected();
             
-            render->ReadMesh(new_path);
+            render->tool_mesh->ReadMeshSTL(new_path);
         }
 
     }

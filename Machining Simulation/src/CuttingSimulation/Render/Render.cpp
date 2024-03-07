@@ -14,7 +14,6 @@ Render::~Render()
 
 void Render::Init(GLFWwindow* window)
 {
-	line_shader.CreateShaderProgram((char*)"Shaders/lines.vert", (char*)"Shaders/lines.frag");
     dexel_shader.CreateShaderProgram((char*)"Shaders/dexel.vert", (char*)"Shaders/dexel.frag");
 
     Cube_VertexPositions = {
@@ -32,10 +31,6 @@ void Render::Init(GLFWwindow* window)
      1.0f,  1.0f,  1.0f, 0.0f,  1.0f,  1.0f, 0.0f,  1.0f, 0.0f,
     };
 
-    glGenVertexArrays(1, &VAO_mesh);
-    glGenBuffers(1, &VBO_vert_mesh);
-    glGenBuffers(1, &VBO_color_mesh);
-
 
     glGenVertexArrays(1, &VAO_dexel);
     glGenBuffers(1, &VBO_vert_cube_for_dexels);
@@ -46,75 +41,21 @@ void Render::Init(GLFWwindow* window)
     camera.Init(window, glm::vec3(-51.0f, 19.0f, 31.0f), -25, -13);
 
 
-    ReadMesh((char*)"C:/Users/User/source/repos/Machining Simulation/Machining Simulation/Models/Box1x1x1.stl");
-
-
     lines = std::make_unique<Lines>();
     lines->Init();
 
-}
+    tool_mesh = std::make_unique<Mesh>();
+    tool_mesh->Init();
+    tool_mesh->ReadMeshSTL("C://Users//User//source//repos//Machining Simulation//Machining Simulation//Models//Box1x1x1.stl");
 
-
-void Render::ReadMesh(std::string stl_file_name)
-{
-    mesh_vertices.clear();
-    mesh_colors.clear();
-
-    std::replace(stl_file_name.begin(), stl_file_name.end(), L'\\', L'/');
-
-    auto info = stl::parse_stl(stl_file_name);
-
-    std::vector<stl::triangle> triangles = info.triangles;
-
-    for (int i = 0; i < info.triangles.size(); i++)
-    {
-        mesh_vertices.push_back((float)info.triangles[i].v1.x);
-        mesh_vertices.push_back((float)info.triangles[i].v1.y);
-        mesh_vertices.push_back((float)info.triangles[i].v1.z);
-
-        mesh_vertices.push_back((float)info.triangles[i].v3.x);
-        mesh_vertices.push_back((float)info.triangles[i].v3.y);
-        mesh_vertices.push_back((float)info.triangles[i].v3.z);
-
-        mesh_vertices.push_back((float)info.triangles[i].v2.x);
-        mesh_vertices.push_back((float)info.triangles[i].v2.y);
-        mesh_vertices.push_back((float)info.triangles[i].v2.z);
-
-
-
-        mesh_colors.push_back(1);
-        mesh_colors.push_back(0);
-        mesh_colors.push_back(0);
-
-        mesh_colors.push_back(0);
-        mesh_colors.push_back(1);
-        mesh_colors.push_back(0);
-
-        mesh_colors.push_back(0);
-        mesh_colors.push_back(0);
-        mesh_colors.push_back(1);
-    }
+    main_scene = std::make_unique<Scene>();
+    main_scene->Init();
 
 }
 
-void Render::DrawMesh(GUI* gui)
-{
-    glUseProgram(line_shader.ID);
-    glBindVertexArray(VAO_mesh);
 
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_vert_mesh);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh_vertices.size(), mesh_vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_color_mesh);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh_colors.size(), mesh_colors.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-    glDrawArrays(GL_TRIANGLES, 0, mesh_vertices.size() * 3);
-
-}
 
 
 
@@ -166,23 +107,23 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
     camera.MoveCamera(window, deltaTime);
     camera.SetCamMatrixToShader(line_shader.ID);
    
-    camera.SetCamMatrixToShader(lines->shader.ID);
 
 
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    
+    camera.SetCamMatrixToShader(lines->shader.ID);
     lines->AddRectangle(glm::vec3(-10, -10, -10), glm::vec3(10, 10, 10), glm::vec3(0.5, 0.8, 0.2));
     lines->AddCoords(glm::vec3(0, 0, 0));
     lines->AddLines({ 0, 0, 0, 10, 10, 10 }, { 1, 1, 1, 1, 0.5, 0.5 });
     lines->Draw();
 
 
-    DrawMesh(gui);
-
-    camera.SetCamMatrixToShader(dexel_shader.ID);
-    //DrawScene(scene);
+    camera.SetCamMatrixToShader(tool_mesh->shader.ID);
+    tool_mesh->DrawMesh();
+    
+    camera.SetCamMatrixToShader(main_scene->shader.ID);
+    main_scene->Draw();
 }
 
 void Render::CalcDeltaTime()

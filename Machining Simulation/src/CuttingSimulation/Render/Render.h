@@ -5,9 +5,11 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Camera.h"
 #include "FrameBuffer.h"
-#include "Scene/DexelScene.h"
-#include "Scene/parse_stl.h"
+#include "DexelScene.h"
+#include "parse_stl.h"
 #include "Lines.h"
+#include "Mesh.h"
+#include "Scene.h"
 #include "GUI.h"
 #include <vector>
 
@@ -21,6 +23,8 @@ public:
 
 
 	std::unique_ptr<Lines> lines;
+	std::unique_ptr<Mesh> tool_mesh;
+	std::unique_ptr<Scene> main_scene;
 
 	Camera camera;
 

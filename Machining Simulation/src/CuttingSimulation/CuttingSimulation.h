@@ -7,7 +7,7 @@
 #include "Render/Render.h"
 #include "Render/GUI.h"
 #include "Render/FrameBuffer.h"
-#include "Render/Scene/DexelScene.h"
+#include "Render/DexelScene.h"
 
 
 class CuttingSimulation
