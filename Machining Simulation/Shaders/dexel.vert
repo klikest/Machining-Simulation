@@ -25,7 +25,7 @@ void main(void)
 
     float new_x = (cube_pos.x + dexel_data.x) * acc;
     float new_y = (cube_pos.y + dexel_data.y) * acc;
-    float new_z = (dexel_data.w * cube_pos.z + dexel_data.z) * acc;
+    float new_z = (dexel_data.w * cube_pos.z + dexel_data.z) ;
 
     if(dexel_data.w == 0)
     {
