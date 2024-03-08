@@ -17,8 +17,9 @@ void App::InitApp()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);  // comment this line in a release build!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	//glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
+	
+	//glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);  // comment this line in a release build!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
 
 }
@@ -28,7 +29,7 @@ void App::Run()
 
 	ptr_CuttingSimulationApp = std::make_unique<CuttingSimulation>();
 
-	ptr_CuttingSimulationApp->CreateSimWindow(1280, 920, "Machining Simulation");
+	ptr_CuttingSimulationApp->CreateSimWindow(1200, 800, "Machining Simulation");
 	ptr_CuttingSimulationApp->Run();
 }
 

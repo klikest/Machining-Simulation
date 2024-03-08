@@ -17,6 +17,9 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 
 	SimulationWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
+	glfwMakeContextCurrent(SimulationWindow);
+	glfwSwapInterval(0);
+
 	if (SimulationWindow == NULL)
 	{
 		std::cout << "GLFW window create - failed" << std::endl;
@@ -62,6 +65,13 @@ void CuttingSimulation::Run()
 	while (glfwGetKey(SimulationWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(SimulationWindow) == 0)
 	{
+		using std::chrono::high_resolution_clock;
+		using std::chrono::duration_cast;
+		using std::chrono::duration;
+		using std::chrono::milliseconds;
+
+		auto t1 = high_resolution_clock::now();
+
 		glfwPollEvents();
 
 
@@ -76,7 +86,14 @@ void CuttingSimulation::Run()
 
 		ptr_fbo->Unbind();
 
+		auto t2 = high_resolution_clock::now();
+		duration<double, std::milli> ms_double = t2 - t1;
+
+		ptr_render_scene->global_render_time = ms_double.count();
+
+
 		glfwSwapBuffers(SimulationWindow);
+
 
 
 	}

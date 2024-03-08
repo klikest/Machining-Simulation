@@ -12,6 +12,8 @@
 #include "Scene.h"
 #include "GUI.h"
 #include <vector>
+#include <time.h> 
+#include <chrono>
 
 class GUI;
 class Render
@@ -20,7 +22,8 @@ public:
 	float deltaTime = 0.0f;	
 	float lastFrame = 0.0f;
 	float currentFrame = 0.f;
-
+	float render_time = 0.f;
+	float global_render_time = 0.f;
 
 	std::unique_ptr<Lines> lines;
 	std::unique_ptr<Mesh> tool_mesh;

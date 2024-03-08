@@ -11,9 +11,9 @@ uniform mat4 view;
 uniform mat4 proj;
 
 uniform vec3 colors_choose[3];
-
-
 uniform vec3 cam_pos;
+
+uniform float acc;
 
 vec3 normal;
 vec3 lightDir;
@@ -23,11 +23,11 @@ vec3 get_normal(int i);
 void main(void) 
 {
 
-    float new_x = cube_pos.x + dexel_data.x;
-    float new_y = cube_pos.y + dexel_data.y;
-    float new_z = dexel_data.w * cube_pos.z + dexel_data.z;
+    float new_x = (cube_pos.x + dexel_data.x) * acc;
+    float new_y = (cube_pos.y + dexel_data.y) * acc;
+    float new_z = (dexel_data.w * cube_pos.z + dexel_data.z) * acc;
 
-    gl_Position = proj * view * vec4( new_x, new_y, new_z, 1.0);
+    gl_Position = proj * view * vec4( new_x, new_y, new_z, 1.0) ;
 
 
 

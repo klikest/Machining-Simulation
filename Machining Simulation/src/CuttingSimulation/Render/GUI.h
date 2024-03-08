@@ -23,6 +23,11 @@ public:
 
 	float aspect = 0;
 
+
+	std::vector<float> render_time;
+
+	void add_data_to_plot(Render* render);
+
 	void SetCurretWindow(GLFWwindow* simWindow);
 	void Init();
 	void ShowExampleAppDockSpace(bool* p_open);

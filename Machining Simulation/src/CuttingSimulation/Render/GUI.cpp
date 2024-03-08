@@ -2,6 +2,23 @@
 
 
 
+
+void GUI::add_data_to_plot(Render* render)
+{
+    if (render_time.size() < 500)
+    {
+        render_time.push_back(render->global_render_time);
+    }
+    else
+    {
+        render_time.erase(render_time.begin());
+        render_time.push_back(render->global_render_time);
+    }
+
+}
+
+
+
 void GUI::SetCurretWindow(GLFWwindow* simWindow)
 {
 	curretWindow = simWindow;
@@ -26,6 +43,10 @@ void GUI::Init()
 	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(curretWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 	ImGui_ImplOpenGL3_Init("#version 330");
+
+    render_time.resize(500);
+
+
 }
 
 void GUI::ShowExampleAppDockSpace(bool* p_open)
@@ -130,6 +151,8 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Begin("Info");
 
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+    ImGui::Text("Render Time %.3f ", render->render_time );
+    ImGui::Text("Global render Time %.3f ", render->global_render_time);
 
     if (ImGui::CollapsingHeader("Camera info"))
     {
@@ -175,7 +198,7 @@ void GUI::RenderSceneInfo(Render* render)
     std::vector<float> x_data;
     std::vector<float> y_data;
 
-    for (float i = 0; i < 100; i++)
+    for (float i = 0; i < 500; i++)
     {
         x_data.push_back(i / 10);
         y_data.push_back( sinf(i/10) );
@@ -185,14 +208,18 @@ void GUI::RenderSceneInfo(Render* render)
     
 
 
-    ImPlot::BeginSubplots("My Subplots", 1, 2, ImVec2(-1, -1), ImPlotSubplotFlags_NoTitle);
-
+    ImPlot::BeginSubplots("My Subplots", 1, 2, ImVec2(-1, -1), ImPlotSubplotFlags_NoTitle );
+    
+    ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Cut Force", ImVec2(-1, -1));
     ImPlot::PlotLine("Cut force plot", x_data.data(), y_data.data(), x_data.size());
     ImPlot::EndPlot();
 
-    ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1));
-    ImPlot::PlotLine("Some Plot 2", x_data.data(), y_data.data(), x_data.size());
+
+    add_data_to_plot(render);
+    ImPlot::SetNextAxesToFit();
+    ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1), ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_RangeFit);
+    ImPlot::PlotLine("Some Plot 2", x_data.data(), render_time.data(), x_data.size());
     ImPlot::EndPlot();
 
 

@@ -94,6 +94,14 @@ void Render::DrawScene(DexelScene* scene)
 
 void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
 {
+    using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::milliseconds;
+
+    auto t1 = high_resolution_clock::now();
+
+
     glClear(GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_DEPTH_TEST);
@@ -125,6 +133,16 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
     camera.SetCamMatrixToShader(main_scene->shader.ID);
     camera.SetCamPosToShader(main_scene->shader.ID);
     main_scene->Draw();
+
+   
+    auto t2 = high_resolution_clock::now();
+    duration<double, std::milli> ms_double = t2 - t1;
+
+    render_time = ms_double.count();
+
+    
+
+
 }
 
 void Render::CalcDeltaTime()
