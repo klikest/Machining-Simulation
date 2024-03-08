@@ -3,6 +3,7 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Shader.h"
+#include "DexelGrid.h"
 #include <filesystem>
 #include <vector>
 
@@ -16,6 +17,8 @@ public:
 	GLuint VBO_offsets = 0;
 	GLuint VBO_colors = 0;
 
+	
+	DexelGrid* blank;
 
 	std::vector<float> offsets;
 	std::vector<float> colors;

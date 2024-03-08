@@ -27,7 +27,14 @@ void main(void)
     float new_y = (cube_pos.y + dexel_data.y) * acc;
     float new_z = (dexel_data.w * cube_pos.z + dexel_data.z) * acc;
 
-    gl_Position = proj * view * vec4( new_x, new_y, new_z, 1.0) ;
+    if(dexel_data.w == 0)
+    {
+        gl_Position = vec4(0, 0, 0, 1.0);
+    }
+    else
+    {
+        gl_Position = proj * view * vec4( new_x, new_y, new_z, 1.0) ;
+    }
 
 
 

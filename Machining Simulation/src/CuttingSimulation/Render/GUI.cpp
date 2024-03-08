@@ -204,7 +204,7 @@ void GUI::RenderSceneInfo(Render* render)
         y_data.push_back( sinf(i/10) );
     }
 
-    //ImGui::PlotLines("Some Plot", data.data(), data.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
+    //ImGui::PlotLines("Some Plot", render_time.data(), render_time.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
     
 
 

@@ -53,8 +53,6 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 	ptr_fbo = std::make_unique<FrameBuffer>();
 	ptr_fbo->Init();
 
-	ptr_dexel_scene = std::make_unique<DexelScene>();
-	ptr_dexel_scene->CreateCylBlank(10, 50, 1);
 }
 
 
@@ -86,15 +84,13 @@ void CuttingSimulation::Run()
 
 		ptr_fbo->Unbind();
 
+
+		glfwSwapBuffers(SimulationWindow);
+
 		auto t2 = high_resolution_clock::now();
 		duration<double, std::milli> ms_double = t2 - t1;
 
 		ptr_render_scene->global_render_time = ms_double.count();
-
-
-		glfwSwapBuffers(SimulationWindow);
-
-
 
 	}
 }

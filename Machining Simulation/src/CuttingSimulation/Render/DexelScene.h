@@ -13,15 +13,11 @@ class DexelScene
 public:
 
 
-	DexelGrid* Blank;
-	DexelGrid* Tool;
-
 	DexelScene();
 	~DexelScene();
 
 	void Init();
 
-	void CreateCylBlank(float d, float h, float acc);
 
 };
 

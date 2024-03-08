@@ -29,15 +29,18 @@ void Scene::Init()
     glGenBuffers(1, &VBO_offsets);
     glGenBuffers(1, &VBO_colors);
 
+
+    blank = new DexelGrid;
+    blank->CreateBlankCyl(10, 50, 1);
+
+
 }
 
 void Scene::Draw()
 {
 
-    //std::vector<glm::vec4> dexel_data = { glm::vec4(0, 0, 0, 10), glm::vec4(1, 0, 0, 20), glm::vec4(2, 0, 0, 30), glm::vec4(3, 0, 0, 40) };
-    //colors = { 0, 1, 2, 2 };
 
-    int size = 500;
+    int size = 10;
 
     std::vector<glm::vec4> dexel_data;
     dexel_data.resize(size * size);
@@ -47,7 +50,7 @@ void Scene::Draw()
     {
         for (int j = 0; j < size; j++)
         {
-            dexel_data[i + (j * size)] = glm::vec4(i, j, 0, 5*size);
+            dexel_data[i + (j * size)] = glm::vec4(i, j, 0, (i%2) );
             colors[i + (j * size)] = ((j) % 3);
         }
     }
@@ -62,7 +65,7 @@ void Scene::Draw()
     glUniform3fv(glGetUniformLocation(shader.ID, "colors_choose"), 9, colors_to_choose );
 
 
-    glUniform1f(glGetUniformLocation(shader.ID, "acc"), 0.01);
+    glUniform1f(glGetUniformLocation(shader.ID, "acc"), 1);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_main_dexel_vertices);
