@@ -31,41 +31,24 @@ void Scene::Init()
 
 
     blank = new DexelGrid;
-    blank->CreateBlankCyl(10, 50, 1);
-
+    blank->CreateBlankCyl(50, 100, 0.5);
+    blank->GenerateDrawArrays();
 
 }
 
 void Scene::Draw()
 {
 
-
-    int size = 10;
-
-    std::vector<glm::vec4> dexel_data;
-    dexel_data.resize(size * size);
-    colors.resize(size * size);
-    
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)
-        {
-            dexel_data[i + (j * size)] = glm::vec4(i, j, 0, (i%2) );
-            colors[i + (j * size)] = ((j) % 3);
-        }
-    }
-
-
     glUseProgram(shader.ID);
     glBindVertexArray(VAO);
 
 
-    GLfloat colors_to_choose[9] = {0, 1, 0,   1, 1, 0,  1, 0, 1};
+    GLfloat colors_to_choose[9] = {0.8, 0.8, 0.8,   1, 1, 0,  1, 0, 1};
 
     glUniform3fv(glGetUniformLocation(shader.ID, "colors_choose"), 9, colors_to_choose );
 
 
-    glUniform1f(glGetUniformLocation(shader.ID, "acc"), 1);
+    glUniform1f(glGetUniformLocation(shader.ID, "acc"), blank->acc);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_main_dexel_vertices);
@@ -76,7 +59,7 @@ void Scene::Draw()
 
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_offsets);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * dexel_data.size(), dexel_data.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4)* blank->summ_num_of_dexels, blank->dexel_draw_data, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(1, 1);
@@ -84,9 +67,14 @@ void Scene::Draw()
 
     glEnableVertexAttribArray(3);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_colors);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * colors.size(), colors.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * blank->summ_num_of_dexels, blank->colors_dexels, GL_STATIC_DRAW);
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 1 * sizeof(float), (void*)0);
     glVertexAttribDivisor(3, 1);
 
-    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, dexel_data.size());
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, blank->summ_num_of_dexels);
+}
+
+void Scene::Close()
+{
+    blank->DeleteArrays();
 }

@@ -97,7 +97,7 @@ void CuttingSimulation::Run()
 
 void CuttingSimulation::Close()
 {
-
+	ptr_render_scene->main_scene->Close();
 	glfwDestroyWindow(SimulationWindow);
 	glfwTerminate();
 }

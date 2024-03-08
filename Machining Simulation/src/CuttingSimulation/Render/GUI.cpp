@@ -168,6 +168,14 @@ void GUI::RenderSceneInfo(Render* render)
     {
         fileDialog.SetTitle("Select tool path");
         //fileDialog.SetTypeFilters({ ".h", ".cpp" });
+        static float acc = 0.123f;
+        ImGui::SliderFloat("Grid size", &acc, 0.05f, 1.0f, "ratio = %.3f");
+        if (ImGui::Button("Update blank"))
+        {
+            render->main_scene->blank->DeleteArrays();
+            render->main_scene->blank->CreateBlankCyl(50, 100, acc);
+            render->main_scene->blank->GenerateDrawArrays();
+        }
 
         if (ImGui::Button("Change tool path"))
         {

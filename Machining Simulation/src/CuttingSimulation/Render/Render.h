@@ -32,37 +32,12 @@ public:
 	Camera camera;
 
 
-	Shader line_shader;
-
-
-	Shader dexel_shader;
-	GLuint VAO_dexel = 0;
-	GLuint VBO_vert_cube_for_dexels = 0;
-	GLuint VBO_offsets_dexel = 0;
-	GLuint VBO_color_dexel = 0;
-
-
-	GLuint VAO_mesh = 0;
-	GLuint VBO_vert_mesh = 0;
-	GLuint VBO_color_mesh = 0;
-
-	std::vector<float> mesh_vertices;
-	std::vector<float> mesh_colors;
-
-	std::vector<float> Cube_VertexPositions;
-
-
-
-	std::string toolpath;
-
 
 	Render();
 	~Render();
 
 	void Init(GLFWwindow* window);
 	void ReadMesh(std::string stl_file_name);
-	void DrawMesh(GUI* gui);
-	void DrawScene(DexelScene* scene);
 	void Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui);
 
 private:
