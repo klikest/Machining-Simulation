@@ -153,6 +153,7 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
     ImGui::Text("Render Time %.3f ", render->render_time );
     ImGui::Text("Global render Time %.3f ", render->global_render_time);
+    ImGui::Text("My FPS %.3f ", 1000/render->global_render_time);
 
     if (ImGui::CollapsingHeader("Camera info"))
     {
@@ -164,18 +165,27 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::Text("Z pos = %.3f", render->camera.cameraPos.z);
     }
 
+    static float acc = 0.8f;
+    static float diam = 16.0f;
+    static float len = 60.0f;
+
+    render->lines->AddLines({ 0, 0, 0, 0, diam / 2, 0 }, { 1, 1, 1, 1, 1, 1 });
+
     if (ImGui::CollapsingHeader("Tool"))
     {
         fileDialog.SetTitle("Select tool path");
-        //fileDialog.SetTypeFilters({ ".h", ".cpp" });
-        static float acc = 0.123f;
-        ImGui::SliderFloat("Grid size", &acc, 0.05f, 1.0f, "ratio = %.3f");
+
+        ImGui::SliderFloat("Grid size", &acc, 0.01f, 1.0f, "%.3f");
+        ImGui::SliderFloat("Diam", &diam, 4.0f, 20.0f, "%.3f");
+        ImGui::SliderFloat("Len", &len, 10.0f, 150.0f, "%.3f");
         if (ImGui::Button("Update blank"))
         {
             render->main_scene->blank->DeleteArrays();
-            render->main_scene->blank->CreateBlankCyl(50, 100, acc);
+            render->main_scene->blank->CreateBlankCyl(diam, len, acc);
             render->main_scene->blank->GenerateDrawArrays();
         }
+
+        
 
         if (ImGui::Button("Change tool path"))
         {

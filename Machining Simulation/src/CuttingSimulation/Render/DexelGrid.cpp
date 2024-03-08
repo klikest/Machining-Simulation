@@ -39,8 +39,6 @@ void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
         Y_size = ceil(diam / acc);
     }
 
-    std::cout << X_size << std::endl;
-
     rect_min = glm::vec3(acc * -X_size / 2, acc * -Y_size / 2, 0);
     rect_max = glm::vec3(acc * X_size / 2, acc * Y_size / 2, h);
 

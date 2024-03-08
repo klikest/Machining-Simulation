@@ -64,7 +64,7 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
     camera.SetCamMatrixToShader(lines->shader.ID);
     lines->AddRectangle(main_scene->blank->rect_min, main_scene->blank->rect_max, glm::vec3(0.5, 0.8, 0.2));
     lines->AddCoords(glm::vec3(0, 0, 0));
-    lines->AddLines({ 0, 0, 0, 0, 25, 0 }, { 1, 1, 1, 1, 0.5, 0.5 });
+    //lines->AddLines({ 0, 0, 0, 0, 25, 0 }, { 1, 1, 1, 1, 0.5, 0.5 });
     lines->Draw();
 
 

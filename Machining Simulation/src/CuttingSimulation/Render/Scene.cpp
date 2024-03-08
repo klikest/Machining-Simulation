@@ -31,7 +31,7 @@ void Scene::Init()
 
 
     blank = new DexelGrid;
-    blank->CreateBlankCyl(50, 100, 0.5);
+    blank->CreateBlankCyl(16, 60, 0.8);
     blank->GenerateDrawArrays();
 
 }

@@ -39,15 +39,15 @@ void Lines::AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color
         max_rect.x, min_rect.y, min_rect.z,
         max_rect.x, min_rect.y, max_rect.z,
         min_rect.x, min_rect.y, max_rect.z,
-        max_rect.x, min_rect.y, max_rect.x,
+        max_rect.x, min_rect.y, max_rect.z,
         min_rect.x, max_rect.y, min_rect.z,
         max_rect.x, max_rect.y, min_rect.z,
-        min_rect.z, max_rect.y, min_rect.z,
-        min_rect.z, max_rect.y, max_rect.z,
+        min_rect.x, max_rect.y, min_rect.z,
+        min_rect.x, max_rect.y, max_rect.z,
         min_rect.x, min_rect.y, max_rect.z,
         min_rect.x, max_rect.y, max_rect.z,
-        max_rect.z, min_rect.y, min_rect.z,
-        max_rect.z, max_rect.y, min_rect.z
+        max_rect.x, min_rect.y, min_rect.z,
+        max_rect.x, max_rect.y, min_rect.z
     };
     std::vector<float>rect_colors = {
         color.x, color.y, color.z,
