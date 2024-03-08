@@ -123,6 +123,7 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
     tool_mesh->DrawMesh();
     
     camera.SetCamMatrixToShader(main_scene->shader.ID);
+    camera.SetCamPosToShader(main_scene->shader.ID);
     main_scene->Draw();
 }
 

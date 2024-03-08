@@ -35,6 +35,7 @@ public:
     void Init(GLFWwindow* window, glm::vec3 campos_, float yaw_, float pitch);
     void MoveCamera(GLFWwindow* window, GLfloat deltaTime);
     void SetCamMatrixToShader(GLuint ShaderProg);
+    void SetCamPosToShader(GLuint ShaderProg);
     void UpdateAspectRate(float aspect);
     glm::mat4 GetViewMatrix();
     glm::mat4 GetProjMatrix();
