@@ -3,6 +3,7 @@
 #include <GLM/glm.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
+#include <vector>
 #include "Dexel.h"
 
 
@@ -14,7 +15,10 @@ public:
 	int Z_size = 0;
 	float acc = 1;
 
-	Dexel* grid = nullptr;
+	glm::vec3 test_rect_min = glm::vec3(0, 0, 0);
+	glm::vec3 test_rect_max = glm::vec3(0, 0, 0);
+
+	Dexel** grid_list = nullptr;
 	int* num_dexels = nullptr;
 	int summ_num_of_dexels = 0;
 

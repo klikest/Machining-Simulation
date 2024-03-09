@@ -2,7 +2,6 @@
 
 
 
-
 void GUI::add_data_to_plot(Render* render)
 {
     if (render_time.size() < 500)
@@ -36,6 +35,12 @@ void GUI::Init()
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 	io.ConfigViewportsNoAutoMerge = true;
 	io.ConfigViewportsNoTaskBarIcon = true;
+
+    //ImFont* font = io.Fonts->AddFontFromFileTTF("arial.ttf", 16.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
+
+    //io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 14.f,
+    //    nullptr, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -237,7 +242,7 @@ void GUI::RenderSceneInfo(Render* render)
     add_data_to_plot(render);
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1), ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_RangeFit);
-    ImPlot::PlotLine("Some Plot 2", x_data.data(), render_time.data(), x_data.size());
+    ImPlot::PlotLine("Full render time, ms", x_data.data(), render_time.data(), x_data.size());
     ImPlot::EndPlot();
 
 
