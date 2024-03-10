@@ -4,6 +4,7 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include <vector>
+#include <cmath> 
 #include "Dexel.h"
 
 
@@ -15,8 +16,22 @@ public:
 	int Z_size = 0;
 	float acc = 1;
 
-	glm::vec3 test_rect_min = glm::vec3(0, 0, 0);
-	glm::vec3 test_rect_max = glm::vec3(0, 0, 0);
+
+	float X = 65;
+	float Y = 0;
+	float Z = 0;
+	float A = 15;
+	float C = 0;
+
+	float offset = 30;
+
+	float D = 40;
+	float H = 10;
+
+
+
+
+	std::vector<float> tool_lines;
 
 	Dexel** grid_list = nullptr;
 	int* num_dexels = nullptr;
@@ -27,7 +42,9 @@ public:
 
 	glm::vec3 rect_min = glm::vec3(0,0,0);
 	glm::vec3 rect_max = glm::vec3(0, 0, 0);
+
 	DexelGrid();
+	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateDrawArrays();
 	void DeleteArrays();

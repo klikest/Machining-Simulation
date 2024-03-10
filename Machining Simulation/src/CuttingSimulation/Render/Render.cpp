@@ -15,7 +15,7 @@ Render::~Render()
 void Render::Init(GLFWwindow* window)
 {
     
-    camera.Init(window, glm::vec3(-51.0f, 19.0f, 31.0f), -25, -13);
+    camera.Init(window, glm::vec3(-106.0f, 61.0f, 91.0f), -21, -26);
 
 
     lines = std::make_unique<Lines>();
@@ -66,19 +66,16 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
     //tool_mesh->DrawMesh();
     
 
-    camera.SetCamMatrixToShader(lines->shader.ID);
-    lines->AddRectangle(main_scene->blank->rect_min, main_scene->blank->rect_max, glm::vec3(0.5, 0.8, 0.2));
-    lines->AddRectangle(main_scene->blank->test_rect_min, main_scene->blank->test_rect_max, glm::vec3(0.8, 0.5, 0.2));
-    lines->AddCoords(glm::vec3(0, 0, 0));
-    //lines->AddLines({ 0, 0, 0, 0, 25, 0 }, { 1, 1, 1, 1, 0.5, 0.5 });
-    lines->Draw();
-
 
 
     camera.SetCamMatrixToShader(main_scene->shader.ID);
     camera.SetCamPosToShader(main_scene->shader.ID);
     main_scene->Draw();
 
+
+    camera.SetCamMatrixToShader(lines->shader.ID);
+    lines->AddCoords(glm::vec3(0, 0, 0));
+    lines->Draw();
    
     auto t2 = high_resolution_clock::now();
     duration<double, std::milli> ms_double = t2 - t1;

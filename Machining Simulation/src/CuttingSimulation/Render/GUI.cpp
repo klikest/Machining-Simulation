@@ -155,29 +155,51 @@ void GUI::RenderSceneInfo(Render* render)
 
     ImGui::Begin("Info");
 
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-    ImGui::Text("Render Time %.3f ", render->render_time );
-    ImGui::Text("Global render Time %.3f ", render->global_render_time);
-    ImGui::Text("My FPS %.3f ", 1000/render->global_render_time);
 
-    if (ImGui::CollapsingHeader("Camera info"))
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+
+    static float X = 100.0f;
+    static float Y = 0.0f;
+    static float Z = 0.0f;
+    static float A = 0.0f;
+    static float C = 0.0f;
+    ImGui::SeparatorText("Coords");
+    ImGui::SliderFloat("X", &render->main_scene->blank->X, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Y", &render->main_scene->blank->Y, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Z", &render->main_scene->blank->Z, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("A", &render->main_scene->blank->A, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
+
+    
+    static bool draw_tool = true;
+    ImGui::Checkbox("Draw tool", &draw_tool);
+    if (draw_tool)
     {
-        ImGui::Text("Fov = %.3f", render->camera.fov);
-        ImGui::Text("Yaw = %.3f", render->camera.yaw);
-        ImGui::Text("Pitch = %.3f", render->camera.pitch);
-        ImGui::Text("X pos = %.3f", render->camera.cameraPos.x);
-        ImGui::Text("Y pos = %.3f", render->camera.cameraPos.y);
-        ImGui::Text("Z pos = %.3f", render->camera.cameraPos.z);
+        render->main_scene->blank->GenerateToolLines();
+        render->lines->AddLines(render->main_scene->blank->tool_lines, glm::vec3(1, 0.5, 1));
     }
 
-    static float acc = 0.8f;
-    static float diam = 16.0f;
-    static float len = 60.0f;
-
-    render->lines->AddLines({ 0, 0, 0, 0, diam / 2, 0 }, { 1, 1, 1, 1, 1, 1 });
-
-    if (ImGui::CollapsingHeader("Tool"))
+    static bool draw_bbox = true;
+    ImGui::Checkbox("Draw blank bbox", &draw_bbox);
+    if (draw_bbox)
     {
+        render->lines->AddRectangle(render->main_scene->blank->rect_min, render->main_scene->blank->rect_max, glm::vec3(0.5, 0.8, 0.2));
+    }
+
+
+    if (ImGui::CollapsingHeader("Debug info"))
+    {
+        ImGui::Text("Render Time %.3f ", render->render_time);
+        ImGui::Text("Global render Time %.3f ", render->global_render_time);
+        ImGui::Text("My FPS %.3f ", 1000 / render->global_render_time);
+    }
+
+    if (ImGui::CollapsingHeader("Blank") == false)
+    {
+        static float acc = 0.8f;
+        static float diam = 16.0f;
+        static float len = 60.0f;
+
         fileDialog.SetTitle("Select tool path");
 
         ImGui::SliderFloat("Grid size", &acc, 0.01f, 1.0f, "%.3f");
@@ -190,28 +212,33 @@ void GUI::RenderSceneInfo(Render* render)
             render->main_scene->blank->GenerateDrawArrays();
         }
 
-        
+    }
 
-        if (ImGui::Button("Change tool path"))
+
+    if (ImGui::CollapsingHeader("Tool"))
+    {
+        static float D = 16.0f;
+        static float H = 60.0f;
+
+        ImGui::SliderFloat("D", &D, 4.0f, 20.0f, "%.3f");
+        ImGui::SliderFloat("H", &H, 10.0f, 150.0f, "%.3f");
+        if (ImGui::Button("Update tool"))
         {
-            fileDialog.Open();
-        }
-            
-        ImGui::End();
 
-        fileDialog.Display();
-
-        if (fileDialog.HasSelected())
-        {
-            std::string new_path = fileDialog.GetSelected().string();
-            fileDialog.ClearSelected();
-            
-            render->tool_mesh->ReadMeshSTL(new_path);
         }
 
     }
 
 
+    if (ImGui::CollapsingHeader("Camera info"))
+    {
+        ImGui::Text("Fov = %.3f", render->camera.fov);
+        ImGui::Text("Yaw = %.3f", render->camera.yaw);
+        ImGui::Text("Pitch = %.3f", render->camera.pitch);
+        ImGui::Text("X pos = %.3f", render->camera.cameraPos.x);
+        ImGui::Text("Y pos = %.3f", render->camera.cameraPos.y);
+        ImGui::Text("Z pos = %.3f", render->camera.cameraPos.z);
+    }
 
     ImGui::End();
 

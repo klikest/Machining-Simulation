@@ -18,7 +18,72 @@ bool Scalar_cyl(float r, float x, float y)
     }
 }
 
+void DexelGrid::GenerateToolLines()
+{
+    tool_lines.clear();
 
+    tool_lines.push_back(0);
+    tool_lines.push_back(0);
+    tool_lines.push_back(-offset);
+
+    tool_lines.push_back(0);
+    tool_lines.push_back(0);
+    tool_lines.push_back(H);
+
+
+    float pi = 2 * asin(1.0);
+
+    for (float angle = 0; angle < 2*pi; angle += pi / 20)
+    {
+        tool_lines.push_back(sinf(angle)*D);
+        tool_lines.push_back(cosf(angle)*D);
+        tool_lines.push_back(0);
+
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(H);
+        /////////////////
+        tool_lines.push_back(sinf(angle + pi / 20) * D);
+        tool_lines.push_back(cosf(angle + pi / 20) * D);
+        tool_lines.push_back(H);
+
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(H);
+        //////////////////
+        tool_lines.push_back(sinf(angle + pi / 20) * D);
+        tool_lines.push_back(cosf(angle + pi / 20) * D);
+        tool_lines.push_back(0);
+
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(0);
+    }
+
+
+    for (int i = 0; i < tool_lines.size(); i+=3)
+    {
+        float x = tool_lines[i];
+        float y = tool_lines[i+1];
+        float z = tool_lines[i+2];
+        glm::vec4 new_pos_move = glm::vec4(x, y, z, 0) + glm::vec4(0, 0, offset, 0);
+
+        glm::mat4 trans_y = glm::mat4(1.0f);
+        trans_y = glm::rotate(trans_y, glm::radians(A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
+
+        glm::vec4 new_pos_rot = (trans_y * new_pos_move) + glm::vec4(Z,Y,-offset + X,0);
+
+        glm::mat4 trans_x = glm::mat4(1.0f);
+        trans_x = glm::rotate(trans_x, glm::radians(C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
+
+        glm::vec4 new_pos = trans_x * new_pos_rot;
+
+        tool_lines[i] = new_pos.x;
+        tool_lines[i+1] = new_pos.y;
+        tool_lines[i+2] = new_pos.z;
+    }
+
+}
 
 
 void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
@@ -49,16 +114,6 @@ void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
         float x = acc * ( (i % X_size) - (X_size / 2) );
         float y = acc * ( ((i / X_size) % Y_size) - (Y_size / 2) );
 
-        if (i == 0)
-        {
-            test_rect_min = glm::vec3(x, y, 0.1);
-            std::cout << "min x =" << x << std::endl;
-        }
-        if (i == (X_size * Y_size) - 1)
-        {
-            test_rect_max = glm::vec3(x, y, 1);
-            std::cout << "max x =" << x << std::endl;
-        }
 
         grid_list[i] = new Dexel[1];
         num_dexels[i] = 1;
