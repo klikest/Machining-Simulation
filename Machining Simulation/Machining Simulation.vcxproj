@@ -735,6 +735,7 @@
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui.ini" />
     <None Include="include\x32\glm\detail\func_common.inl" />
     <None Include="include\x32\glm\detail\func_common_simd.inl" />
     <None Include="include\x32\glm\detail\func_exponential.inl" />
@@ -1004,10 +1005,15 @@
     <None Include="include\x64\glm\gtx\vector_query.inl" />
     <None Include="include\x64\glm\gtx\wrap.inl" />
     <None Include="Models\Box1x1x1.stl" />
+    <None Include="Models\test_d.stl" />
     <None Include="Shaders\dexel.frag" />
     <None Include="Shaders\dexel.vert" />
     <None Include="Shaders\lines.frag" />
     <None Include="Shaders\lines.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\x32\glfw3.lib" />
+    <Library Include="lib\x64\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

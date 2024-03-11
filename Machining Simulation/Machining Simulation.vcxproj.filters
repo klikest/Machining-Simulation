@@ -2538,5 +2538,11 @@
       <Filter>Файлы заголовков</Filter>
     </None>
     <None Include="Models\Box1x1x1.stl" />
+    <None Include="Models\test_d.stl" />
+    <None Include="imgui.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\x64\glfw3.lib" />
+    <Library Include="lib\x32\glfw3.lib" />
   </ItemGroup>
 </Project>
