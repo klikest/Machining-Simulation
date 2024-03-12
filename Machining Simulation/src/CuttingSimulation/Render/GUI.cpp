@@ -171,6 +171,17 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
 
     
+    static bool draw_tool_planes = true;
+    ImGui::Checkbox("Draw tool planes", &draw_tool_planes);
+    if (draw_tool_planes)
+    {
+        render->main_scene->blank->GenerateToolGrid();
+        render->lines->AddLines(render->main_scene->blank->tool_far_plane, glm::vec3(0.8, 0.2, 0.4));
+        render->lines->AddLines(render->main_scene->blank->tool_near_plane, glm::vec3(0.2, 0.8, 0.4));
+    }
+
+
+
     static bool draw_tool = true;
     ImGui::Checkbox("Draw tool", &draw_tool);
     if (draw_tool)
@@ -205,11 +216,15 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::SliderFloat("Grid size", &acc, 0.01f, 1.0f, "%.3f");
         ImGui::SliderFloat("Diam", &diam, 4.0f, 20.0f, "%.3f");
         ImGui::SliderFloat("Len", &len, 10.0f, 150.0f, "%.3f");
+
+
+        render->main_scene->blank->DeleteArrays();
+        render->main_scene->blank->CreateBlankCyl(diam, len, acc);
+        render->main_scene->blank->GenerateDrawArrays();
+
         if (ImGui::Button("Update blank"))
         {
-            render->main_scene->blank->DeleteArrays();
-            render->main_scene->blank->CreateBlankCyl(diam, len, acc);
-            render->main_scene->blank->GenerateDrawArrays();
+
         }
 
     }
@@ -217,11 +232,9 @@ void GUI::RenderSceneInfo(Render* render)
 
     if (ImGui::CollapsingHeader("Tool"))
     {
-        static float D = 16.0f;
-        static float H = 60.0f;
 
-        ImGui::SliderFloat("D", &D, 4.0f, 20.0f, "%.3f");
-        ImGui::SliderFloat("H", &H, 10.0f, 150.0f, "%.3f");
+        ImGui::SliderFloat("D", &render->main_scene->blank->D, 15.0f, 150.0f, "%.3f");
+        ImGui::SliderFloat("H", &render->main_scene->blank->H, 8.0f, 30.0f, "%.3f");
         if (ImGui::Button("Update tool"))
         {
 

@@ -21,9 +21,10 @@ public:
 
 	void Init();
 
+	void AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color);
 	void AddLines(std::vector<float> new_vertices, glm::vec3 new_color);
-
 	void AddLines(std::vector<float> new_vertices, std::vector<float> new_colors);
+
 	void AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color);
 	void AddCoords(glm::vec3 Pos);
 	void Draw();

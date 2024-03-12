@@ -18,6 +18,60 @@ bool Scalar_cyl(float r, float x, float y)
     }
 }
 
+
+
+glm::vec3 DexelGrid::transform(glm::vec3 point)
+{
+    glm::vec4 pos_1 = glm::vec4(point.x, point.y, point.z + offset, 0);
+
+    glm::mat4 rotate_y = glm::mat4(1.0f);
+    rotate_y = glm::rotate(rotate_y, glm::radians(A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
+
+    glm::vec4 pos_234 = (rotate_y * pos_1) + glm::vec4(Z, Y, -offset + X, 0);
+
+    glm::mat4 rotate_x = glm::mat4(1.0f);
+    rotate_x = glm::rotate(rotate_x, glm::radians(C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
+
+    glm::vec4 pos_5 = rotate_x * pos_234;
+    
+    return glm::vec3(pos_5.x, pos_5.y, pos_5.z);
+}
+
+glm::vec3 DexelGrid::inv_transform(glm::vec3 point)
+{
+    glm::mat4 rotate_x = glm::mat4(1.0f);
+    rotate_x = glm::rotate(rotate_x, glm::radians(-C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
+
+    glm::vec4 pos_5 = rotate_x * glm::vec4(point.x, point.y, point.z, 1);
+    glm::vec4 pos_43 = pos_5 - glm::vec4(Z, Y, X - offset, 0);
+
+    glm::mat4 rotate_y = glm::mat4(1.0f);
+    rotate_y = glm::rotate(rotate_y, glm::radians(-A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
+
+    glm::vec4 pos21 = (rotate_y * pos_43) - glm::vec4(0, 0, offset, 0);
+
+    return glm::vec3(pos21.x, pos21.y, pos21.z);
+}
+
+
+struct Ray {
+    glm::vec3 origin;
+    glm::vec3 direction;
+};
+
+struct Plane {
+    glm::vec3 normal;
+    float distance;
+};
+
+
+void DexelGrid::GenerateToolGrid()
+{
+    tool_near_plane.push_back(glm::vec3(10, 10, 0));
+    tool_near_plane.push_back(glm::vec3(10, 10, H));
+
+}
+
 void DexelGrid::GenerateToolLines()
 {
     tool_lines.clear();
@@ -63,20 +117,7 @@ void DexelGrid::GenerateToolLines()
 
     for (int i = 0; i < tool_lines.size(); i+=3)
     {
-        float x = tool_lines[i];
-        float y = tool_lines[i+1];
-        float z = tool_lines[i+2];
-        glm::vec4 new_pos_move = glm::vec4(x, y, z, 0) + glm::vec4(0, 0, offset, 0);
-
-        glm::mat4 trans_y = glm::mat4(1.0f);
-        trans_y = glm::rotate(trans_y, glm::radians(A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
-
-        glm::vec4 new_pos_rot = (trans_y * new_pos_move) + glm::vec4(Z,Y,-offset + X,0);
-
-        glm::mat4 trans_x = glm::mat4(1.0f);
-        trans_x = glm::rotate(trans_x, glm::radians(C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
-
-        glm::vec4 new_pos = trans_x * new_pos_rot;
+        glm::vec3 new_pos = transform(glm::vec3(tool_lines[i], tool_lines[i+1], tool_lines[i+2]));
 
         tool_lines[i] = new_pos.x;
         tool_lines[i+1] = new_pos.y;

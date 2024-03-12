@@ -17,7 +17,7 @@ public:
 	float acc = 1;
 
 
-	float X = 65;
+	float X = 80;
 	float Y = 0;
 	float Z = 0;
 	float A = 15;
@@ -29,6 +29,9 @@ public:
 	float H = 10;
 
 
+
+	std::vector<glm::vec3> tool_near_plane;
+	std::vector<glm::vec3> tool_far_plane;
 
 
 	std::vector<float> tool_lines;
@@ -44,6 +47,10 @@ public:
 	glm::vec3 rect_max = glm::vec3(0, 0, 0);
 
 	DexelGrid();
+	glm::vec3 transform(glm::vec3 point);
+	glm::vec3 inv_transform(glm::vec3 point);
+
+	void GenerateToolGrid();
 	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateDrawArrays();

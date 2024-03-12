@@ -14,6 +14,34 @@ void Lines::Init()
     glGenBuffers(1, &VBO_colors);
 }
 
+void Lines::AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color)
+{
+
+    std::vector<float> new_colors;
+    new_colors.resize(new_vertices.size() * 3);
+
+    std::vector<float> new_vert;
+    new_vert.resize(new_vertices.size() * 3);
+
+    int count = 0;
+
+    for (int i = 0; i < new_vertices.size() * 3; i += 3)
+    {
+        new_colors[i] = new_color.x;
+        new_colors[i + 1] = new_color.y;
+        new_colors[i + 2] = new_color.z;
+
+        new_vert[i] = new_vertices[count].x;
+        new_vert[i + 1] = new_vertices[count].y;
+        new_vert[i + 2] = new_vertices[count].z;
+
+        count += 1;
+    }
+
+    vertices.insert(vertices.end(), new_vert.begin(), new_vert.end());
+    colors.insert(colors.end(), new_colors.begin(), new_colors.end());
+}
+
 void Lines::AddLines(std::vector<float> new_vertices, glm::vec3 new_color)
 {
     vertices.insert(vertices.end(), new_vertices.begin(), new_vertices.end());
