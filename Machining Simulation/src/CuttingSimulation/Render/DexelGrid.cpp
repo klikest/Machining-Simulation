@@ -79,49 +79,115 @@ glm::vec3 intersectRayToPlane(glm::vec3 rayOrigin, glm::vec3 rayDirection,
     return glm::vec3(std::numeric_limits<float>::infinity());
 }
 
-bool intersectRayCylinder(glm::vec3 rayOrigin, glm::vec3 rayDir,
-    glm::vec3 cylinderCenter, float cylinderRadius, float cylinderHeight,
-    glm::vec3 intersectionPoint) 
+
+
+struct Ray
 {
-    // Коэффициенты квадратного уравнения
-    float a = rayDir.x * rayDir.x + rayDir.z * rayDir.z;
-    float b = 2 * (rayDir.x * (rayOrigin.x - cylinderCenter.x) +
-        rayDir.z * (rayOrigin.z - cylinderCenter.z));
-    float c = (rayOrigin.x - cylinderCenter.x) * (rayOrigin.x - cylinderCenter.x) +
-        (rayOrigin.z - cylinderCenter.z) * (rayOrigin.z - cylinderCenter.z) -
-        cylinderRadius * cylinderRadius;
+    glm::vec3 origin;
+    glm::vec3 direction;
+};
 
-    // Решение квадратного уравнения
-    float discriminant = b * b - 4 * a * c;
-    if (discriminant < 0) {
-        return false; // луч не пересекает цилиндр
-    }
+struct Cylinder
+{
+    glm::vec3 center;
+    float radius;
+    float height;
+};
 
-    float t1 = (-b + std::sqrt(discriminant)) / (2 * a);
-    float t2 = (-b - std::sqrt(discriminant)) / (2 * a);
+bool intersectRayCylinder(const Ray& ray, const Cylinder& cylinder, glm::vec3& intersectionPoint1, glm::vec3& intersectionPoint2)
+{
+    glm::vec3 a = glm::vec3(ray.direction.x, ray.direction.y, 0.0f);
+    glm::vec3 o = glm::vec3(ray.origin.x, ray.origin.y, 0.0f);
+    glm::vec3 c = glm::vec3(cylinder.center.x, cylinder.center.y, 0.0f);
 
-    float minY = cylinderCenter.y - cylinderHeight / 2;
-    float maxY = cylinderCenter.y + cylinderHeight / 2;
+    float A = glm::dot(a, a);
+    float B = 2.0f * glm::dot(a, o - c);
+    float C = glm::dot(o - c, o - c) - cylinder.radius * cylinder.radius;
 
-    glm::vec3 intersection1 = rayOrigin + rayDir * t1;
-    glm::vec3 intersection2 = rayOrigin + rayDir * t2;
+    float discriminant = B * B - 4.0f * A * C;
 
-    if (intersection1.y >= minY && intersection1.y <= maxY) {
-        intersectionPoint = intersection1;
-        return true;
-    }
-    else if (intersection2.y >= minY && intersection2.y <= maxY) {
-        intersectionPoint = intersection2;
+    if (discriminant >= 0)
+    {
+        float t1 = (-B + sqrt(discriminant)) / (2.0f * A);
+        float t2 = (-B - sqrt(discriminant)) / (2.0f * A);
+
+        intersectionPoint1 = ray.origin + t1 * ray.direction;
+        intersectionPoint2 = ray.origin + t2 * ray.direction;
+
+
         return true;
     }
 
     return false;
 }
 
+
 void DexelGrid::GenerateToolGrid()
 {
     tool_dexels.clear();
 
+    glm::vec3 origin_0 = glm::vec3(0, 0, 50);
+    glm::vec3 origin_1 = glm::vec3(0, 0, 100);
+
+    glm::vec3 inv_origin_0 = inv_transform(origin_0);
+    glm::vec3 inv_origin_1 = inv_transform(origin_1);
+
+    glm::vec3 inv_origin_dir = inv_origin_1 - inv_origin_0;
+
+
+    glm::vec3 plane_normal = glm::vec3(0, 0, 1);
+    glm::vec3 plane_near_point = glm::vec3(0, 0, 0);
+    glm::vec3 plane_far_point = glm::vec3(0, 0, H);
+
+
+    float denominator = glm::dot(plane_normal, inv_origin_dir);
+
+    Ray ray = { inv_origin_0, inv_origin_dir };
+    Cylinder cylinder = { glm::vec3(0.0f, 0.0f, 0.0f), D, -H };
+
+    glm::vec3 intersectionPoint1, intersectionPoint2;
+    glm::vec3 real_intersectionPoint1, real_intersectionPoint2;
+
+    bool is_intersection_cyl = intersectRayCylinder(ray, cylinder, intersectionPoint1, intersectionPoint2);
+
+    if (is_intersection_cyl)
+    {
+        if (intersectionPoint1.z > intersectionPoint2.z)
+        {
+            glm::vec3 tmp = intersectionPoint1;
+            intersectionPoint1 = intersectionPoint2;
+            intersectionPoint2 = tmp;
+        }
+
+        if (intersectionPoint1.z < 0)
+        {
+            intersectionPoint1 = intersectRayToPlane(intersectionPoint1, (intersectionPoint2 - intersectionPoint1), plane_normal, plane_near_point);
+        }
+
+        if (intersectionPoint2.z > H)
+        {
+            intersectionPoint2 = intersectRayToPlane(intersectionPoint1, (intersectionPoint2 - intersectionPoint1), plane_normal, plane_far_point);
+        }
+
+
+    }
+
+
+
+    real_intersectionPoint1 = transform(intersectionPoint1);
+    real_intersectionPoint2 = transform(intersectionPoint2);
+
+
+
+    tool_dexels.push_back(intersectionPoint1);
+    tool_dexels.push_back(intersectionPoint2);
+
+    tool_dexels.push_back(real_intersectionPoint1);
+    tool_dexels.push_back(real_intersectionPoint2);
+
+
+
+    /*
     glm::vec3 origin_0 = glm::vec3(10, 10, 50);
     glm::vec3 origin_1 = glm::vec3(10, 10, 100);
 
@@ -147,7 +213,7 @@ void DexelGrid::GenerateToolGrid()
 
     tool_dexels.push_back(near_plane_point);
     tool_dexels.push_back(far_plane_point);
-
+    */
 
 }
 
@@ -201,12 +267,12 @@ void DexelGrid::GenerateToolLines()
     {
         glm::vec3 new_pos_ = inv_transform(glm::vec3(my_tool[i], my_tool[i+1], my_tool[i+2]));
         glm::vec3 new_pos2_ = inv_transform(glm::vec3(my_tool[i+3], my_tool[i + 4], my_tool[i + 5]));
-        tool_lines.push_back(new_pos_.x);
-        tool_lines.push_back(new_pos_.y);
-        tool_lines.push_back(new_pos_.z);
-        tool_lines.push_back(new_pos2_.x);
-        tool_lines.push_back(new_pos2_.y);
-        tool_lines.push_back(new_pos2_.z);
+        //tool_lines.push_back(new_pos_.x);
+        //tool_lines.push_back(new_pos_.y);
+        //tool_lines.push_back(new_pos_.z);
+        //tool_lines.push_back(new_pos2_.x);
+        //tool_lines.push_back(new_pos2_.y);
+        //tool_lines.push_back(new_pos2_.z);
 
         glm::vec3 zero_pos_ = transform(new_pos_);
         tool_lines.push_back(zero_pos_.x);
