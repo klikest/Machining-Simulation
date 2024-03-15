@@ -126,8 +126,8 @@ void DexelGrid::GenerateToolGrid()
 {
     tool_dexels.clear();
 
-    glm::vec3 origin_0 = glm::vec3(0, 0, 50);
-    glm::vec3 origin_1 = glm::vec3(0, 0, 100);
+    glm::vec3 origin_0 = glm::vec3(10, 10, 50);
+    glm::vec3 origin_1 = glm::vec3(10, 10, 100);
 
     glm::vec3 inv_origin_0 = inv_transform(origin_0);
     glm::vec3 inv_origin_1 = inv_transform(origin_1);
@@ -159,17 +159,25 @@ void DexelGrid::GenerateToolGrid()
             intersectionPoint2 = tmp;
         }
 
-        if (intersectionPoint1.z < 0)
+        if (intersectionPoint1.z < 0 || intersectionPoint1.z > H)
         {
             intersectionPoint1 = intersectRayToPlane(intersectionPoint1, (intersectionPoint2 - intersectionPoint1), plane_normal, plane_near_point);
         }
 
-        if (intersectionPoint2.z > H)
+        if (intersectionPoint2.z > H || intersectionPoint2.z < 0)
         {
             intersectionPoint2 = intersectRayToPlane(intersectionPoint1, (intersectionPoint2 - intersectionPoint1), plane_normal, plane_far_point);
         }
 
 
+    }
+    else
+    {
+
+        intersectionPoint1 = intersectRayToPlane(inv_origin_0, inv_origin_dir, plane_normal, plane_near_point);
+        intersectionPoint2 = intersectRayToPlane(inv_origin_0, inv_origin_dir, plane_normal, plane_far_point);
+
+        std::cout << intersectionPoint1.z << std::endl;
     }
 
 
@@ -185,35 +193,6 @@ void DexelGrid::GenerateToolGrid()
     tool_dexels.push_back(real_intersectionPoint1);
     tool_dexels.push_back(real_intersectionPoint2);
 
-
-
-    /*
-    glm::vec3 origin_0 = glm::vec3(10, 10, 50);
-    glm::vec3 origin_1 = glm::vec3(10, 10, 100);
-
-    glm::vec3 plane_normal = glm::vec3(0, 0, 1);
-    glm::vec3 plane_near_point = glm::vec3(0, 0, 0);
-    glm::vec3 plane_far_point = glm::vec3(0, 0, H);
-
-    glm::vec3 inv_origin_0 = inv_transform(origin_0);
-    glm::vec3 inv_origin_1 = inv_transform(origin_1);
-
-    glm::vec3 inv_origin_dir = inv_origin_1 - inv_origin_0;
-
-    glm::vec3 near_plane_point = intersectRayToPlane(inv_origin_0, inv_origin_dir, plane_normal, plane_near_point);
-    glm::vec3 far_plane_point = intersectRayToPlane(inv_origin_0, inv_origin_dir, plane_normal, plane_far_point);
-
-
-    glm::vec3 real_tool_point_near = transform(near_plane_point);
-    glm::vec3 real_tool_point_far = transform(far_plane_point);
-
-
-    tool_dexels.push_back(real_tool_point_near);
-    tool_dexels.push_back(real_tool_point_far);
-
-    tool_dexels.push_back(near_plane_point);
-    tool_dexels.push_back(far_plane_point);
-    */
 
 }
 
