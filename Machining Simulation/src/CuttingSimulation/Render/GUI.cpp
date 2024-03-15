@@ -175,9 +175,7 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Checkbox("Draw tool planes", &draw_tool_planes);
     if (draw_tool_planes)
     {
-        render->main_scene->blank->GenerateToolGrid();
-        render->lines->AddLines(render->main_scene->blank->tool_far_plane, glm::vec3(0.8, 0.2, 0.4));
-        render->lines->AddLines(render->main_scene->blank->tool_near_plane, glm::vec3(0.2, 0.8, 0.4));
+        
     }
 
 
@@ -221,6 +219,10 @@ void GUI::RenderSceneInfo(Render* render)
         render->main_scene->blank->DeleteArrays();
         render->main_scene->blank->CreateBlankCyl(diam, len, acc);
         render->main_scene->blank->GenerateDrawArrays();
+
+        render->main_scene->blank->GenerateToolGrid();
+        render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
+        
 
         if (ImGui::Button("Update blank"))
         {

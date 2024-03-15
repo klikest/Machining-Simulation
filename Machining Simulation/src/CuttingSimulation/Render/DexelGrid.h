@@ -30,8 +30,8 @@ public:
 
 
 
-	std::vector<glm::vec3> tool_near_plane;
-	std::vector<glm::vec3> tool_far_plane;
+	std::vector<glm::vec3> tool_dexels;
+
 
 
 	std::vector<float> tool_lines;

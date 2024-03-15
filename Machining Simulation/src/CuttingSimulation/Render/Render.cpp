@@ -74,7 +74,7 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
 
 
     camera.SetCamMatrixToShader(lines->shader.ID);
-    lines->AddCoords(glm::vec3(0, 0, 0));
+    //lines->AddCoords(glm::vec3(0, 0, 0));
     lines->Draw();
    
     auto t2 = high_resolution_clock::now();
