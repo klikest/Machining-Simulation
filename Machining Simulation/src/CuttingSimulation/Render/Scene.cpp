@@ -39,6 +39,9 @@ void Scene::Init()
 void Scene::Draw()
 {
 
+
+    int size = blank->summ_num_of_dexels + blank->X_size * blank->Y_size;
+
     glUseProgram(shader.ID);
     glBindVertexArray(VAO);
 
@@ -59,7 +62,7 @@ void Scene::Draw()
 
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_offsets);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4)* blank->summ_num_of_dexels, blank->dexel_draw_data, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4)* size, blank->dexel_draw_data, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(1, 1);
@@ -67,11 +70,11 @@ void Scene::Draw()
 
     glEnableVertexAttribArray(3);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_colors);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * blank->summ_num_of_dexels, blank->colors_dexels, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, blank->colors_dexels, GL_STATIC_DRAW);
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 1 * sizeof(float), (void*)0);
     glVertexAttribDivisor(3, 1);
 
-    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, blank->summ_num_of_dexels);
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, size);
 }
 
 void Scene::Close()

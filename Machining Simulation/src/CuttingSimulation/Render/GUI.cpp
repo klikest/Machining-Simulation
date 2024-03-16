@@ -162,18 +162,24 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("X", &render->main_scene->blank->X, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Y", &render->main_scene->blank->Y, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Z", &render->main_scene->blank->Z, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("A", &render->main_scene->blank->A, 0.0f, 90.0f, "%.3f");
+    ImGui::SliderFloat("A", &render->main_scene->blank->A, -180.0f, 180.0f, "%.3f");
     ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
 
+    render->main_scene->blank->GenerateDrawArrays();
     
     static bool draw_tool_planes = true;
-    ImGui::Checkbox("Draw tool planes", &draw_tool_planes);
+    ImGui::Checkbox("Draw tool dexels", &draw_tool_planes);
     if (draw_tool_planes)
     {
         
     }
 
-
+    static bool draw_tool_offset = true;
+    ImGui::Checkbox("Draw tool offset", &draw_tool_planes);
+    if (draw_tool_planes)
+    {
+        render->lines->AddLines(render->main_scene->blank->tool_line_offset, glm::vec3(1, 0.5, 0.5));
+    }
 
     static bool draw_tool = true;
     ImGui::Checkbox("Draw tool", &draw_tool);
@@ -198,7 +204,7 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::Text("My FPS %.3f ", 1000 / render->global_render_time);
     }
 
-    if (ImGui::CollapsingHeader("Blank") == false)
+    if (ImGui::CollapsingHeader("Blank"))
     {
         static float acc = 0.8f;
         static float diam = 16.0f;
@@ -209,19 +215,16 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::SliderFloat("Grid size", &acc, 0.01f, 1.0f, "%.3f");
         ImGui::SliderFloat("Diam", &diam, 4.0f, 20.0f, "%.3f");
         ImGui::SliderFloat("Len", &len, 10.0f, 150.0f, "%.3f");
-
-
-        render->main_scene->blank->DeleteArrays();
-        render->main_scene->blank->CreateBlankCyl(diam, len, acc);
-        render->main_scene->blank->GenerateDrawArrays();
-
-        render->main_scene->blank->GenerateToolGrid();
-        render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
         
 
         if (ImGui::Button("Update blank"))
         {
+            render->main_scene->blank->DeleteArrays();
+            render->main_scene->blank->CreateBlankCyl(diam, len, acc);
+            render->main_scene->blank->GenerateDrawArrays();
 
+            render->main_scene->blank->GenerateToolGrid();
+            render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
         }
 
     }

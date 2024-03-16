@@ -35,6 +35,7 @@ public:
 
 
 	std::vector<float> tool_lines;
+	std::vector<glm::vec3> tool_line_offset;
 
 	Dexel** grid_list = nullptr;
 	int* num_dexels = nullptr;
@@ -49,6 +50,8 @@ public:
 	DexelGrid();
 	glm::vec3 transform(glm::vec3 point);
 	glm::vec3 inv_transform(glm::vec3 point);
+
+	glm::vec4 GetToolDexel(float x, float y);
 
 	void GenerateToolGrid();
 	void GenerateToolLines();

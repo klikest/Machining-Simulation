@@ -126,25 +126,21 @@ std::pair<glm::vec3, glm::vec3> intersectRayToSircle(Ray ray, float d)
     return points;
 }
 
-
-
-void DexelGrid::GenerateToolGrid()
+glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
 {
-    tool_dexels.clear();
-
-    glm::vec3 origin_0 = glm::vec3(10.0f, 10.0f, 0.0f);
-    glm::vec3 origin_1 = glm::vec3(10.0f, 10.0f, 2*H);
+    glm::vec3 origin_0 = glm::vec3(dexel_x, dexel_y, 0.0f);
+    glm::vec3 origin_1 = glm::vec3(dexel_x, dexel_y, 2 * H);
 
     glm::vec3 inv_origin_0 = inv_transform(origin_0);
     glm::vec3 inv_origin_1 = inv_transform(origin_1);
 
     glm::vec3 inv_origin_dir = inv_origin_1 - inv_origin_0;
 
-    
+
 
     Ray ray = { inv_origin_0, glm::normalize(inv_origin_dir) };
-    
-    Plane near_plane = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)};
+
+    Plane near_plane = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f) };
     Plane far_plane = { glm::vec3(0.0f, 0.0f, H), glm::vec3(0.0f, 0.0f, 1.0f) };
 
     float denominator = glm::dot(near_plane.normal, ray.direction); // –авен нулю если вектор параллелен плоскости
@@ -163,7 +159,7 @@ void DexelGrid::GenerateToolGrid()
         float x = intersectionPoint1.x;
         float y = intersectionPoint1.y;
 
-        if (x*x + y*y <= (D) * (D)) // ≈сли вектор внутри окружности - записываем его
+        if (x * x + y * y <= (D) * (D)) // ≈сли вектор внутри окружности - записываем его
         {
             ToolPoint1 = intersectionPoint1;
             ToolPoint2 = intersectionPoint2;
@@ -178,7 +174,7 @@ void DexelGrid::GenerateToolGrid()
 
     else if (fabs(denominator - 0) <= 1e-6) // ¬ектор параллелен плоскости цилиндра
     {
-        if(ray.origin.z > 0 && ray.origin.z < H) //≈сли вектор попадает между плоскостей инструмента
+        if (ray.origin.z > 0 && ray.origin.z < H) //≈сли вектор попадает между плоскостей инструмента
         {
             if (isQuadraticCanSolve(ray, D)) //≈сли вектор пересекает окружность - рассчитываем точку пересечени€
             {
@@ -234,105 +230,81 @@ void DexelGrid::GenerateToolGrid()
                 ToolPoint1 = glm::vec3(0, 0, 0);
                 ToolPoint2 = glm::vec3(0, 0, 0);
             }
-           
+
         }
 
     }
 
+    if (ToolPoint1.z > ToolPoint2.z) // —ортируем точки по Z
+    {
+        glm::vec3 tmp = ToolPoint1;
+        ToolPoint1 = ToolPoint2;
+        ToolPoint2 = tmp;
+    }
+
+    ToolPoint1 = transform(ToolPoint1);
+    ToolPoint2 = transform(ToolPoint2);
+
+    //tool_line_offset.push_back(ToolPoint1);
+    //tool_line_offset.push_back(ToolPoint2);
+
+    return glm::vec4(ToolPoint1, fabs(ToolPoint2.z - ToolPoint1.z) );
+
+}
 
 
-
-
-
-    glm::vec3 real_intersectionPoint1 = transform(ToolPoint1);
-    glm::vec3 real_intersectionPoint2 = transform(ToolPoint2);
-
-    tool_dexels.push_back(ToolPoint1);
-    tool_dexels.push_back(ToolPoint2);
-
-    tool_dexels.push_back(real_intersectionPoint1);
-    tool_dexels.push_back(real_intersectionPoint2);
-
-
+void DexelGrid::GenerateToolGrid()
+{
+   
 }
 
 void DexelGrid::GenerateToolLines()
 {
-
-    std::vector<float> my_tool;
-
     tool_lines.clear();
-
-    my_tool.push_back(0);
-    my_tool.push_back(0);
-    my_tool.push_back(-offset);
-
-    my_tool.push_back(0);
-    my_tool.push_back(0);
-    my_tool.push_back(H);
-
 
     float pi = 2 * asin(1.0);
 
     for (float angle = 0; angle < 2*pi; angle += pi / 20)
     {
-        my_tool.push_back(sinf(angle)*D);
-        my_tool.push_back(cosf(angle)*D);
-        my_tool.push_back(0);
+        tool_lines.push_back(sinf(angle)*D);
+        tool_lines.push_back(cosf(angle)*D);
+        tool_lines.push_back(0);
 
-        my_tool.push_back(sinf(angle) * D);
-        my_tool.push_back(cosf(angle) * D);
-        my_tool.push_back(H);
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(H);
         /////////////////
-        my_tool.push_back(sinf(angle + pi / 20) * D);
-        my_tool.push_back(cosf(angle + pi / 20) * D);
-        my_tool.push_back(H);
+        tool_lines.push_back(sinf(angle + pi / 20) * D);
+        tool_lines.push_back(cosf(angle + pi / 20) * D);
+        tool_lines.push_back(H);
 
-        my_tool.push_back(sinf(angle) * D);
-        my_tool.push_back(cosf(angle) * D);
-        my_tool.push_back(H);
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(H);
         //////////////////
-        my_tool.push_back(sinf(angle + pi / 20) * D);
-        my_tool.push_back(cosf(angle + pi / 20) * D);
-        my_tool.push_back(0);
+        tool_lines.push_back(sinf(angle + pi / 20) * D);
+        tool_lines.push_back(cosf(angle + pi / 20) * D);
+        tool_lines.push_back(0);
 
-        my_tool.push_back(sinf(angle) * D);
-        my_tool.push_back(cosf(angle) * D);
-        my_tool.push_back(0);
+        tool_lines.push_back(sinf(angle) * D);
+        tool_lines.push_back(cosf(angle) * D);
+        tool_lines.push_back(0);
     }
 
 
-    for (int i = 0; i < my_tool.size(); i+=6)
+    for (int i = 0; i < tool_lines.size(); i+=3)
     {
-        glm::vec3 new_pos_ = inv_transform(glm::vec3(my_tool[i], my_tool[i+1], my_tool[i+2]));
-        glm::vec3 new_pos2_ = inv_transform(glm::vec3(my_tool[i+3], my_tool[i + 4], my_tool[i + 5]));
-        //tool_lines.push_back(new_pos_.x);
-        //tool_lines.push_back(new_pos_.y);
-        //tool_lines.push_back(new_pos_.z);
-        //tool_lines.push_back(new_pos2_.x);
-        //tool_lines.push_back(new_pos2_.y);
-        //tool_lines.push_back(new_pos2_.z);
+        glm::vec3 point = transform(glm::vec3(tool_lines[i], tool_lines[i + 1], tool_lines[i + 2]));
 
-        glm::vec3 zero_pos_ = transform(new_pos_);
-        tool_lines.push_back(zero_pos_.x);
-        tool_lines.push_back(zero_pos_.y);
-        tool_lines.push_back(zero_pos_.z);
-        glm::vec3 zero_pos2_ = transform(new_pos2_);
-        tool_lines.push_back(zero_pos2_.x);
-        tool_lines.push_back(zero_pos2_.y);
-        tool_lines.push_back(zero_pos2_.z);
-
-        glm::vec3 last_pos_ = transform(zero_pos_);
-        tool_lines.push_back(last_pos_.x);
-        tool_lines.push_back(last_pos_.y);
-        tool_lines.push_back(last_pos_.z);
-        glm::vec3 last_pos2_ = transform(zero_pos2_);
-        tool_lines.push_back(last_pos2_.x);
-        tool_lines.push_back(last_pos2_.y);
-        tool_lines.push_back(last_pos2_.z);
+        tool_lines[i] = point.x;
+        tool_lines[i+1] = point.y;
+        tool_lines[i+2] = point.z;
     }
 
+    tool_line_offset.clear();
 
+    tool_line_offset.push_back(transform(glm::vec3(0, 0, -offset)));
+    tool_line_offset.push_back(transform(glm::vec3(0, 0, 0)));
 
 }
 
@@ -393,8 +365,8 @@ void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
 
 void DexelGrid::GenerateDrawArrays()
 {
-    dexel_draw_data = new glm::vec4[summ_num_of_dexels];
-    colors_dexels = new float[summ_num_of_dexels];
+    dexel_draw_data = new glm::vec4[summ_num_of_dexels + X_size*Y_size];
+    colors_dexels = new float[summ_num_of_dexels + X_size * Y_size];
 
     tool_dexels.clear();
 
@@ -414,13 +386,29 @@ void DexelGrid::GenerateDrawArrays()
 
             if (len != 0)
             {
-                dexel_draw_data[count] = glm::vec4(x - acc/2, y - acc/2, z, 0);  // Ќе забыть вернуть!!
+                dexel_draw_data[count] = glm::vec4(x - acc/2, y - acc/2, z, len);  // Ќе забыть вернуть!!
                 colors_dexels[count] = grid_list[i][num].color;
                 count += 1;
             }
         }
 
     }
+
+    for (int i = 0; i < X_size * Y_size; i++)
+    {
+        float x = (i % X_size) - X_size / 2;
+        float y = (i / X_size) % Y_size - Y_size / 2;
+
+        glm::vec4 new_point = GetToolDexel(x, y);
+
+        tool_line_offset.push_back(glm::vec3(x, y, new_point.z));
+        tool_line_offset.push_back(glm::vec3(x, y, new_point.z + new_point.w));
+
+        dexel_draw_data[count] = glm::vec4(x, y, new_point.z, new_point.w);
+        colors_dexels[count] = 2;
+        count += 1;
+    }
+
 }
 
 
