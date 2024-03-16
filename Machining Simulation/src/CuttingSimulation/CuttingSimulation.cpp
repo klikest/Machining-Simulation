@@ -18,7 +18,7 @@ void CuttingSimulation::CreateSimWindow(int width_, int height_, std::string tit
 	SimulationWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	glfwMakeContextCurrent(SimulationWindow);
-	glfwSwapInterval(0);
+	glfwSwapInterval(0.5);
 
 	if (SimulationWindow == NULL)
 	{

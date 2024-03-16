@@ -93,6 +93,9 @@ public:
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateToolGrid();
 	void GenerateDrawArrays();
+	void PaintBlankByTool(int color);
+	void RunGProgramm(float t);
+	void RunGProgramm2(float t);
 	void BooleanOperation();
 	void DeleteDrawArrays();
 	void DeleteArrays();

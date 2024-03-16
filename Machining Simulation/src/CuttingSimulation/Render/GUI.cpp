@@ -168,25 +168,44 @@ void GUI::RenderSceneInfo(Render* render)
     render->main_scene->blank->DeleteDrawArrays();
     render->main_scene->blank->GenerateToolGrid();
 
+
+    static bool GProgramm = false;
+    ImGui::Checkbox("Run simple G programm", &GProgramm);
+    if (GProgramm)
+    {
+
+        if (t >= 0 && t <= 1)
+        {
+            render->main_scene->blank->RunGProgramm(t);
+            t += 1.0f / 1000.0f;
+        }
+        else if (t > 1 && t <= 2)
+        {
+            render->main_scene->blank->RunGProgramm2(t-1);
+            t += 1.0f / 1000.0f;
+        }
+        if (t > 2)
+        {
+            t = -1;
+        }
+    }
+
+
     static bool boolean_op = true;
     ImGui::Checkbox("Enable Boolean op", &boolean_op);
     if (boolean_op)
     {
         render->main_scene->blank->BooleanOperation();
+        //render->main_scene->blank->PaintBlankByTool(1);
     }
 
     render->main_scene->blank->GenerateDrawArrays();
 
-    static bool draw_tool_planes = true;
-    ImGui::Checkbox("Draw tool dexels", &draw_tool_planes);
-    if (draw_tool_planes)
-    {
-        
-    }
+
 
     static bool draw_tool_offset = true;
-    ImGui::Checkbox("Draw tool offset", &draw_tool_planes);
-    if (draw_tool_planes)
+    ImGui::Checkbox("Draw tool offset", &draw_tool_offset);
+    if (draw_tool_offset)
     {
         render->lines->AddLines(render->main_scene->blank->tool_line_offset, glm::vec3(1, 0.5, 0.5));
     }
@@ -199,12 +218,6 @@ void GUI::RenderSceneInfo(Render* render)
         render->lines->AddLines(render->main_scene->blank->tool_lines, glm::vec3(1, 0.5, 1));
     }
 
-    static bool draw_bbox = true;
-    ImGui::Checkbox("Draw blank bbox", &draw_bbox);
-    if (draw_bbox)
-    {
-        render->lines->AddRectangle(render->main_scene->blank->rect_min, render->main_scene->blank->rect_max, glm::vec3(0.5, 0.8, 0.2));
-    }
 
 
     if (ImGui::CollapsingHeader("Debug info"))
@@ -222,7 +235,7 @@ void GUI::RenderSceneInfo(Render* render)
 
         fileDialog.SetTitle("Select tool path");
 
-        ImGui::SliderFloat("Grid size", &acc, 0.01f, 1.0f, "%.3f");
+        ImGui::SliderFloat("Grid size", &acc, 0.1f, 1.0f, "%.3f");
         ImGui::SliderFloat("Diam", &diam, 4.0f, 20.0f, "%.3f");
         ImGui::SliderFloat("Len", &len, 10.0f, 150.0f, "%.3f");
         
@@ -231,9 +244,7 @@ void GUI::RenderSceneInfo(Render* render)
         {
             render->main_scene->blank->DeleteArrays();
             render->main_scene->blank->CreateBlankCyl(diam, len, acc);
-            render->main_scene->blank->GenerateToolGrid();
             render->main_scene->blank->GenerateDrawArrays();
-
             render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
         }
 

@@ -303,8 +303,8 @@ void DexelGrid::GenerateToolGrid()
 
         glm::vec4 new_point = GetToolDexel((x - acc / 2) * acc, (y - acc / 2) * acc);
 
-        tool_grid_list[i].start = new_point.z;
-        tool_grid_list[i].end = new_point.z + new_point.w;
+        tool_grid_list[i].start = round(new_point.z * 10) / 10 ;
+        tool_grid_list[i].end = round((new_point.z + new_point.w) * 10) / 10;
         tool_grid_list[i].color = 1;
 
     }
@@ -351,6 +351,61 @@ void DexelGrid::GenerateDrawArrays()
         count += 1;
         
     }
+
+}
+
+
+void DexelGrid::PaintBlankByTool(int color)
+{
+
+}
+
+
+struct Coords
+{
+public:
+    float x;
+    float y;
+    float z;
+    float a;
+    float c;
+
+    static Coords CalcDetaMove(Coords old_c, Coords new_c)
+    {
+        Coords delta_coords = { new_c.x - old_c.x, new_c.y - old_c.y, new_c.z - old_c.z, new_c.a - old_c.a,new_c.c - old_c.c };
+        return delta_coords;
+    }
+
+};
+
+
+void DexelGrid::RunGProgramm(float t)
+{
+    Coords old_coords = { 100.0f, 40.0f, -35.0f, 45.0f, 180.0f };
+    Coords new_coords = { 0.0f, 40.0f, -35.0f, 45.0f, -360.0f };
+    
+    Coords delta = Coords::CalcDetaMove(old_coords, new_coords);
+
+    X = old_coords.x + delta.x * t;
+    Y = old_coords.y + delta.y * t;
+    Z = old_coords.z + delta.z * t;
+    A = old_coords.a + delta.a * t;
+    C = old_coords.c + delta.c * t;
+
+}
+
+void DexelGrid::RunGProgramm2(float t)
+{
+    Coords old_coords = { 100.0f, 40.0f, -35.0f, 45.0f, 360.0f };
+    Coords new_coords = { 0.0f, 40.0f, -35.0f, 45.0f, -180.0f };
+
+    Coords delta = Coords::CalcDetaMove(old_coords, new_coords);
+
+    X = old_coords.x + delta.x * t;
+    Y = old_coords.y + delta.y * t;
+    Z = old_coords.z + delta.z * t;
+    A = old_coords.a + delta.a * t;
+    C = old_coords.c + delta.c * t;
 
 }
 
