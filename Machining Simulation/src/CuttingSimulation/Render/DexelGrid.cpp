@@ -245,18 +245,13 @@ glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
     ToolPoint1 = transform(ToolPoint1);
     ToolPoint2 = transform(ToolPoint2);
 
-    //tool_line_offset.push_back(ToolPoint1);
-    //tool_line_offset.push_back(ToolPoint2);
+
 
     return glm::vec4(ToolPoint1, fabs(ToolPoint2.z - ToolPoint1.z) );
 
 }
 
 
-void DexelGrid::GenerateToolGrid()
-{
-   
-}
 
 void DexelGrid::GenerateToolLines()
 {
@@ -399,16 +394,31 @@ void DexelGrid::GenerateDrawArrays()
         float x = (i % X_size) - X_size / 2;
         float y = (i / X_size) % Y_size - Y_size / 2;
 
-        glm::vec4 new_point = GetToolDexel(x, y);
+        glm::vec4 new_point = GetToolDexel((x - acc / 2) * acc, (y - acc / 2) * acc);
 
-        tool_line_offset.push_back(glm::vec3(x, y, new_point.z));
-        tool_line_offset.push_back(glm::vec3(x, y, new_point.z + new_point.w));
-
-        dexel_draw_data[count] = glm::vec4(x, y, new_point.z, new_point.w);
+        dexel_draw_data[count] = glm::vec4(x - acc / 2, y - acc / 2, new_point.z, new_point.w);
         colors_dexels[count] = 2;
         count += 1;
     }
 
+}
+
+
+
+//void DexelGrid::BooleanOperation(Blank blank, Tool tool)
+//{
+//
+//}
+
+
+
+void DexelGrid::DeleteDrawArrays()
+{
+    delete[] dexel_draw_data;
+    dexel_draw_data = nullptr;
+
+    delete[] colors_dexels;
+    colors_dexels = nullptr;
 }
 
 

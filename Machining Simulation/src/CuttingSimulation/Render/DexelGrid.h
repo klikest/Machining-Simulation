@@ -30,6 +30,7 @@ public:
 
 
 
+
 	std::vector<glm::vec3> tool_dexels;
 
 
@@ -47,16 +48,17 @@ public:
 	glm::vec3 rect_min = glm::vec3(0,0,0);
 	glm::vec3 rect_max = glm::vec3(0, 0, 0);
 
+
 	DexelGrid();
 	glm::vec3 transform(glm::vec3 point);
 	glm::vec3 inv_transform(glm::vec3 point);
 
 	glm::vec4 GetToolDexel(float x, float y);
 
-	void GenerateToolGrid();
 	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateDrawArrays();
+	void DeleteDrawArrays();
 	void DeleteArrays();
 };
 

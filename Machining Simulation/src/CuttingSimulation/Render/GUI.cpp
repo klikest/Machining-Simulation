@@ -165,6 +165,7 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("A", &render->main_scene->blank->A, -180.0f, 180.0f, "%.3f");
     ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
 
+    render->main_scene->blank->DeleteDrawArrays();
     render->main_scene->blank->GenerateDrawArrays();
     
     static bool draw_tool_planes = true;
@@ -223,7 +224,6 @@ void GUI::RenderSceneInfo(Render* render)
             render->main_scene->blank->CreateBlankCyl(diam, len, acc);
             render->main_scene->blank->GenerateDrawArrays();
 
-            render->main_scene->blank->GenerateToolGrid();
             render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
         }
 
