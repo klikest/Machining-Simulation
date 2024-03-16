@@ -370,8 +370,105 @@ void DexelGrid::BooleanOperation()
 
             if (fabs(tool_start - tool_end) >= 1e-6  && fabs(blank_start - blank_end) >= 1e-6)
             {
-                if(blank_end > tool_start)
-                grid_list[i][num].end = tool_start;
+                //         Tool
+                //    --------------
+                //           ---------------
+                //                Blank
+                if (tool_end >= blank_start &&
+                    tool_start <= blank_start &&
+                    tool_end <= blank_end)
+                {
+                    grid_list[i][num].start = tool_end;
+                }
+
+                //                  Tool
+                //             --------------
+                //    ---------------
+                //         Blank
+                if (tool_start > blank_start &&
+                    tool_start < blank_end &&
+                    tool_end > blank_end)
+                {
+                    grid_list[i][num].end = tool_start;
+                }
+
+                //             Tool
+                //     --------------------
+                //         ------------
+                //             Blank
+                if (tool_start < blank_start &&
+                    tool_end > blank_end)
+                {
+                    std::vector<Dexel> tmp;
+                    for (int j = 0; j < num_dexels[i]; j++)
+                    {
+                        if (j != num)
+                        {
+                            tmp.push_back(grid_list[i][j]);
+                        }
+                    }
+                    delete[] grid_list[i];
+                    grid_list[i] = nullptr;
+                    num_dexels[i] -= 1;
+                    summ_num_of_dexels -= 1;
+                    grid_list[i] = new Dexel[num_dexels[i]];
+
+                    for (int j = 0; j < num_dexels[i]; j++)
+                    {
+                        grid_list[i][j] = tmp[j];
+                    }
+
+                }
+
+
+                //             Tool
+                //         ------------
+                //     ---------------------
+                //             Blank
+                if (tool_start > blank_start &&
+                    tool_end < blank_end)
+                {
+                    std::vector<Dexel> tmp;
+                    for (int j = 0; j < num_dexels[i]; j++)
+                    {
+                        if (j == num)
+                        {
+                            Dexel left;
+                            left.start = blank_start;
+                            left.end = tool_start;
+                            left.color = 0;
+
+                            Dexel right;
+                            right.start = tool_end;
+                            right.end = blank_end;
+                            right.color = 0;
+
+                            tmp.push_back(left);
+                            tmp.push_back(right);
+                        }
+                        else
+                        {
+                            tmp.push_back(grid_list[i][j]);
+                        }
+                    }
+
+                    delete[] grid_list[i];
+                    grid_list[i] = nullptr;
+
+                    int count = num_dexels[i];
+
+                    num_dexels[i] += 1;
+                    summ_num_of_dexels += 1;
+
+                    grid_list[i] = new Dexel[num_dexels[i]];
+
+                    for (int k = 0; k < num_dexels[i]; k++)
+                    {
+                        grid_list[i][k] = tmp[k];
+                    }
+
+                }
+                
             }
         }
 
