@@ -9,8 +9,8 @@ public:
 	Dexel();
 	~Dexel();
 
-	unsigned short start = 0;
-	unsigned short end = 0;
-	unsigned short color = 0;
+	float start = 0;
+	float end = 0;
+	float color = 0;
 };
 

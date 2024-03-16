@@ -1,23 +1,9 @@
 #include "DexelGrid.h"
 
-
 DexelGrid::DexelGrid()
 {
 
 }
-
-bool Scalar_cyl(float r, float x, float y)
-{
-    if ((x * x) + (y * y) <= (r * r))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 
 
 glm::vec3 DexelGrid::transform(glm::vec3 point)
@@ -57,75 +43,6 @@ glm::vec3 DexelGrid::inv_transform(glm::vec3 point)
 
 
 
-
-
-struct Ray
-{
-    glm::vec3 origin;
-    glm::vec3 direction;
-};
-
-struct Plane
-{
-    glm::vec3 origin;
-    glm::vec3 normal;
-};
-
-
-
-glm::vec3 intersectRayToPlane(Ray ray, Plane plane)
-{
-    float denominator = glm::dot(plane.normal, ray.direction);
-
-    glm::vec3 pointToPlane = plane.origin - ray.origin;
-    float t = glm::dot(pointToPlane, plane.normal) / denominator;
-
-    return ray.origin + t * ray.direction;
-
-}
-
-
-glm::vec2 solveCuvadratic(float a, float b, float c)
-{
-    return glm::vec2(((-b+sqrt(b*b-4*a*c))/(2*a)), ((-b-sqrt(b*b-4*a*c))/(2*a)));
-}
-
-
-bool isQuadraticCanSolve(Ray ray, float d)
-{
-    float a = ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y;
-    float b = 2 * (ray.direction.x * (ray.origin.x) + ray.direction.y * (ray.origin.y));
-    float c = ray.origin.x * ray.origin.x + ray.origin.y * ray.origin.y
-        - (d ) * (d );
-
-    float D = b*b - 4*a*c;
-    if (D > 0) { return true; }
-    else { return false; }
-}
-
-std::pair<glm::vec3, glm::vec3> intersectRayToSircle(Ray ray, float d)
-{
-
-    float a = ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y;
-    float b = 2 * (ray.direction.x * (ray.origin.x) + ray.direction.y * (ray.origin.y));
-    float c = ray.origin.x * ray.origin.x + ray.origin.y * ray.origin.y
-        - (d)*(d);
-
-    glm::vec2 answer =  solveCuvadratic(a, b, c);
-
-    glm::vec3 point1 = glm::vec3(ray.direction.x * answer.x + ray.origin.x,
-        ray.direction.y * answer.x + ray.origin.y,
-        ray.direction.z * answer.x + ray.origin.z);
-
-    glm::vec3 point2 = glm::vec3(ray.direction.x * answer.y + ray.origin.x,
-        ray.direction.y * answer.y + ray.origin.y,
-        ray.direction.z * answer.y + ray.origin.z);
-
-    std::pair<glm::vec3, glm::vec3> points = { point1, point2 };
-
-    return points;
-}
-
 glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
 {
     glm::vec3 origin_0 = glm::vec3(dexel_x, dexel_y, 0.0f);
@@ -153,8 +70,8 @@ glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
 
     if (fabs(denominator - 1) <= 1e-6) // ¬ектор перпендикул€рен плоскости цилиндра
     {
-        intersectionPoint1 = intersectRayToPlane(ray, near_plane);
-        intersectionPoint2 = intersectRayToPlane(ray, far_plane);
+        intersectionPoint1 = MyMath::intersectRayToPlane(ray, near_plane);
+        intersectionPoint2 = MyMath::intersectRayToPlane(ray, far_plane);
 
         float x = intersectionPoint1.x;
         float y = intersectionPoint1.y;
@@ -176,9 +93,9 @@ glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
     {
         if (ray.origin.z > 0 && ray.origin.z < H) //≈сли вектор попадает между плоскостей инструмента
         {
-            if (isQuadraticCanSolve(ray, D)) //≈сли вектор пересекает окружность - рассчитываем точку пересечени€
+            if (MyMath::isQuadraticCanSolve(ray, D)) //≈сли вектор пересекает окружность - рассчитываем точку пересечени€
             {
-                std::pair<glm::vec3, glm::vec3> int_points = intersectRayToSircle(ray, D);
+                std::pair<glm::vec3, glm::vec3> int_points = MyMath::intersectRayToSircle(ray, D);
 
                 ToolPoint1 = int_points.first;
                 ToolPoint2 = int_points.second;
@@ -199,39 +116,49 @@ glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
 
     else // ќбщий случай
     {
-        std::pair<glm::vec3, glm::vec3> int_points = intersectRayToSircle(ray, D);
-
-        ToolPoint1 = int_points.first;
-        ToolPoint2 = int_points.second;
-
-        if (ToolPoint1.z > ToolPoint2.z) // —ортируем точки по Z
+        if (MyMath::isQuadraticCanSolve(ray, D) == false)
         {
-            glm::vec3 tmp = ToolPoint1;
-            ToolPoint1 = ToolPoint2;
-            ToolPoint2 = tmp;
+            ToolPoint1 = glm::vec3(0, 0, 0);
+            ToolPoint2 = glm::vec3(0, 0, 0);
         }
 
-        Ray new_ray = { ToolPoint1,  ToolPoint2 - ToolPoint1 };
-
-        if (ToolPoint1.z < 0 || ToolPoint1.z > H)
+        else
         {
-            ToolPoint1 = intersectRayToPlane(new_ray, near_plane);
-        }
+            std::pair<glm::vec3, glm::vec3> int_points = MyMath::intersectRayToSircle(ray, D);
 
-        if (ToolPoint2.z > H || ToolPoint2.z < 0)
-        {
-            ToolPoint2 = intersectRayToPlane(new_ray, far_plane);
-        }
+            ToolPoint1 = int_points.first;
+            ToolPoint2 = int_points.second;
 
-        if (ToolPoint1.x * ToolPoint1.x + ToolPoint1.y * ToolPoint1.y > D * D)
-        {
-            if (ToolPoint2.x * ToolPoint2.x + ToolPoint2.y * ToolPoint2.y > D * D)
+            if (ToolPoint1.z > ToolPoint2.z) // —ортируем точки по Z
             {
-                ToolPoint1 = glm::vec3(0, 0, 0);
-                ToolPoint2 = glm::vec3(0, 0, 0);
+                glm::vec3 tmp = ToolPoint1;
+                ToolPoint1 = ToolPoint2;
+                ToolPoint2 = tmp;
             }
 
+            Ray new_ray = { ToolPoint1,  ToolPoint2 - ToolPoint1 };
+
+            if (ToolPoint1.z < 0 || ToolPoint1.z > H)
+            {
+                ToolPoint1 = MyMath::intersectRayToPlane(new_ray, near_plane);
+            }
+
+            if (ToolPoint2.z > H || ToolPoint2.z < 0)
+            {
+                ToolPoint2 = MyMath::intersectRayToPlane(new_ray, far_plane);
+            }
+
+            if (ToolPoint1.x * ToolPoint1.x + ToolPoint1.y * ToolPoint1.y > D * D)
+            {
+                if (ToolPoint2.x * ToolPoint2.x + ToolPoint2.y * ToolPoint2.y > D * D)
+                {
+                    ToolPoint1 = glm::vec3(0, 0, 0);
+                    ToolPoint2 = glm::vec3(0, 0, 0);
+                }
+
+            }
         }
+        
 
     }
 
@@ -336,7 +263,7 @@ void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
         grid_list[i] = new Dexel[1];
         num_dexels[i] = 1;
 
-        if (Scalar_cyl(diam / 2, x, y))
+        if (MyMath::Scalar_cyl(diam / 2, x, y))
         {
 
             grid_list[i][0].start = 0;
@@ -357,6 +284,31 @@ void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
 
 }
 
+
+void DexelGrid::GenerateToolGrid()
+{
+
+    if (tool_grid_list != nullptr)
+    {
+        delete[] tool_grid_list;
+        tool_grid_list = nullptr;
+    }
+
+    tool_grid_list = new Dexel[X_size * Y_size];
+
+    for (int i = 0; i < X_size * Y_size; i++)
+    {
+        float x = (i % X_size) - X_size / 2;
+        float y = (i / X_size) % Y_size - Y_size / 2;
+
+        glm::vec4 new_point = GetToolDexel((x - acc / 2) * acc, (y - acc / 2) * acc);
+
+        tool_grid_list[i].start = new_point.z;
+        tool_grid_list[i].end = new_point.z + new_point.w;
+        tool_grid_list[i].color = 1;
+
+    }
+}
 
 void DexelGrid::GenerateDrawArrays()
 {
@@ -394,21 +346,37 @@ void DexelGrid::GenerateDrawArrays()
         float x = (i % X_size) - X_size / 2;
         float y = (i / X_size) % Y_size - Y_size / 2;
 
-        glm::vec4 new_point = GetToolDexel((x - acc / 2) * acc, (y - acc / 2) * acc);
-
-        dexel_draw_data[count] = glm::vec4(x - acc / 2, y - acc / 2, new_point.z, new_point.w);
-        colors_dexels[count] = 2;
+        dexel_draw_data[count] = glm::vec4(x - acc / 2, y - acc / 2, tool_grid_list[i].start, tool_grid_list[i].end - tool_grid_list[i].start);
+        colors_dexels[count] = tool_grid_list[i].color;
         count += 1;
+        
     }
 
 }
 
 
 
-//void DexelGrid::BooleanOperation(Blank blank, Tool tool)
-//{
-//
-//}
+void DexelGrid::BooleanOperation()
+{
+    for (int i = 0; i < X_size * Y_size; i++)
+    {
+        float tool_start = tool_grid_list[i].start;
+        float tool_end = tool_grid_list[i].end;
+
+        for (int num = 0; num < num_dexels[i]; num++)
+        {
+            float blank_start = grid_list[i][num].start;
+            float blank_end = grid_list[i][num].end ;
+
+            if (fabs(tool_start - tool_end) >= 1e-6  && fabs(blank_start - blank_end) >= 1e-6)
+            {
+                if(blank_end > tool_start)
+                grid_list[i][num].end = tool_start;
+            }
+        }
+
+    }
+}
 
 
 

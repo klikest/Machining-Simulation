@@ -6,6 +6,36 @@
 #include <vector>
 #include <cmath> 
 #include "Dexel.h"
+#include "MyMath.h"
+
+
+
+struct Blank
+{
+	Dexel** grid_list = nullptr;
+	int* num_dexels = nullptr;
+	int summ_num_of_dexels = 0;
+
+	glm::vec3 rect_min = glm::vec3(0, 0, 0);
+	glm::vec3 rect_max = glm::vec3(0, 0, 0);
+
+	float diam = 40;
+	float h = 10;
+};
+
+struct Tool
+{
+	Dexel** grid_list = nullptr;
+	int* num_dexels = nullptr;
+	int summ_num_of_dexels = 0;
+
+	glm::vec3 rect_min = glm::vec3(0, 0, 0);
+	glm::vec3 rect_max = glm::vec3(0, 0, 0);
+
+	float D = 40;
+	float H = 10;
+	float offset = 30;
+};
 
 
 class DexelGrid
@@ -18,9 +48,9 @@ public:
 
 
 	float X = 80;
-	float Y = 0;
+	float Y = 37;
 	float Z = 0;
-	float A = 0;
+	float A = 15;
 	float C = 0;
 
 	float offset = 30;
@@ -29,7 +59,7 @@ public:
 	float H = 10;
 
 
-
+	Blank* blank = nullptr;
 
 	std::vector<glm::vec3> tool_dexels;
 
@@ -41,6 +71,10 @@ public:
 	Dexel** grid_list = nullptr;
 	int* num_dexels = nullptr;
 	int summ_num_of_dexels = 0;
+
+
+	Dexel* tool_grid_list = nullptr;
+
 
 	glm::vec4* dexel_draw_data = nullptr;
 	float* colors_dexels = nullptr;
@@ -57,7 +91,9 @@ public:
 
 	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
+	void GenerateToolGrid();
 	void GenerateDrawArrays();
+	void BooleanOperation();
 	void DeleteDrawArrays();
 	void DeleteArrays();
 };
