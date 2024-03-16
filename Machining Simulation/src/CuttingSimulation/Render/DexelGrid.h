@@ -20,7 +20,7 @@ public:
 	float X = 80;
 	float Y = 0;
 	float Z = 0;
-	float A = 15;
+	float A = 0;
 	float C = 0;
 
 	float offset = 30;

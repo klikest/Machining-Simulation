@@ -158,16 +158,11 @@ void GUI::RenderSceneInfo(Render* render)
 
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 
-    static float X = 100.0f;
-    static float Y = 0.0f;
-    static float Z = 0.0f;
-    static float A = 0.0f;
-    static float C = 0.0f;
     ImGui::SeparatorText("Coords");
     ImGui::SliderFloat("X", &render->main_scene->blank->X, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Y", &render->main_scene->blank->Y, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Z", &render->main_scene->blank->Z, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("A", &render->main_scene->blank->A, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("A", &render->main_scene->blank->A, 0.0f, 90.0f, "%.3f");
     ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
 
     
