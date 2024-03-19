@@ -24,9 +24,6 @@
     <ClCompile Include="src\App.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Dexel Grinding Simulator\Dexel Grinding Simulator\glad.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="src\CuttingSimulation\Render\Shader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -124,6 +121,12 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\CuttingSimulation\Render\MyMath.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\glad.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Blank.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1731,6 +1734,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\CuttingSimulation\Render\MyMath.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Blank.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

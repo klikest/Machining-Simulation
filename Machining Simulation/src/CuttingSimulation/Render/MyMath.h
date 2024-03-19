@@ -23,6 +23,8 @@ struct Plane
 class MyMath
 {
 public:
+
+    static int Get_Grid_size(float grid_width, float resolution);
     static bool Scalar_cyl(float r, float x, float y);
     static glm::vec3 intersectRayToPlane(Ray ray, Plane plane);
     static glm::vec2 solveCuvadratic(float a, float b, float c);

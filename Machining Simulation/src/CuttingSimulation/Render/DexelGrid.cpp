@@ -2,9 +2,27 @@
 
 DexelGrid::DexelGrid()
 {
-
+    blank = new Blank();
 }
 
+
+
+
+void DexelGrid::transformArray(std::vector<glm::vec3>& my_array)
+{
+    for (int i = 0; i < my_array.size(); i++)
+    {
+        my_array[i] = transform(my_array[i]);
+    }
+}
+
+void DexelGrid::inv_transformArray(std::vector<glm::vec3>& my_array)
+{
+    for (int i = 0; i < my_array.size(); i++)
+    {
+        my_array[i] = inv_transform(my_array[i]);
+    }
+}
 
 glm::vec3 DexelGrid::transform(glm::vec3 point)
 {
@@ -310,6 +328,38 @@ void DexelGrid::GenerateToolGrid()
     }
 }
 
+
+
+void DexelGrid::Generate_Draw_Arrays(Blank* blank)
+{    
+    if (blank->Grid != nullptr)
+    {
+        DeleteDrawArrays();
+
+        dexel_draw_data = new glm::vec4[blank->Num_of_Dexels];
+        colors_dexels = new float[blank->Num_of_Dexels];
+
+        int count = 0;
+
+        for (int i = 0; i < blank->Grid_size; i++)
+        {
+            for (int j = 0; j < blank->Grid[i].size(); j++)
+            {
+                if (blank->Grid[i][j].color > -1)
+                {
+                    dexel_draw_data[count] = blank->Get_Dexel_To_Draw(i, j);
+                    colors_dexels[count] = blank->Grid[i][j].color;
+
+                    count += 1;
+                }
+            }
+        }
+    }
+}
+
+
+
+
 void DexelGrid::GenerateDrawArrays()
 {
     dexel_draw_data = new glm::vec4[summ_num_of_dexels + X_size*Y_size];
@@ -534,11 +584,18 @@ void DexelGrid::BooleanOperation()
 
 void DexelGrid::DeleteDrawArrays()
 {
-    delete[] dexel_draw_data;
-    dexel_draw_data = nullptr;
+    if (dexel_draw_data != nullptr)
+    {
+        delete[] dexel_draw_data;
+        dexel_draw_data = nullptr;
+    }
 
-    delete[] colors_dexels;
-    colors_dexels = nullptr;
+    if (colors_dexels != nullptr)
+    {
+        delete[] colors_dexels;
+        colors_dexels = nullptr;
+    }
+
 }
 
 

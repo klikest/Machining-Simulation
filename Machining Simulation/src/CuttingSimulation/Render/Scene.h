@@ -18,7 +18,7 @@ public:
 	GLuint VBO_colors = 0;
 
 	
-	DexelGrid* blank;
+	DexelGrid* scene_grid;
 
 	std::vector<float> offsets;
 	std::vector<float> colors;

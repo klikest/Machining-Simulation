@@ -1,6 +1,20 @@
 #include "MyMath.h"
 
 
+int MyMath::Get_Grid_size(float grid_width, float resolution)
+{
+    if ((int)ceil(grid_width / resolution) % 2 == 1)
+    {
+        return ceil(grid_width / resolution);
+    }
+    else
+    {
+        return ceil(grid_width / resolution) + 1;
+    }
+
+    return 0;
+}
+
 bool MyMath::Scalar_cyl(float r, float x, float y)
 {
     if ((x * x) + (y * y) <= (r * r))

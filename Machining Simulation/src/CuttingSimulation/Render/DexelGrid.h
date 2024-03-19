@@ -7,35 +7,9 @@
 #include <cmath> 
 #include "Dexel.h"
 #include "MyMath.h"
+#include "Blank.h"
 
 
-
-struct Blank
-{
-	Dexel** grid_list = nullptr;
-	int* num_dexels = nullptr;
-	int summ_num_of_dexels = 0;
-
-	glm::vec3 rect_min = glm::vec3(0, 0, 0);
-	glm::vec3 rect_max = glm::vec3(0, 0, 0);
-
-	float diam = 40;
-	float h = 10;
-};
-
-struct Tool
-{
-	Dexel** grid_list = nullptr;
-	int* num_dexels = nullptr;
-	int summ_num_of_dexels = 0;
-
-	glm::vec3 rect_min = glm::vec3(0, 0, 0);
-	glm::vec3 rect_max = glm::vec3(0, 0, 0);
-
-	float D = 40;
-	float H = 10;
-	float offset = 30;
-};
 
 
 class DexelGrid
@@ -84,6 +58,9 @@ public:
 
 
 	DexelGrid();
+	void transformArray(std::vector<glm::vec3>& my_array);
+	void inv_transformArray(std::vector<glm::vec3>& my_array);
+
 	glm::vec3 transform(glm::vec3 point);
 	glm::vec3 inv_transform(glm::vec3 point);
 
@@ -92,6 +69,7 @@ public:
 	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateToolGrid();
+	void Generate_Draw_Arrays(Blank* blank);
 	void GenerateDrawArrays();
 	void PaintBlankByTool(int color);
 	void RunGProgramm(float t);

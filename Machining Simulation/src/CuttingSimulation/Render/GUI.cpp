@@ -159,64 +159,11 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 
     ImGui::SeparatorText("Coords");
-    ImGui::SliderFloat("X", &render->main_scene->blank->X, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("Y", &render->main_scene->blank->Y, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("Z", &render->main_scene->blank->Z, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("A", &render->main_scene->blank->A, -180.0f, 180.0f, "%.3f");
-    ImGui::SliderFloat("C", &render->main_scene->blank->C, -180.0f, 180.0f, "%.3f");
-
-    render->main_scene->blank->DeleteDrawArrays();
-    render->main_scene->blank->GenerateToolGrid();
-
-
-    static bool GProgramm = false;
-    ImGui::Checkbox("Run simple G programm", &GProgramm);
-    if (GProgramm)
-    {
-
-        if (t >= 0 && t <= 1)
-        {
-            render->main_scene->blank->RunGProgramm(t);
-            t += 1.0f / 1000.0f;
-        }
-        else if (t > 1 && t <= 2)
-        {
-            render->main_scene->blank->RunGProgramm2(t-1);
-            t += 1.0f / 1000.0f;
-        }
-        if (t > 2)
-        {
-            t = -1;
-        }
-    }
-
-
-    static bool boolean_op = true;
-    ImGui::Checkbox("Enable Boolean op", &boolean_op);
-    if (boolean_op)
-    {
-        render->main_scene->blank->BooleanOperation();
-        //render->main_scene->blank->PaintBlankByTool(1);
-    }
-
-    render->main_scene->blank->GenerateDrawArrays();
-
-
-
-    static bool draw_tool_offset = true;
-    ImGui::Checkbox("Draw tool offset", &draw_tool_offset);
-    if (draw_tool_offset)
-    {
-        render->lines->AddLines(render->main_scene->blank->tool_line_offset, glm::vec3(1, 0.5, 0.5));
-    }
-
-    static bool draw_tool = true;
-    ImGui::Checkbox("Draw tool", &draw_tool);
-    if (draw_tool)
-    {
-        render->main_scene->blank->GenerateToolLines();
-        render->lines->AddLines(render->main_scene->blank->tool_lines, glm::vec3(1, 0.5, 1));
-    }
+    ImGui::SliderFloat("X", &render->main_scene->scene_grid->X, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Y", &render->main_scene->scene_grid->Y, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Z", &render->main_scene->scene_grid->Z, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("A", &render->main_scene->scene_grid->A, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("C", &render->main_scene->scene_grid->C, -180.0f, 180.0f, "%.3f");
 
 
 
@@ -242,10 +189,8 @@ void GUI::RenderSceneInfo(Render* render)
 
         if (ImGui::Button("Update blank"))
         {
-            render->main_scene->blank->DeleteArrays();
-            render->main_scene->blank->CreateBlankCyl(diam, len, acc);
-            render->main_scene->blank->GenerateDrawArrays();
-            render->lines->AddLines(render->main_scene->blank->tool_dexels, glm::vec3(0.8, 0.2, 0.4));
+            render->main_scene->scene_grid->blank->CreateCylBlank(diam, len, acc);
+            render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank);
         }
 
     }
@@ -254,8 +199,8 @@ void GUI::RenderSceneInfo(Render* render)
     if (ImGui::CollapsingHeader("Tool"))
     {
 
-        ImGui::SliderFloat("D", &render->main_scene->blank->D, 15.0f, 150.0f, "%.3f");
-        ImGui::SliderFloat("H", &render->main_scene->blank->H, 8.0f, 30.0f, "%.3f");
+        ImGui::SliderFloat("D", &render->main_scene->scene_grid->D, 15.0f, 150.0f, "%.3f");
+        ImGui::SliderFloat("H", &render->main_scene->scene_grid->H, 8.0f, 30.0f, "%.3f");
         if (ImGui::Button("Update tool"))
         {
 

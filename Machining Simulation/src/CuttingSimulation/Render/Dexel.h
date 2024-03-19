@@ -7,6 +7,7 @@ class Dexel
 public:
 
 	Dexel();
+	Dexel(float start_, float end_, float color_);
 	~Dexel();
 
 	float start = 0;

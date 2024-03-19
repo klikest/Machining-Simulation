@@ -21,9 +21,9 @@ void Render::Init(GLFWwindow* window)
     lines = std::make_unique<Lines>();
     lines->Init();
 
-    tool_mesh = std::make_unique<Mesh>();
-    tool_mesh->Init();
-    tool_mesh->ReadMeshSTL("C://Users//User//source//repos//Machining Simulation//Machining Simulation//Models//Box1x1x1.stl");
+    //tool_mesh = std::make_unique<Mesh>();
+    //tool_mesh->Init();
+    //tool_mesh->ReadMeshSTL("C://Users//User//source//repos//Machining Simulation//Machining Simulation//Models//Box1x1x1.stl");
 
     main_scene = std::make_unique<Scene>();
     main_scene->Init();
