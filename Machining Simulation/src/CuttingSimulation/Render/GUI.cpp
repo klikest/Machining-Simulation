@@ -174,10 +174,15 @@ void GUI::RenderSceneInfo(Render* render)
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
 
+    render->main_scene->scene_grid->tool->Generate_Toool_Dexels(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->machine_coords);
 
+    render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
 
-    if (ImGui::CollapsingHeader("Debug info"))
+    if (ImGui::CollapsingHeader("Debug info") == false)
     {
+        ImGui::Text("Number of blank draw dexels %i", render->main_scene->scene_grid->blank->Num_of_Dexels);
+        ImGui::Text("Number of tool draw dexels %i", render->main_scene->scene_grid->tool->Num_of_Dexels);
+
         ImGui::Text("Render Time %.3f ", render->render_time);
         ImGui::Text("Global render Time %.3f ", render->global_render_time);
         ImGui::Text("My FPS %.3f ", 1000 / render->global_render_time);
@@ -199,7 +204,6 @@ void GUI::RenderSceneInfo(Render* render)
         if (ImGui::Button("Update blank"))
         {
             render->main_scene->scene_grid->blank->CreateCylBlank(diam, len, acc);
-            render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank);
         }
 
     }
@@ -210,6 +214,8 @@ void GUI::RenderSceneInfo(Render* render)
 
         ImGui::SliderFloat("D", &render->main_scene->scene_grid->D, 15.0f, 150.0f, "%.3f");
         ImGui::SliderFloat("H", &render->main_scene->scene_grid->H, 8.0f, 30.0f, "%.3f");
+
+
 
         if (ImGui::Button("Update tool"))
         {

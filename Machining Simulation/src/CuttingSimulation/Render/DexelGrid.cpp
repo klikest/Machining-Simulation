@@ -331,14 +331,16 @@ void DexelGrid::GenerateToolGrid()
 
 
 
-void DexelGrid::Generate_Draw_Arrays(Blank* blank)
+void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 {    
     if (blank->Grid != nullptr)
     {
         DeleteDrawArrays();
 
-        dexel_draw_data = new glm::vec4[blank->Num_of_Dexels];
-        colors_dexels = new float[blank->Num_of_Dexels];
+        int array_size = blank->Num_of_Dexels + tool->Num_of_Dexels;
+
+        dexel_draw_data = new glm::vec4[array_size];
+        colors_dexels = new float[array_size];
 
         int count = 0;
 
@@ -353,6 +355,15 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank)
 
                     count += 1;
                 }
+
+            }
+
+            if (tool->Grid != nullptr && tool->Grid[i].color > -1)
+            {
+                dexel_draw_data[count] = tool->Get_Dexel_To_Draw(i);
+                colors_dexels[count] = tool->Grid[i].color;
+
+                count += 1;
             }
         }
     }

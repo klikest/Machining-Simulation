@@ -8,6 +8,7 @@
 #include "Dexel.h"
 #include "MyMath.h"
 #include "Coordinates.h"
+#include "Blank.h"
 
 class Tool
 {
@@ -30,8 +31,15 @@ public:
 	float H = 0;
 	float offset = 30;
 
+	void SetToolSettings(float D, float H);
 	void Generate_Tool_lines(float D, float H, Coordinates coords);
-	void Generate_Toool_Dexels(float D_, float H_, float resolution, Coordinates mashine_coords);
+	void Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords);
 	void Clear_Arrays();
+
+	glm::vec4 GetToolDexel(float dexel_x, float dexel_y, Coordinates coords);
+
+	float Get_X_From_Grid_By_i(int i);
+	float Get_Y_From_Grid_By_i(int i);
+	glm::vec4 Get_Dexel_To_Draw(int i);
 };
 

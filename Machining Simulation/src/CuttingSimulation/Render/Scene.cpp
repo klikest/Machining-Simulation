@@ -31,8 +31,8 @@ void Scene::Init()
 
 
     scene_grid = new DexelGrid;
-    scene_grid->blank->CreateCylBlank(20, 50, 1);
-    scene_grid->Generate_Draw_Arrays(scene_grid->blank);
+    scene_grid->blank->CreateCylBlank(20, 50, 1);    
+    scene_grid->Generate_Draw_Arrays(scene_grid->blank, scene_grid->tool);
     //blank->CreateBlankCyl(16, 60, 0.8);
     //blank->GenerateToolGrid();
     //blank->GenerateDrawArrays();
@@ -43,7 +43,7 @@ void Scene::Draw()
 {
 
 
-    int size = scene_grid->blank->Num_of_Dexels; 
+    int size = scene_grid->blank->Num_of_Dexels + scene_grid->tool->Num_of_Dexels;
 
     glUseProgram(shader.ID);
     glBindVertexArray(VAO);

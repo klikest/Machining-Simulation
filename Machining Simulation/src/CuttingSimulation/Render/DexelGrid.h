@@ -73,7 +73,7 @@ public:
 	void GenerateToolLines();
 	void CreateBlankCyl(float diam, float h, float acc);
 	void GenerateToolGrid();
-	void Generate_Draw_Arrays(Blank* blank);
+	void Generate_Draw_Arrays(Blank* blank, Tool* tool);
 	void GenerateDrawArrays();
 	void PaintBlankByTool(int color);
 	void RunGProgramm(float t);
