@@ -6,6 +6,14 @@ void SetToolSettings(float D, float H)
 
 }
 
+void Tool::Generate_Tool(float D_, float H_, float resolution_, Coordinates coords, Blank* blank)
+{
+    Generate_Tool_lines(D_, H_, coords);
+    Generate_Toool_Dexels(blank, coords);
+}
+
+
+
 void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 {
     D = D_;

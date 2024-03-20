@@ -167,14 +167,18 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("offset", &render->main_scene->scene_grid->machine_coords.offset, 0.0f, 50.0f, "%.3f");
 
     //Draw tool
-    render->main_scene->scene_grid->tool->Generate_Tool_lines(render->main_scene->scene_grid->D,
-        render->main_scene->scene_grid->H,
-        render->main_scene->scene_grid->machine_coords);
+    render->main_scene->scene_grid->tool->Generate_Tool(render->main_scene->scene_grid->tool_D,
+        render->main_scene->scene_grid->tool_H,
+        render->main_scene->scene_grid->resolution,
+        render->main_scene->scene_grid->machine_coords,
+        render->main_scene->scene_grid->blank);
+
 
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
 
-    render->main_scene->scene_grid->tool->Generate_Toool_Dexels(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->machine_coords);
+    
+    render->main_scene->scene_grid->BooleanOperation(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
 
     render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
 
@@ -196,14 +200,16 @@ void GUI::RenderSceneInfo(Render* render)
 
         fileDialog.SetTitle("Select tool path");
 
-        ImGui::SliderFloat("Grid size", &acc, 0.1f, 1.0f, "%.3f");
-        ImGui::SliderFloat("Diam", &diam, 4.0f, 20.0f, "%.3f");
-        ImGui::SliderFloat("Len", &len, 10.0f, 150.0f, "%.3f");
+        ImGui::SliderFloat("Grid size", &render->main_scene->scene_grid->resolution, 0.01f, 1.0f, "%.3f");
+        ImGui::SliderFloat("Diam", &render->main_scene->scene_grid->blank_D, 4.0f, 20.0f, "%.3f");
+        ImGui::SliderFloat("Len", &render->main_scene->scene_grid->blank_H, 10.0f, 150.0f, "%.3f");
         
 
         if (ImGui::Button("Update blank"))
         {
-            render->main_scene->scene_grid->blank->CreateCylBlank(diam, len, acc);
+            render->main_scene->scene_grid->blank->CreateCylBlank(render->main_scene->scene_grid->blank_D, 
+                render->main_scene->scene_grid->blank_H,
+                render->main_scene->scene_grid->resolution);
         }
 
     }
@@ -212,8 +218,8 @@ void GUI::RenderSceneInfo(Render* render)
     if (ImGui::CollapsingHeader("Tool"))
     {
 
-        ImGui::SliderFloat("D", &render->main_scene->scene_grid->D, 15.0f, 150.0f, "%.3f");
-        ImGui::SliderFloat("H", &render->main_scene->scene_grid->H, 8.0f, 30.0f, "%.3f");
+        ImGui::SliderFloat("D", &render->main_scene->scene_grid->tool_D, 15.0f, 150.0f, "%.3f");
+        ImGui::SliderFloat("H", &render->main_scene->scene_grid->tool_H, 8.0f, 30.0f, "%.3f");
 
 
 

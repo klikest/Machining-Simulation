@@ -32,6 +32,9 @@ public:
 	float offset = 30;
 
 	void SetToolSettings(float D, float H);
+
+	void Generate_Tool(float D_, float H_, float resolution_, Coordinates coords, Blank* blank);
+
 	void Generate_Tool_lines(float D, float H, Coordinates coords);
 	void Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords);
 	void Clear_Arrays();

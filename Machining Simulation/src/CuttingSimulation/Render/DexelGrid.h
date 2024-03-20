@@ -17,48 +17,35 @@
 class DexelGrid
 {
 public:
-	int X_size = 0;
-	int Y_size = 0;
-	int Z_size = 0;
-	float acc = 1;
-
-
 	float X = 80;
 	float Y = 37;
 	float Z = 0;
 	float A = 15;
 	float C = 0;
 
+
+	float resolution = 0.5;
+
 	float offset = 30;
 
 	float D = 40;
 	float H = 10;
+
+	float blank_D = 20;
+	float blank_H = 50;
+
+
+	float tool_D = 60;
+	float tool_H = 10;
 
 
 	Blank* blank = nullptr;
 	Tool* tool = nullptr;
 	Coordinates machine_coords;
 
-	std::vector<glm::vec3> tool_dexels;
-
-
-
-	std::vector<float> tool_lines;
-	std::vector<glm::vec3> tool_line_offset;
-
-	Dexel** grid_list = nullptr;
-	int* num_dexels = nullptr;
-	int summ_num_of_dexels = 0;
-
-
-	Dexel* tool_grid_list = nullptr;
-
 
 	glm::vec4* dexel_draw_data = nullptr;
 	float* colors_dexels = nullptr;
-
-	glm::vec3 rect_min = glm::vec3(0,0,0);
-	glm::vec3 rect_max = glm::vec3(0, 0, 0);
 
 
 	DexelGrid();
@@ -68,18 +55,8 @@ public:
 	glm::vec3 transform(glm::vec3 point);
 	glm::vec3 inv_transform(glm::vec3 point);
 
-	glm::vec4 GetToolDexel(float x, float y);
-
-	void GenerateToolLines();
-	void CreateBlankCyl(float diam, float h, float acc);
-	void GenerateToolGrid();
 	void Generate_Draw_Arrays(Blank* blank, Tool* tool);
-	void GenerateDrawArrays();
-	void PaintBlankByTool(int color);
-	void RunGProgramm(float t);
-	void RunGProgramm2(float t);
-	void BooleanOperation();
+	void BooleanOperation(Blank* blank, Tool* tool);
 	void DeleteDrawArrays();
-	void DeleteArrays();
 };
 
