@@ -192,6 +192,19 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::Text("My FPS %.3f ", 1000 / render->global_render_time);
     }
 
+
+    if (ImGui::CollapsingHeader("Programms"))
+    {
+
+        if (ImGui::Button("Read file"))
+        {
+            Command::Parse_file("Programms/test.txt", Coordinates());
+        }
+
+    }
+
+
+
     if (ImGui::CollapsingHeader("Blank"))
     {
         static float acc = 1.0f;

@@ -172,6 +172,7 @@
     <ClCompile Include="include\x64\imgui\imgui_widgets.cpp" />
     <ClCompile Include="include\x64\imgui\implot.cpp" />
     <ClCompile Include="include\x64\imgui\implot_items.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Command.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Coordinates.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\MyMath.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Scene.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="src\CuttingSimulation\Render\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Render\Command.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Coordinates.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Blank.h" />
     <ClInclude Include="include\x32\glad\glad.h" />
@@ -1022,6 +1024,9 @@
   <ItemGroup>
     <Library Include="lib\x32\glfw3.lib" />
     <Library Include="lib\x64\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Programms\test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

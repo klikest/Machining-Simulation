@@ -135,6 +135,9 @@
     <ClCompile Include="src\CuttingSimulation\Render\Coordinates.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Command.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h">
@@ -1751,6 +1754,9 @@
     <ClInclude Include="src\CuttingSimulation\Render\Coordinates.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Command.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\lines.vert" />
@@ -2568,5 +2574,8 @@
   <ItemGroup>
     <Library Include="lib\x64\glfw3.lib" />
     <Library Include="lib\x32\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Programms\test.txt" />
   </ItemGroup>
 </Project>

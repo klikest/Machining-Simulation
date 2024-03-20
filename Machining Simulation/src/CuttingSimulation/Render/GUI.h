@@ -8,6 +8,7 @@
 #include <imgui/implot.h>
 #include "FrameBuffer.h"
 #include "Render.h"
+#include "Command.h"
 
 #include <vector>
 class Render;
