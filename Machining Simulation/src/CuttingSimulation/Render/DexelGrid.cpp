@@ -3,6 +3,7 @@
 DexelGrid::DexelGrid()
 {
     blank = new Blank();
+    tool = new Tool();
 }
 
 
@@ -197,7 +198,7 @@ glm::vec4 DexelGrid::GetToolDexel(float dexel_x, float dexel_y)
 }
 
 
-
+/*
 void DexelGrid::GenerateToolLines()
 {
     tool_lines.clear();
@@ -247,7 +248,7 @@ void DexelGrid::GenerateToolLines()
     tool_line_offset.push_back(transform(glm::vec3(0, 0, 0)));
 
 }
-
+*/
 
 void DexelGrid::CreateBlankCyl(float diam, float h, float acc_)
 {

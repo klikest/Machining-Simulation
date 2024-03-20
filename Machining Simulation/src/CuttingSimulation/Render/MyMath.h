@@ -5,6 +5,7 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <vector>
 #include <cmath> 
+#include "Coordinates.h"
 
 struct Ray
 {
@@ -19,10 +20,15 @@ struct Plane
 };
 
 
-
+class Coordinates;
 class MyMath
 {
 public:
+    static void transformArray(std::vector<glm::vec3>& my_array, Coordinates coords);
+    static void inv_transformArray(std::vector<glm::vec3>& my_array, Coordinates coords);
+
+    static glm::vec3 transform(glm::vec3 point, Coordinates coords);
+    static glm::vec3 inv_transform(glm::vec3 point, Coordinates coords);
 
     static int Get_Grid_size(float grid_width, float resolution);
     static bool Scalar_cyl(float r, float x, float y);

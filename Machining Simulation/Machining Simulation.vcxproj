@@ -172,6 +172,7 @@
     <ClCompile Include="include\x64\imgui\imgui_widgets.cpp" />
     <ClCompile Include="include\x64\imgui\implot.cpp" />
     <ClCompile Include="include\x64\imgui\implot_items.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Coordinates.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\MyMath.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Scene.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Mesh.cpp" />
@@ -197,8 +198,10 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\CuttingSimulation\CuttingSimulation.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Render\Coordinates.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Blank.h" />
     <ClInclude Include="include\x32\glad\glad.h" />
     <ClInclude Include="include\x32\GLFW\glfw3.h" />
@@ -737,6 +740,7 @@
     <ClInclude Include="src\CuttingSimulation\Render\Shader.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\Tool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

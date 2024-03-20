@@ -159,11 +159,20 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 
     ImGui::SeparatorText("Coords");
-    ImGui::SliderFloat("X", &render->main_scene->scene_grid->X, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("Y", &render->main_scene->scene_grid->Y, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("Z", &render->main_scene->scene_grid->Z, -100.0f, 100.0f, "%.3f");
-    ImGui::SliderFloat("A", &render->main_scene->scene_grid->A, -180.0f, 180.0f, "%.3f");
-    ImGui::SliderFloat("C", &render->main_scene->scene_grid->C, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("X", &render->main_scene->scene_grid->machine_coords.X, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Y", &render->main_scene->scene_grid->machine_coords.Y, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("Z", &render->main_scene->scene_grid->machine_coords.Z, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("A", &render->main_scene->scene_grid->machine_coords.A, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("C", &render->main_scene->scene_grid->machine_coords.C, -180.0f, 180.0f, "%.3f");
+    ImGui::SliderFloat("offset", &render->main_scene->scene_grid->machine_coords.offset, 0.0f, 50.0f, "%.3f");
+
+    //Draw tool
+    render->main_scene->scene_grid->tool->Generate_Tool_lines(render->main_scene->scene_grid->D,
+        render->main_scene->scene_grid->H,
+        render->main_scene->scene_grid->machine_coords);
+
+    render->lines->AddLines(render->main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
+    render->lines->AddLines(render->main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
 
 
 
@@ -201,6 +210,7 @@ void GUI::RenderSceneInfo(Render* render)
 
         ImGui::SliderFloat("D", &render->main_scene->scene_grid->D, 15.0f, 150.0f, "%.3f");
         ImGui::SliderFloat("H", &render->main_scene->scene_grid->H, 8.0f, 30.0f, "%.3f");
+
         if (ImGui::Button("Update tool"))
         {
 

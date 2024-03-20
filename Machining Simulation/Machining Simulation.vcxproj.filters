@@ -129,6 +129,12 @@
     <ClCompile Include="src\CuttingSimulation\Render\Blank.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Tool.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CuttingSimulation\Render\Coordinates.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CuttingSimulation\CuttingSimulation.h">
@@ -1737,6 +1743,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\CuttingSimulation\Render\Blank.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Tool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CuttingSimulation\Render\Coordinates.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

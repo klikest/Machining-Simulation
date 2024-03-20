@@ -8,6 +8,8 @@
 #include "Dexel.h"
 #include "MyMath.h"
 #include "Blank.h"
+#include "Tool.h"
+#include "Coordinates.h"
 
 
 
@@ -34,6 +36,8 @@ public:
 
 
 	Blank* blank = nullptr;
+	Tool* tool = nullptr;
+	Coordinates machine_coords;
 
 	std::vector<glm::vec3> tool_dexels;
 
