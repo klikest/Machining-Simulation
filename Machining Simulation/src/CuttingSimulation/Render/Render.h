@@ -14,6 +14,7 @@
 #include <vector>
 #include <time.h> 
 #include <chrono>
+#include "Profiler.h"
 
 class GUI;
 class Render
@@ -31,7 +32,7 @@ public:
 
 	Camera camera;
 
-
+	
 
 	Render();
 	~Render();

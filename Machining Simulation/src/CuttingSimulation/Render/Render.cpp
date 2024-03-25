@@ -4,7 +4,7 @@
 
 Render::Render()
 {
-
+    
 }
 
 
@@ -32,14 +32,14 @@ void Render::Init(GLFWwindow* window)
 
 
 
-
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::duration;
+using std::chrono::milliseconds;
 
 void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
 {
-    using std::chrono::high_resolution_clock;
-    using std::chrono::duration_cast;
-    using std::chrono::duration;
-    using std::chrono::milliseconds;
+
 
     auto t1 = high_resolution_clock::now();
 
@@ -82,6 +82,9 @@ void Render::Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui)
 
     render_time = ms_double.count();
 
+    main_scene->scene_grid->TimeData.Render_scene_time.erase(main_scene->scene_grid->TimeData.Render_scene_time.begin());
+    main_scene->scene_grid->TimeData.Render_scene_time.push_back(ms_double.count());
+    
     
 
 

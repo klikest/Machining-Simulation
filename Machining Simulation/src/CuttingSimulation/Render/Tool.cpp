@@ -19,6 +19,8 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
     D = D_;
     H = H_;
 
+    coords.X += 50; /////////////
+
     tool_lines.clear();
 
     float pi = 2 * asin(1.0);
@@ -55,6 +57,8 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
 	X_grid_size = blank->X_grid_size;
 	Y_grid_size = blank->Y_grid_size;
+
+    mashine_coords.X += 50; /////////////
 
     Grid_size = X_grid_size * Y_grid_size;
 

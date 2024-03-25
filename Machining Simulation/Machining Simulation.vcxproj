@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\glad.c" />
+    <ClCompile Include="src\CuttingSimulation\Render\Profiler.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Blank.cpp" />
     <ClCompile Include="include\x32\glm\detail\glm.cpp" />
     <ClCompile Include="include\x64\glm\detail\glm.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\CuttingSimulation\Render\Command.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Coordinates.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\MyMath.cpp" />
+    <ClCompile Include="src\CuttingSimulation\Render\Programms.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Scene.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Mesh.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Lines.cpp" />
@@ -202,6 +204,7 @@
     <ClCompile Include="src\CuttingSimulation\Render\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CuttingSimulation\Render\Profiler.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Command.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Coordinates.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Blank.h" />
@@ -717,6 +720,7 @@
     <ClInclude Include="include\x64\imgui\imstb_truetype.h" />
     <ClInclude Include="include\x64\KHR\khrplatform.h" />
     <ClInclude Include="src\CuttingSimulation\Render\MyMath.h" />
+    <ClInclude Include="src\CuttingSimulation\Render\Programms.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Scene.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Mesh.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Lines.h" />

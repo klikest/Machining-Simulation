@@ -10,6 +10,8 @@
 #include "Blank.h"
 #include "Tool.h"
 #include "Coordinates.h"
+#include "Command.h"
+#include "Profiler.h"
 
 
 
@@ -24,7 +26,7 @@ public:
 	float C = 0;
 
 
-	float resolution = 0.5;
+	float resolution = 1;
 
 	float offset = 30;
 
@@ -42,7 +44,9 @@ public:
 	Blank* blank = nullptr;
 	Tool* tool = nullptr;
 	Coordinates machine_coords;
+	Command command;
 
+	Profiler TimeData;
 
 	glm::vec4* dexel_draw_data = nullptr;
 	float* colors_dexels = nullptr;

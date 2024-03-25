@@ -1,5 +1,9 @@
 #include "GUI.h"
 
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::duration;
+using std::chrono::milliseconds;
 
 
 void GUI::add_data_to_plot(Render* render)
@@ -167,20 +171,49 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("offset", &render->main_scene->scene_grid->machine_coords.offset, 0.0f, 50.0f, "%.3f");
 
     //Draw tool
+    auto t1 = high_resolution_clock::now();
     render->main_scene->scene_grid->tool->Generate_Tool(render->main_scene->scene_grid->tool_D,
         render->main_scene->scene_grid->tool_H,
         render->main_scene->scene_grid->resolution,
         render->main_scene->scene_grid->machine_coords,
         render->main_scene->scene_grid->blank);
 
-
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
     render->lines->AddLines(render->main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
-
+    render->lines->AddCoords(glm::vec3(0, 0, render->main_scene->scene_grid->blank_H));
     
+    auto t2 = high_resolution_clock::now();
+
+    duration<double, std::milli> tool_time_ms = t2 - t1;
+    render->main_scene->scene_grid->TimeData.Generate_tool_time.erase(render->main_scene->scene_grid->TimeData.Generate_tool_time.begin());
+    render->main_scene->scene_grid->TimeData.Generate_tool_time.push_back(tool_time_ms.count());
+
+
+
+
+
+
     render->main_scene->scene_grid->BooleanOperation(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
+    auto t3 = high_resolution_clock::now();
+
+
+    duration<double, std::milli> boolean_time_ms = t3 - t2;
+    render->main_scene->scene_grid->TimeData.Boolean_op_time.erase(render->main_scene->scene_grid->TimeData.Boolean_op_time.begin());
+    render->main_scene->scene_grid->TimeData.Boolean_op_time.push_back(boolean_time_ms.count());
+
+
+
 
     render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
+    auto t4 = high_resolution_clock::now();
+
+
+    duration<double, std::milli> draw_array_time_ms = t4 - t3;
+    render->main_scene->scene_grid->TimeData.Generate_draw_array_time.erase(render->main_scene->scene_grid->TimeData.Generate_draw_array_time.begin());
+    render->main_scene->scene_grid->TimeData.Generate_draw_array_time.push_back(draw_array_time_ms.count());
+
+
+
 
     if (ImGui::CollapsingHeader("Debug info") == false)
     {
@@ -198,7 +231,33 @@ void GUI::RenderSceneInfo(Render* render)
 
         if (ImGui::Button("Read file"))
         {
-            Command::Parse_file("Programms/test.txt", Coordinates());
+            render->main_scene->scene_grid->command.Parse_file("Programms/test.txt", render->main_scene->scene_grid->machine_coords);
+        }
+
+
+        static bool check = false;
+        ImGui::Checkbox("checkbox", &check);
+
+        if (check)
+        {
+            render->main_scene->scene_grid->command.RunCommands(render->main_scene->scene_grid->machine_coords, check);
+            ImGui::Text("X %f", render->main_scene->scene_grid->command.command_list[render->main_scene->scene_grid->command.step].X);
+            
+            
+            int size_commands = render->main_scene->scene_grid->command.command_list.size();
+            int num_command = render->main_scene->scene_grid->command.step;
+
+            ImGui::Text("Number of commands %i", size_commands );
+            ImGui::Text("Number of curret command %i", num_command);
+            float progress = (float)num_command / (float)size_commands;
+
+            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
+
+        }
+        
+        if (ImGui::Button("Zero command"))
+        {
+            render->main_scene->scene_grid->command.Zero_time();
         }
 
     }
@@ -283,7 +342,11 @@ void GUI::RenderSceneInfo(Render* render)
     add_data_to_plot(render);
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1), ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_RangeFit);
-    ImPlot::PlotLine("Full render time, ms", x_data.data(), render_time.data(), x_data.size());
+    ImPlot::PlotLine("Full render time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Render_scene_time.data(), x_data.size());
+    ImPlot::PlotLine("Boolean operation, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Boolean_op_time.data(), x_data.size());
+    ImPlot::PlotLine("Generate draw array, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_draw_array_time.data(), x_data.size());
+    ImPlot::PlotLine("Generate tool time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_tool_time.data(), x_data.size());
+    ImPlot::PlotLine("OLD Full render time, ms", x_data.data(), render_time.data(), x_data.size());
     ImPlot::EndPlot();
 
 

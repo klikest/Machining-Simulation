@@ -1,5 +1,5 @@
 #pragma once
-#include <iostream> 
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <GLM/glm.hpp>
@@ -11,19 +11,12 @@
 #include "MyMath.h"
 #include "Coordinates.h"
 
-
-class Command
+class Programms
 {
 public:
 	
 	std::vector<Coordinates> command_list;
 
-
-	float t = 0;
-	int step = 0;
-
 	void Parse_file(std::string path, Coordinates curret_coords);
-	void Zero_time();
-	void RunCommands(Coordinates& curret_coords, bool& run);
-
+	Coordinates RunCommands();
 };

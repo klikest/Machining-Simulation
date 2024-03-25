@@ -10,6 +10,8 @@
 #include "Render.h"
 #include "Command.h"
 
+#include <time.h> 
+#include <chrono>
 #include <vector>
 class Render;
 class GUI
