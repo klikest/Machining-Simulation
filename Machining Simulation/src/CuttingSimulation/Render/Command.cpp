@@ -16,9 +16,9 @@ void Command::Parse_file(std::string path, Coordinates curret_coords)
     {
         std::string number;
 
-        for (int i = str.size() - 1; i >= 0 ; i--)
+        for (int i = str.size() - 1; i >= 0; i--)
         {
-            
+
 
             if (str[i] != 'X' && str[i] != 'Y' && str[i] != 'Z' && str[i] != 'A' && str[i] != 'C')
             {
@@ -79,7 +79,7 @@ void Command::Zero_time()
 
 void Command::RunCommands(Coordinates& curret_coords, bool& run)
 {
-    
+
     Coordinates new_coords = command_list[step];
 
     Coordinates delta_vector = Coordinates(
@@ -96,14 +96,14 @@ void Command::RunCommands(Coordinates& curret_coords, bool& run)
     curret_coords.C = curret_coords.C + delta_vector.C * t;
 
 
-    int N = (std::max(delta_vector.X, delta_vector.Y))*100;
+    float N = fabs(delta_vector.X * 100);
 
     std::cout << "X = " << curret_coords.X << std::endl;
     std::cout << "Curret command X = " << command_list[step].X << std::endl;
     t += 1.0f / N;
     if (t > 1)
     {
-        if (step < command_list.size()-1 )
+        if (step < command_list.size() - 1)
         {
             step += 1;
             t = 0;

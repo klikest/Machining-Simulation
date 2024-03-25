@@ -5,7 +5,6 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include "Camera.h"
 #include "FrameBuffer.h"
-#include "DexelScene.h"
 #include "parse_stl.h"
 #include "Lines.h"
 #include "Mesh.h"
@@ -39,7 +38,7 @@ public:
 
 	void Init(GLFWwindow* window);
 	void ReadMesh(std::string stl_file_name);
-	void Draw(GLFWwindow* window, DexelScene* scene, float aspect, GUI* gui);
+	void Draw(GLFWwindow* window, float aspect, GUI* gui);
 
 private:
 	void CalcDeltaTime();

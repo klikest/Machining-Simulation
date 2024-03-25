@@ -5,6 +5,8 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <vector>
 #include <cmath> 
+#include <algorithm>
+#include <execution>
 #include "Dexel.h"
 #include "MyMath.h"
 #include "Coordinates.h"
@@ -16,6 +18,8 @@ public:
 
 	Dexel* Grid = nullptr;
 	int Num_of_Dexels = 0;
+
+	Coordinates tool_coords;
 
 	std::vector<glm::vec3> tool_lines;
 	std::vector<glm::vec3> tool_offset_line;

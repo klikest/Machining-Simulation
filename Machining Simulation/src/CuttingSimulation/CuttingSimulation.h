@@ -7,7 +7,7 @@
 #include "Render/Render.h"
 #include "Render/GUI.h"
 #include "Render/FrameBuffer.h"
-#include "Render/DexelScene.h"
+#include "Render/Scene.h"
 
 
 class CuttingSimulation
@@ -18,7 +18,7 @@ public:
 	std::unique_ptr<Render> ptr_render_scene;
 	std::unique_ptr<GUI> ptr_gui;
 	std::unique_ptr<FrameBuffer> ptr_fbo;
-	std::unique_ptr<DexelScene> ptr_dexel_scene;
+	std::unique_ptr<Scene> ptr_scene;
 
 	int width;
 	int height;

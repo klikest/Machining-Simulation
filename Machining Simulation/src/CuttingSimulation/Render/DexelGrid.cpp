@@ -11,7 +11,7 @@ DexelGrid::DexelGrid()
     blank_D = 8;
     offset = 5;
 
-    resolution = 0.3;
+    resolution = 0.05;
 
     TimeData.CreateArrays();
 }

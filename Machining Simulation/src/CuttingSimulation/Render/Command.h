@@ -15,7 +15,7 @@
 class Command
 {
 public:
-	
+
 	std::vector<Coordinates> command_list;
 
 

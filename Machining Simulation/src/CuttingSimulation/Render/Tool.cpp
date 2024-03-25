@@ -27,7 +27,7 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 
     for (float angle = 0; angle < 2 * pi; angle += pi / 20)
     {
-        tool_lines.push_back(glm::vec3( sinf(angle) * D, cosf(angle) * D, 0));
+        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
         tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, H));
 
         tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, H));
@@ -40,7 +40,7 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 
     //MyMath::transformArray(tool_lines, coords);
 
-    for (int i = 0; i < tool_lines.size(); i ++)
+    for (int i = 0; i < tool_lines.size(); i++)
     {
         tool_lines[i] = MyMath::transform(tool_lines[i], coords);
     }
@@ -53,12 +53,14 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 
 void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 {
-	resolution = blank->resolution;
+    resolution = blank->resolution;
 
-	X_grid_size = blank->X_grid_size;
-	Y_grid_size = blank->Y_grid_size;
+    X_grid_size = blank->X_grid_size;
+    Y_grid_size = blank->Y_grid_size;
 
-    mashine_coords.X += 50; /////////////
+
+    tool_coords = mashine_coords;
+
 
     Grid_size = X_grid_size * Y_grid_size;
 
@@ -66,17 +68,31 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
     Grid = new Dexel[Grid_size];
 
+
+    std::vector<int> iter;
+    iter.resize(Grid_size);
+
     for (int i = 0; i < Grid_size; i++)
     {
-        float x = (i % X_grid_size) - X_grid_size / 2;
-        float y = (i / X_grid_size) % Y_grid_size - Y_grid_size / 2;
+        iter[i] = i;
+    }
 
-        glm::vec4 new_point = GetToolDexel((x - resolution / 2) * resolution, (y - resolution / 2) * resolution, mashine_coords);
+    std::for_each(std::execution::par, iter.begin(), iter.end(),
+        [this](int i)
+        {
+            float x = (i % X_grid_size) - X_grid_size / 2;
+            float y = (i / X_grid_size) % Y_grid_size - Y_grid_size / 2;
 
-        Grid[i].start = round(new_point.z * 10) / 10;
-        Grid[i].end = round((new_point.z + new_point.w) * 10) / 10;
-        
+            glm::vec4 new_point = GetToolDexel((x - resolution / 2) * resolution, (y - resolution / 2) * resolution, tool_coords);
 
+            Grid[i].start = round(new_point.z * 10) / 10;
+            Grid[i].end = round((new_point.z + new_point.w) * 10) / 10;
+        });
+
+
+
+    for (int i = 0; i < Grid_size; i++)
+    {
         if (Grid[i].end - Grid[i].start < 1)
         {
             Grid[i].color = -1;
@@ -86,20 +102,18 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
             Grid[i].color = 1;
             Num_of_Dexels += 1;
         }
-
-    }
-
+    }  
 }
 
 void Tool::Clear_Arrays()
 {
-	if (Grid != nullptr)
-	{
-		delete[] Grid;
-		Grid = nullptr;
-	}
+    if (Grid != nullptr)
+    {
+        delete[] Grid;
+        Grid = nullptr;
+    }
 
-	Num_of_Dexels = 0;
+    Num_of_Dexels = 0;
 }
 
 

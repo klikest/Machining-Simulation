@@ -184,7 +184,6 @@
     <ClCompile Include="include\x32\imgui\implot.cpp" />
     <ClCompile Include="include\x32\imgui\implot_items.cpp" />
     <ClCompile Include="src\CuttingSimulation\Render\Dexel.cpp" />
-    <ClCompile Include="src\CuttingSimulation\Render\DexelScene.cpp" />
     <ClCompile Include="include\x32\imgui\imgui.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_demo.cpp" />
     <ClCompile Include="include\x32\imgui\imgui_draw.cpp" />
@@ -728,7 +727,6 @@
     <ClInclude Include="include\x32\imgui\implot.h" />
     <ClInclude Include="include\x32\imgui\implot_internal.h" />
     <ClInclude Include="src\CuttingSimulation\Render\Dexel.h" />
-    <ClInclude Include="src\CuttingSimulation\Render\DexelScene.h" />
     <ClInclude Include="include\x32\imgui\imconfig.h" />
     <ClInclude Include="include\x32\imgui\imgui.h" />
     <ClInclude Include="include\x32\imgui\imgui_impl_glfw.h" />

@@ -24,21 +24,21 @@ void GUI::add_data_to_plot(Render* render)
 
 void GUI::SetCurretWindow(GLFWwindow* simWindow)
 {
-	curretWindow = simWindow;
+    curretWindow = simWindow;
 }
 
 void GUI::Init()
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
     ImPlot::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-	io.ConfigViewportsNoAutoMerge = true;
-	io.ConfigViewportsNoTaskBarIcon = true;
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    io.ConfigViewportsNoAutoMerge = true;
+    io.ConfigViewportsNoTaskBarIcon = true;
 
     //ImFont* font = io.Fonts->AddFontFromFileTTF("arial.ttf", 16.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
 
@@ -46,12 +46,12 @@ void GUI::Init()
     //    nullptr, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
 
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
 
-	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(curretWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-	ImGui_ImplOpenGL3_Init("#version 330");
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(curretWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     render_time.resize(500);
 
@@ -63,7 +63,7 @@ void GUI::ShowExampleAppDockSpace(bool* p_open)
     static bool opt_fullscreen = true;
     static bool opt_padding = false;
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-    
+
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     if (opt_fullscreen)
     {
@@ -170,49 +170,6 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("C", &render->main_scene->scene_grid->machine_coords.C, -180.0f, 180.0f, "%.3f");
     ImGui::SliderFloat("offset", &render->main_scene->scene_grid->machine_coords.offset, 0.0f, 50.0f, "%.3f");
 
-    //Draw tool
-    auto t1 = high_resolution_clock::now();
-    render->main_scene->scene_grid->tool->Generate_Tool(render->main_scene->scene_grid->tool_D,
-        render->main_scene->scene_grid->tool_H,
-        render->main_scene->scene_grid->resolution,
-        render->main_scene->scene_grid->machine_coords,
-        render->main_scene->scene_grid->blank);
-
-    render->lines->AddLines(render->main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
-    render->lines->AddLines(render->main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
-    render->lines->AddCoords(glm::vec3(0, 0, render->main_scene->scene_grid->blank_H));
-    
-    auto t2 = high_resolution_clock::now();
-
-    duration<double, std::milli> tool_time_ms = t2 - t1;
-    render->main_scene->scene_grid->TimeData.Generate_tool_time.erase(render->main_scene->scene_grid->TimeData.Generate_tool_time.begin());
-    render->main_scene->scene_grid->TimeData.Generate_tool_time.push_back(tool_time_ms.count());
-
-
-
-
-
-
-    render->main_scene->scene_grid->BooleanOperation(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
-    auto t3 = high_resolution_clock::now();
-
-
-    duration<double, std::milli> boolean_time_ms = t3 - t2;
-    render->main_scene->scene_grid->TimeData.Boolean_op_time.erase(render->main_scene->scene_grid->TimeData.Boolean_op_time.begin());
-    render->main_scene->scene_grid->TimeData.Boolean_op_time.push_back(boolean_time_ms.count());
-
-
-
-
-    render->main_scene->scene_grid->Generate_Draw_Arrays(render->main_scene->scene_grid->blank, render->main_scene->scene_grid->tool);
-    auto t4 = high_resolution_clock::now();
-
-
-    duration<double, std::milli> draw_array_time_ms = t4 - t3;
-    render->main_scene->scene_grid->TimeData.Generate_draw_array_time.erase(render->main_scene->scene_grid->TimeData.Generate_draw_array_time.begin());
-    render->main_scene->scene_grid->TimeData.Generate_draw_array_time.push_back(draw_array_time_ms.count());
-
-
 
 
     if (ImGui::CollapsingHeader("Debug info") == false)
@@ -242,22 +199,23 @@ void GUI::RenderSceneInfo(Render* render)
         {
             render->main_scene->scene_grid->command.RunCommands(render->main_scene->scene_grid->machine_coords, check);
             ImGui::Text("X %f", render->main_scene->scene_grid->command.command_list[render->main_scene->scene_grid->command.step].X);
-            
-            
+
+
             int size_commands = render->main_scene->scene_grid->command.command_list.size();
             int num_command = render->main_scene->scene_grid->command.step;
 
-            ImGui::Text("Number of commands %i", size_commands );
+            ImGui::Text("Number of commands %i", size_commands);
             ImGui::Text("Number of curret command %i", num_command);
             float progress = (float)num_command / (float)size_commands;
 
             ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
 
         }
-        
+
         if (ImGui::Button("Zero command"))
         {
-            render->main_scene->scene_grid->command.Zero_time();
+            render->main_scene->scene_grid->command.step = 0;
+            render->main_scene->scene_grid->command.t = 0.1;
         }
 
     }
@@ -275,11 +233,11 @@ void GUI::RenderSceneInfo(Render* render)
         ImGui::SliderFloat("Grid size", &render->main_scene->scene_grid->resolution, 0.01f, 1.0f, "%.3f");
         ImGui::SliderFloat("Diam", &render->main_scene->scene_grid->blank_D, 4.0f, 20.0f, "%.3f");
         ImGui::SliderFloat("Len", &render->main_scene->scene_grid->blank_H, 10.0f, 150.0f, "%.3f");
-        
+
 
         if (ImGui::Button("Update blank"))
         {
-            render->main_scene->scene_grid->blank->CreateCylBlank(render->main_scene->scene_grid->blank_D, 
+            render->main_scene->scene_grid->blank->CreateCylBlank(render->main_scene->scene_grid->blank_D,
                 render->main_scene->scene_grid->blank_H,
                 render->main_scene->scene_grid->resolution);
         }
@@ -289,17 +247,8 @@ void GUI::RenderSceneInfo(Render* render)
 
     if (ImGui::CollapsingHeader("Tool"))
     {
-
         ImGui::SliderFloat("D", &render->main_scene->scene_grid->tool_D, 15.0f, 150.0f, "%.3f");
         ImGui::SliderFloat("H", &render->main_scene->scene_grid->tool_H, 8.0f, 30.0f, "%.3f");
-
-
-
-        if (ImGui::Button("Update tool"))
-        {
-
-        }
-
     }
 
 
@@ -324,15 +273,12 @@ void GUI::RenderSceneInfo(Render* render)
     for (float i = 0; i < 500; i++)
     {
         x_data.push_back(i / 10);
-        y_data.push_back( sinf(i/10) );
+        y_data.push_back(sinf(i / 10));
     }
 
-    //ImGui::PlotLines("Some Plot", render_time.data(), render_time.size(), 0, NULL, -1.0f, 1.0f, ImVec2(0, 80));
-    
 
+    ImPlot::BeginSubplots("My Subplots", 1, 2, ImVec2(-1, -1), ImPlotSubplotFlags_NoTitle);
 
-    ImPlot::BeginSubplots("My Subplots", 1, 2, ImVec2(-1, -1), ImPlotSubplotFlags_NoTitle );
-    
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Cut Force", ImVec2(-1, -1));
     ImPlot::PlotLine("Cut force plot", x_data.data(), y_data.data(), x_data.size());
@@ -342,11 +288,11 @@ void GUI::RenderSceneInfo(Render* render)
     add_data_to_plot(render);
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1), ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_RangeFit);
-    ImPlot::PlotLine("Full render time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Render_scene_time.data(), x_data.size());
+    //ImPlot::PlotLine("Main scene render time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Render_scene_time.data(), x_data.size());
     ImPlot::PlotLine("Boolean operation, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Boolean_op_time.data(), x_data.size());
     ImPlot::PlotLine("Generate draw array, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_draw_array_time.data(), x_data.size());
     ImPlot::PlotLine("Generate tool time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_tool_time.data(), x_data.size());
-    ImPlot::PlotLine("OLD Full render time, ms", x_data.data(), render_time.data(), x_data.size());
+    ImPlot::PlotLine("Full render time, ms", x_data.data(), render_time.data(), x_data.size());
     ImPlot::EndPlot();
 
 
@@ -358,21 +304,21 @@ void GUI::RenderSceneInfo(Render* render)
 
 void GUI::RenderGUI(FrameBuffer fbo, Render* render)
 {
-	
 
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
 
     bool show = true;
     ShowExampleAppDockSpace(&show);
 
-    
+
     RenderMainScene(fbo);
     RenderSceneInfo(render);
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 }
 
@@ -385,8 +331,8 @@ GUI::GUI()
 
 GUI::~GUI()
 {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     ImPlot::DestroyContext();
 }

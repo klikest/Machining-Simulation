@@ -11,6 +11,7 @@ public:
 	std::vector<float> Render_scene_time;
 
 	void CreateArrays();
+	void AddDataToArray(std::vector<float>& array, float new_data);
 };
 
 

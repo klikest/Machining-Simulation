@@ -21,3 +21,9 @@ void Profiler::CreateArrays()
 		Generate_tool_time[i] = 0;
 	}
 }
+
+void Profiler::AddDataToArray(std::vector<float>& array, float new_data)
+{
+	array.erase(array.begin());
+	array.push_back(new_data);
+}
