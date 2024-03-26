@@ -49,7 +49,9 @@ void main(void)
         
             mat4 rot_mat_a = rotationMatrix( vec3(0, 1, 0), radians(Machine_A) );
 
-            //new_position = rot_mat_a * new_position;
+            new_position = rot_mat_a * new_position;
+
+            new_position = new_position + vec4(0, 0, Machine_offset, 0);
 
             new_x = new_position.x;
             new_y = new_position.y;

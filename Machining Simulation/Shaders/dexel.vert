@@ -58,9 +58,13 @@ void main(void)
 
         new_position = rot_mat_a * new_position;
 
+        new_position = new_position + vec4(0, 0, Machine_offset, 0);
+
         new_x = new_position.x;
         new_y = new_position.y;
         new_z = new_position.z;
+
+
 
         normal = get_normal(gl_VertexID);
         new_normal = vec4(normal, 1);
