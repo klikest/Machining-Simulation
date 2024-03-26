@@ -1,5 +1,6 @@
 #pragma once
 #include "Shader.h"
+#include "Coordinates.h"
 #include <GLM/glm.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
@@ -27,6 +28,6 @@ public:
 
 	void AddRectangle(glm::vec3 min_rect, glm::vec3 max_rect, glm::vec3 color);
 	void AddCoords(glm::vec3 Pos);
-	void Draw();
+	void Draw(Coordinates mashine_coords);
 };
 

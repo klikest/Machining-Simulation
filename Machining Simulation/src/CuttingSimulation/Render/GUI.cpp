@@ -169,7 +169,7 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::SliderFloat("A", &render->main_scene->scene_grid->machine_coords.A, -180.0f, 180.0f, "%.3f");
     ImGui::SliderFloat("C", &render->main_scene->scene_grid->machine_coords.C, -180.0f, 180.0f, "%.3f");
     ImGui::SliderFloat("offset", &render->main_scene->scene_grid->machine_coords.offset, 0.0f, 50.0f, "%.3f");
-
+    ImGui::Checkbox("Transform coordinates", &render->main_scene->scene_grid->machine_coords.is_transform );
 
 
     if (ImGui::CollapsingHeader("Debug info") == false)

@@ -156,10 +156,16 @@ void Lines::AddCoords(glm::vec3 Pos)
 
 }
 
-void Lines::Draw()
+void Lines::Draw(Coordinates machine_coords)
 {
     glUseProgram(shader.ID);
     glBindVertexArray(VAO);
+
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_X"), machine_coords.X);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_offset"), machine_coords.offset);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_A"), machine_coords.A);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_C"), machine_coords.C);
+    glUniform1i(glGetUniformLocation(shader.ID, "Machine_is_transform"), machine_coords.is_transform);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_vertices);

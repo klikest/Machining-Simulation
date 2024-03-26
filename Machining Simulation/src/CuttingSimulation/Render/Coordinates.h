@@ -18,4 +18,5 @@ public:
 	float A = 0;
 	float C = 0;
 	float offset = 0;
+	bool is_transform = false;
 };

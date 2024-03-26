@@ -47,6 +47,12 @@ void Scene::Draw()
     glBindVertexArray(VAO);
 
 
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_X"), scene_grid->machine_coords.X);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_offset"), scene_grid->machine_coords.offset);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_A"), scene_grid->machine_coords.A);
+    glUniform1f(glGetUniformLocation(shader.ID, "Machine_C"), scene_grid->machine_coords.C);
+    glUniform1i(glGetUniformLocation(shader.ID, "Machine_is_transform"), scene_grid->machine_coords.is_transform);
+
     GLfloat colors_to_choose[9] = {0.8, 0.8, 0.8,   1, 1, 0,  1, 0, 1};
 
     glUniform3fv(glGetUniformLocation(shader.ID, "colors_choose"), 9, colors_to_choose );

@@ -19,7 +19,7 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
     D = D_;
     H = H_;
 
-    coords.X += 50; /////////////
+    coords.X *= -1;
 
     tool_lines.clear();
 
@@ -61,6 +61,7 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
     tool_coords = mashine_coords;
 
+    tool_coords.X *= -1;
 
     Grid_size = X_grid_size * Y_grid_size;
 
@@ -85,8 +86,8 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
             glm::vec4 new_point = GetToolDexel((x - resolution / 2) * resolution, (y - resolution / 2) * resolution, tool_coords);
 
-            Grid[i].start = round(new_point.z * 10) / 10;
-            Grid[i].end = round((new_point.z + new_point.w) * 10) / 10;
+            Grid[i].start = new_point.z;
+            Grid[i].end = new_point.z + new_point.w;
         });
 
 

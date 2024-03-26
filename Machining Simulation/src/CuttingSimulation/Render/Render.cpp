@@ -77,6 +77,7 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
 
     lines->AddLines({ glm::vec3(0, -20, 0), glm::vec3(0, 20, 0) }, glm::vec3(1, 1, 1));
+    lines->AddLines({ glm::vec3(0, -20, main_scene->scene_grid->machine_coords.offset), glm::vec3(0, 20, main_scene->scene_grid->machine_coords.offset) }, glm::vec3(1, 1, 1));
 
     auto t1 = high_resolution_clock::now();
     duration<double, std::milli> tool_time_ms = t1 - t0;
@@ -109,7 +110,7 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
     camera.SetCamMatrixToShader(lines->shader.ID);
     //lines->AddCoords(glm::vec3(0, 0, 0));
-    lines->Draw();
+    lines->Draw(main_scene->scene_grid->machine_coords);
 
 }
 
