@@ -22,6 +22,8 @@ public:
 	float t = 0;
 	int step = 0;
 
+	float speed_of_sim = 1;
+
 	void Parse_file(std::string path, Coordinates curret_coords);
 	void Zero_time();
 	void RunCommands(Coordinates& curret_coords, bool& run);

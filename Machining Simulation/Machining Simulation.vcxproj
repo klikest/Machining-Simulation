@@ -1028,6 +1028,7 @@
     <Library Include="lib\x64\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Programms\razvertka.txt" />
     <Text Include="Programms\test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

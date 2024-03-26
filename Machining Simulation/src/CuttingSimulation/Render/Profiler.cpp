@@ -6,12 +6,14 @@ void Profiler::CreateArrays()
 	Generate_draw_array_time.clear();
 	Render_scene_time.clear();
 	Generate_tool_time.clear();
+	Cut_Volume.clear();
 
 
 	Boolean_op_time.resize(500);
 	Generate_draw_array_time.resize(500);
 	Render_scene_time.resize(500);
 	Generate_tool_time.resize(500);
+	Cut_Volume.resize(500);
 
 	for (int i = 0; i < 500; i++)
 	{
@@ -19,6 +21,7 @@ void Profiler::CreateArrays()
 		Generate_draw_array_time[i] = 0;
 		Render_scene_time[i] = 0;
 		Generate_tool_time[i] = 0;
+		Cut_Volume[i] = 0;
 	}
 }
 

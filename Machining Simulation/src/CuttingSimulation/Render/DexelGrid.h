@@ -30,6 +30,8 @@ public:
 	float tool_D = 60;
 	float tool_H = 10;
 
+	float len_of_cut = 0;
+
 
 	Blank* blank = nullptr;
 	Tool* tool = nullptr;

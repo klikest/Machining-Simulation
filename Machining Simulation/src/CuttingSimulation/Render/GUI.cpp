@@ -163,7 +163,7 @@ void GUI::RenderSceneInfo(Render* render)
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 
     ImGui::SeparatorText("Coords");
-    ImGui::SliderFloat("X", &render->main_scene->scene_grid->machine_coords.X, -100.0f, 100.0f, "%.3f");
+    ImGui::SliderFloat("X", &render->main_scene->scene_grid->machine_coords.X, -200.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Y", &render->main_scene->scene_grid->machine_coords.Y, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("Z", &render->main_scene->scene_grid->machine_coords.Z, -100.0f, 100.0f, "%.3f");
     ImGui::SliderFloat("A", &render->main_scene->scene_grid->machine_coords.A, -180.0f, 180.0f, "%.3f");
@@ -186,6 +186,7 @@ void GUI::RenderSceneInfo(Render* render)
     if (ImGui::CollapsingHeader("Programms"))
     {
 
+        ImGui::SliderFloat("Speed of simulation", &render->main_scene->scene_grid->command.speed_of_sim, 0.0f, 100.0f, "%.1f");
         if (ImGui::Button("Read file"))
         {
             render->main_scene->scene_grid->command.Parse_file("Programms/test.txt", render->main_scene->scene_grid->machine_coords);
@@ -193,13 +194,11 @@ void GUI::RenderSceneInfo(Render* render)
 
 
         static bool check = false;
-        ImGui::Checkbox("checkbox", &check);
+        ImGui::Checkbox("Run programm", &check);
 
         if (check)
         {
             render->main_scene->scene_grid->command.RunCommands(render->main_scene->scene_grid->machine_coords, check);
-            ImGui::Text("X %f", render->main_scene->scene_grid->command.command_list[render->main_scene->scene_grid->command.step].X);
-
 
             int size_commands = render->main_scene->scene_grid->command.command_list.size();
             int num_command = render->main_scene->scene_grid->command.step;
@@ -230,8 +229,8 @@ void GUI::RenderSceneInfo(Render* render)
 
         fileDialog.SetTitle("Select tool path");
 
-        ImGui::SliderFloat("Grid size", &render->main_scene->scene_grid->resolution, 0.01f, 1.0f, "%.3f");
-        ImGui::SliderFloat("Diam", &render->main_scene->scene_grid->blank_D, 4.0f, 20.0f, "%.3f");
+        ImGui::SliderFloat("Grid resolution", &render->main_scene->scene_grid->resolution, 0.01f, 1.0f, "%.3f");
+        ImGui::SliderFloat("D", &render->main_scene->scene_grid->blank_D, 4.0f, 20.0f, "%.3f");
         ImGui::SliderFloat("Len", &render->main_scene->scene_grid->blank_H, 10.0f, 150.0f, "%.3f");
 
 
@@ -281,7 +280,7 @@ void GUI::RenderSceneInfo(Render* render)
 
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Cut Force", ImVec2(-1, -1));
-    ImPlot::PlotLine("Cut force plot", x_data.data(), y_data.data(), x_data.size());
+    ImPlot::PlotLine("Cut volume by iteration, mm^3", x_data.data(), render->main_scene->scene_grid->TimeData.Cut_Volume.data(), x_data.size());
     ImPlot::EndPlot();
 
 

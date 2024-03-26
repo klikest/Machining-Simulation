@@ -5,11 +5,14 @@ DexelGrid::DexelGrid()
     blank = new Blank();
     tool = new Tool();
 
-    machine_coords.X = -80;
-    machine_coords.A = -30;
-    tool_D = 40;
+    machine_coords.X = -130;
+    machine_coords.Y = 68;
+    machine_coords.Z = 0;
+    machine_coords.A = 30;
+    tool_D = 125;
     tool_H = 10;
     blank_D = 20;
+    blank_H = 100;
     machine_coords.offset = 15;
 
     resolution = 0.2;
@@ -63,6 +66,8 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 
 void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
 {
+    len_of_cut = 0;
+
     for (int i = 0; i < blank->Grid_size; i++)
     {
         float tool_start = tool->Grid[i].start;
@@ -84,6 +89,7 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
                     tool_end <= blank_end)
                 {
                     blank->Grid[i][num].start = tool_end;
+                    len_of_cut += tool_end - blank_start;
                 }
 
                 //                  Tool
@@ -95,6 +101,7 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
                     tool_end > blank_end)
                 {
                     blank->Grid[i][num].end = tool_start;
+                    len_of_cut += blank_end - tool_start;
                 }
 
                 //             Tool
@@ -107,6 +114,7 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
 
                     blank->Grid[i].erase(blank->Grid[i].begin() + num);
                     blank->Num_of_Dexels -= 1;
+                    len_of_cut += blank_end - blank_start;
                 }
 
 
@@ -120,6 +128,7 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
                     blank->Grid[i][num].end = tool_start;
                     blank->Grid[i].push_back(Dexel(tool_end, blank_end, blank->Grid[i][num].color));
                     blank->Num_of_Dexels += 1;
+                    len_of_cut += tool_end - tool_start;
                 }
                 
             }

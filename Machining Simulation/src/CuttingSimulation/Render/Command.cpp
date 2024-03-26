@@ -96,10 +96,8 @@ void Command::RunCommands(Coordinates& curret_coords, bool& run)
     curret_coords.C = curret_coords.C + delta_vector.C * t;
 
 
-    float N = fabs(delta_vector.X * 100);
+    float N = fabs(delta_vector.X*100 + delta_vector.Y*100 + delta_vector.Z*100 + delta_vector.A*10 + delta_vector.C*10) *( 1/((speed_of_sim* speed_of_sim)/1000)) ;
 
-    std::cout << "X = " << curret_coords.X << std::endl;
-    std::cout << "Curret command X = " << command_list[step].X << std::endl;
     t += 1.0f / N;
     if (t > 1)
     {

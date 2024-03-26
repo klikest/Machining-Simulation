@@ -28,6 +28,8 @@ void Render::Init(GLFWwindow* window)
     main_scene = std::make_unique<Scene>();
     main_scene->Init();
 
+    main_scene->scene_grid->command.Parse_file("Programms/razvertka.txt", main_scene->scene_grid->machine_coords);
+
 }
 
 
@@ -76,8 +78,8 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
     lines->AddCoords(glm::vec3(0, 0, main_scene->scene_grid->blank_H));
 
 
-    lines->AddLines({ glm::vec3(0, -20, 0), glm::vec3(0, 20, 0) }, glm::vec3(1, 1, 1));
-    lines->AddLines({ glm::vec3(0, -20, main_scene->scene_grid->machine_coords.offset), glm::vec3(0, 20, main_scene->scene_grid->machine_coords.offset) }, glm::vec3(1, 1, 1));
+    //lines->AddLines({ glm::vec3(0, -20, 0), glm::vec3(0, 20, 0) }, glm::vec3(1, 1, 1));
+    //lines->AddLines({ glm::vec3(0, -20, main_scene->scene_grid->machine_coords.offset), glm::vec3(0, 20, main_scene->scene_grid->machine_coords.offset) }, glm::vec3(1, 1, 1));
 
     auto t1 = high_resolution_clock::now();
     duration<double, std::milli> tool_time_ms = t1 - t0;
@@ -85,6 +87,9 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
 
     main_scene->scene_grid->BooleanOperation(main_scene->scene_grid->blank, main_scene->scene_grid->tool);
+
+    float cut_volume = main_scene->scene_grid->len_of_cut * main_scene->scene_grid->resolution * main_scene->scene_grid->resolution;
+    main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Cut_Volume, cut_volume);
 
     auto t2 = high_resolution_clock::now();
     duration<double, std::milli> bool_time_ms = t2 - t1;

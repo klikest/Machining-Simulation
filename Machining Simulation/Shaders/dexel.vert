@@ -69,6 +69,7 @@ void main(void)
         normal = get_normal(gl_VertexID);
         new_normal = vec4(normal, 1);
         new_normal = rot_mat_c * new_normal;
+        new_normal = rot_mat_a * new_normal;
         normal = vec3(new_normal.x, new_normal.y, new_normal.z);
 
 

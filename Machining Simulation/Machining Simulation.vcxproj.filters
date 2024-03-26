@@ -2598,5 +2598,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Programms\test.txt" />
+    <Text Include="Programms\razvertka.txt" />
   </ItemGroup>
 </Project>
