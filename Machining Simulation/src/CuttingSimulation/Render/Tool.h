@@ -16,7 +16,8 @@ class Tool
 {
 public:
 
-	Dexel* Grid = nullptr;
+	//Dexel* Grid = nullptr;
+	std::vector<Dexel>* Grid = nullptr;
 	int Num_of_Dexels = 0;
 
 	Coordinates tool_coords;
@@ -47,6 +48,6 @@ public:
 
 	float Get_X_From_Grid_By_i(int i);
 	float Get_Y_From_Grid_By_i(int i);
-	glm::vec4 Get_Dexel_To_Draw(int i);
+	glm::vec4 Get_Dexel_To_Draw(int i, int j);
 };
 

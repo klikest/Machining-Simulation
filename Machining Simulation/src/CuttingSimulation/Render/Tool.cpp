@@ -67,7 +67,13 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
     Clear_Arrays();
 
-    Grid = new Dexel[Grid_size];
+    //Grid = new Dexel[Grid_size];
+    Grid = new std::vector<Dexel>[Grid_size];
+    
+    for (int i = 0; i < Grid_size; i++)
+    {
+        Grid[i].resize(1);
+    }
 
 
     std::vector<int> iter;
@@ -86,21 +92,21 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
             glm::vec4 new_point = GetToolDexel(x * resolution, y * resolution, tool_coords);
 
-            Grid[i].start = new_point.z;
-            Grid[i].end = new_point.z + new_point.w;
+            Grid[i][0].start = new_point.z;
+            Grid[i][0].end = new_point.z + new_point.w;
         });
 
 
 
     for (int i = 0; i < Grid_size; i++)
     {
-        if (Grid[i].end - Grid[i].start < 1)
+        if (Grid[i][0].end - Grid[i][0].start < 1)
         {
-            Grid[i].color = -1;
+            Grid[i][0].color = -1;
         }
         else
         {
-            Grid[i].color = 1;
+            Grid[i][0].color = 1;
             Num_of_Dexels += 1;
         }
     }  
@@ -264,7 +270,7 @@ float Tool::Get_Y_From_Grid_By_i(int i)
     return ((i / X_grid_size) % Y_grid_size - Y_grid_size / 2) - resolution / 2;
 }
 
-glm::vec4 Tool::Get_Dexel_To_Draw(int i)
+glm::vec4 Tool::Get_Dexel_To_Draw(int i, int j)
 {
-    return glm::vec4(Get_X_From_Grid_By_i(i), Get_Y_From_Grid_By_i(i), Grid[i].start, (Grid[i].end - Grid[i].start));
+    return glm::vec4(Get_X_From_Grid_By_i(i), Get_Y_From_Grid_By_i(i), Grid[i][j].start, (Grid[i][j].end - Grid[i][j].start));
 }
