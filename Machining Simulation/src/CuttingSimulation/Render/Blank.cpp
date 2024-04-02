@@ -26,7 +26,15 @@ void Blank::CreateCylBlank(float D_, float H_, float resolution_)
 
 		if (MyMath::Scalar_cyl(D / 2, x, y))
 		{
-			
+
+			float off = 0.01;
+
+			Grid[i].push_back(Dexel(0-off, 0, 0, glm::vec3(0, 0, -1)));
+			Num_of_Dexels += 1;
+
+			Grid[i].push_back(Dexel(H, H+off, 0, glm::vec3(0, 0, 1)));
+			Num_of_Dexels += 1;
+
 			Grid[i].push_back(Dexel(0, H, 0, normal));
 			Num_of_Dexels += 1;
 		}
