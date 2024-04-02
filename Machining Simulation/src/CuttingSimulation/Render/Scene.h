@@ -16,12 +16,14 @@ public:
 	GLuint VBO_main_dexel_vertices = 0;
 	GLuint VBO_offsets = 0;
 	GLuint VBO_colors = 0;
+	GLuint VBO_normals = 0;
 
 	
 	DexelGrid* scene_grid;
 
 	std::vector<float> offsets;
 	std::vector<float> colors;
+	std::vector<glm::vec3> normals;
 	std::vector<float> Cube_VertexPositions;
 
 	Scene();

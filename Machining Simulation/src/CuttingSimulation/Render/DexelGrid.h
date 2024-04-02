@@ -42,7 +42,7 @@ public:
 
 	glm::vec4* dexel_draw_data = nullptr;
 	float* colors_dexels = nullptr;
-
+	glm::vec3* normals_dexels = nullptr;
 
 	DexelGrid();
 

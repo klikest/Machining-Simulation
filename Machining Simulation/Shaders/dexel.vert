@@ -3,6 +3,7 @@
 layout (location = 0) in vec3 cube_pos;  
 layout (location = 1) in vec4 dexel_data;
 layout (location = 3) in float in_color;
+layout (location = 4) in vec3 in_normal;
 
 
 out vec4 vColor;  
@@ -40,6 +41,8 @@ vec4 new_normal;
 void main(void) 
 {
 
+
+
     float new_x = ((cube_pos.x + dexel_data.x) * acc)  ;
     float new_y = (cube_pos.y + dexel_data.y) * acc;
     float new_z = ((dexel_data.w * cube_pos.z + dexel_data.z))  ;
@@ -66,7 +69,7 @@ void main(void)
 
 
 
-        normal = get_normal(gl_VertexID);
+        normal = in_normal;                 //get_normal(gl_VertexID);
         new_normal = vec4(normal, 1);
         new_normal = rot_mat_c * new_normal;
         new_normal = rot_mat_a * new_normal;
@@ -76,7 +79,7 @@ void main(void)
     }
     else
     {
-        normal = get_normal(gl_VertexID);
+        normal = in_normal;                 //get_normal(gl_VertexID);
     }
 
     
@@ -95,7 +98,7 @@ void main(void)
 
     lightDir = cam_pos - vec3(new_x, new_y, new_z);
     
-    diff = max(dot(normalize(normal), normalize(lightDir)), 0.0);
+    diff = max(dot(normalize(in_normal), normalize(lightDir)), 0.0);
 
 
 

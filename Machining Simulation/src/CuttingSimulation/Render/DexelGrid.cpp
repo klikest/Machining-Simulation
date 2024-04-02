@@ -15,7 +15,7 @@ DexelGrid::DexelGrid()
     blank_H = 100;
     machine_coords.offset = 15;
 
-    resolution = 0.2;
+    resolution = 1;
 
     TimeData.CreateArrays();
 }
@@ -32,7 +32,7 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 
         dexel_draw_data = new glm::vec4[array_size];
         colors_dexels = new float[array_size];
-
+        normals_dexels = new glm::vec3[array_size];
         int count = 0;
 
         for (int i = 0; i < blank->Grid_size; i++)
@@ -43,6 +43,7 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
                 {
                     dexel_draw_data[count] = blank->Get_Dexel_To_Draw(i, j);
                     colors_dexels[count] = blank->Grid[i][j].color;
+                    normals_dexels[count] = blank->Grid[i][j].normal;
 
                     count += 1;
                 }
@@ -53,6 +54,7 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
             {
                 dexel_draw_data[count] = tool->Get_Dexel_To_Draw(i);
                 colors_dexels[count] = tool->Grid[i].color;
+                normals_dexels[count] = glm::vec3(1,1,1);
 
                 count += 1;
             }
@@ -151,6 +153,12 @@ void DexelGrid::DeleteDrawArrays()
     {
         delete[] colors_dexels;
         colors_dexels = nullptr;
+    }
+
+    if (normals_dexels != nullptr)
+    {
+        delete[] normals_dexels;
+        normals_dexels = nullptr;
     }
 
 }

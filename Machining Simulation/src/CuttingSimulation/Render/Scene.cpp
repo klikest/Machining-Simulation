@@ -28,7 +28,7 @@ void Scene::Init()
     glGenBuffers(1, &VBO_main_dexel_vertices);
     glGenBuffers(1, &VBO_offsets);
     glGenBuffers(1, &VBO_colors);
-
+    glGenBuffers(1, &VBO_normals);
 
     scene_grid = new DexelGrid;
     scene_grid->blank->CreateCylBlank(scene_grid->blank_D, scene_grid->blank_H, scene_grid->resolution);
@@ -80,6 +80,13 @@ void Scene::Draw()
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, scene_grid->colors_dexels, GL_STATIC_DRAW);
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 1 * sizeof(float), (void*)0);
     glVertexAttribDivisor(3, 1);
+
+
+    glEnableVertexAttribArray(4);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_normals);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * size, scene_grid->normals_dexels, GL_STATIC_DRAW);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glVertexAttribDivisor(4, 1);
 
     glDrawArraysInstanced(GL_TRIANGLES, 0, 36, size);
 }

@@ -22,15 +22,17 @@ void Blank::CreateCylBlank(float D_, float H_, float resolution_)
 		float x = resolution * ((i % X_grid_size) - (X_grid_size / 2));
 		float y = resolution * (((i / X_grid_size) % Y_grid_size) - (Y_grid_size / 2));
 
+		glm::vec3 normal = glm::vec3(x, y, 0);
+
 		if (MyMath::Scalar_cyl(D / 2, x, y))
 		{
-
-			Grid[i].push_back(Dexel(0, H, 0));
+			
+			Grid[i].push_back(Dexel(0, H, 0, normal));
 			Num_of_Dexels += 1;
 		}
 		else
 		{
-			Grid[i].push_back(Dexel(0, H, -1));
+			Grid[i].push_back(Dexel(0, H, -1, normal));
 		}
 
 	}

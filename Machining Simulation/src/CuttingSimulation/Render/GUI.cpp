@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include <sstream>
 
 using std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
@@ -187,7 +188,10 @@ void GUI::RenderSceneInfo(Render* render)
     {
 
         ImGui::SliderFloat("Speed of simulation", &render->main_scene->scene_grid->command.speed_of_sim, 0.0f, 100.0f, "%.1f");
-        if (ImGui::Button("Read file"))
+        //static char text[1024 * 16] = "Programms/test.txt";
+        //ImGui::InputTextMultiline("##source", text, IM_ARRAYSIZE(text), ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 16));
+
+        if (ImGui::Button("Read programm from file"))
         {
             render->main_scene->scene_grid->command.Parse_file("Programms/test.txt", render->main_scene->scene_grid->machine_coords);
         }
@@ -216,6 +220,9 @@ void GUI::RenderSceneInfo(Render* render)
             render->main_scene->scene_grid->command.step = 0;
             render->main_scene->scene_grid->command.t = 0.1;
         }
+        
+        ImGui::Spacing();
+        ImGui::Spacing();
 
     }
 
