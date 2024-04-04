@@ -39,21 +39,7 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
     }
 
 
-    for (float angle = 0; angle < 2 * pi; angle += pi / 20)
-    {
-        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
-        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, H));
-
-        tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, H));
-        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, H));
-
-        tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, 0));
-        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
-
-    }
-
-
-    for (int i = 0; i < tool_lines.size() /2; i++)
+    for (int i = 0; i < tool_lines.size(); i++)
     {
         tool_lines[i] = MyMath::transform(tool_lines[i], coords);
     }
@@ -111,10 +97,10 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
             ToolDexel dexel = GetToolDexel(x * resolution, y * resolution, tool_coords);
 
             Grid[i][0].start = dexel.start_point;
-            Grid[i][0].end = dexel.start_point + dexel.len / 2;
+            Grid[i][0].end = dexel.start_point + dexel.len / 2 + 0.05;
             Grid[i][0].normal = dexel.start_normal;
 
-            Grid[i][1].start = dexel.start_point + dexel.len / 2;
+            Grid[i][1].start = dexel.start_point + dexel.len / 2 - 0.05;
             Grid[i][1].end = dexel.start_point + dexel.len;
             Grid[i][1].normal = dexel.end_normal;
         });
@@ -131,7 +117,7 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
         else
         {
             Grid[i][0].color = 1;
-            Grid[i][1].color = 2;
+            Grid[i][1].color = 1;
             Num_of_Dexels += 2;
         }
     }  

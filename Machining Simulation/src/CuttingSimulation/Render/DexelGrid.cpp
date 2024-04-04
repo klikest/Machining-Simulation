@@ -253,8 +253,8 @@ void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
                     float blank_end = blank->Grid[i - 1][num].end;
                     int blank_color = blank->Grid[i - 1][num].color;
                     glm::vec3 blank_normal = blank->Grid[i - 1][num].normal;
-
-                    if (blank->Grid[i - 1][num].color > -1 && tool->Grid[i][tool_dexel].color > -1)
+                    
+                    if (blank->Grid[i - 1][num].color > -1 && tool->Grid[i][tool_dexel].color > -1 && blank_color != tool_color)
                     {
                         //         Tool
                         //    --------------
@@ -318,7 +318,7 @@ void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
                         }
 
                     }
-
+                    
                 }
 
 
@@ -329,7 +329,7 @@ void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
                     int blank_color = blank->Grid[i + 1][num].color;
                     glm::vec3 blank_normal = blank->Grid[i + 1][num].normal;
 
-                    if (blank->Grid[i + 1][num].color > -1 && tool->Grid[i][tool_dexel].color > -1)
+                    if (blank->Grid[i + 1][num].color > -1 && tool->Grid[i][tool_dexel].color > -1 && blank_color != tool_color)
                     {
                         //         Tool
                         //    --------------
@@ -487,7 +487,10 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
     
 }
 
+void DexelGrid::SimplifyBlank(Blank* blank)
+{
 
+}
 
 void DexelGrid::DeleteDrawArrays()
 {

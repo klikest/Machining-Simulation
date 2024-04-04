@@ -89,7 +89,7 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
     main_scene->scene_grid->BooleanOperation(main_scene->scene_grid->blank, main_scene->scene_grid->tool);
     main_scene->scene_grid->Set_Normals_and_Color(main_scene->scene_grid->blank, main_scene->scene_grid->tool);
-
+    main_scene->scene_grid->SimplifyBlank(main_scene->scene_grid->blank);
 
     float cut_volume = main_scene->scene_grid->len_of_cut * main_scene->scene_grid->resolution * main_scene->scene_grid->resolution;
     main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Cut_Volume, cut_volume);
