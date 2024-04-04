@@ -47,6 +47,7 @@ public:
 	DexelGrid();
 
 	void Generate_Draw_Arrays(Blank* blank, Tool* tool);
+	void Set_Normals_and_Color(Blank* blank, Tool* tool);
 	void BooleanOperation(Blank* blank, Tool* tool);
 	void DeleteDrawArrays();
 };

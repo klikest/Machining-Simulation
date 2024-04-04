@@ -75,6 +75,7 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
     lines->AddLines(main_scene->scene_grid->tool->tool_lines, glm::vec3(0.5, 0.4, 0.1));
     lines->AddLines(main_scene->scene_grid->tool->tool_offset_line, glm::vec3(0.5, 0.4, 0.1));
+    lines->AddLines(main_scene->scene_grid->tool->tool_normals, glm::vec3(0.9, 0.1, 0.1));
     lines->AddCoords(glm::vec3(0, 0, main_scene->scene_grid->blank_H));
 
 
@@ -87,6 +88,8 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
 
 
     main_scene->scene_grid->BooleanOperation(main_scene->scene_grid->blank, main_scene->scene_grid->tool);
+    main_scene->scene_grid->Set_Normals_and_Color(main_scene->scene_grid->blank, main_scene->scene_grid->tool);
+
 
     float cut_volume = main_scene->scene_grid->len_of_cut * main_scene->scene_grid->resolution * main_scene->scene_grid->resolution;
     main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Cut_Volume, cut_volume);

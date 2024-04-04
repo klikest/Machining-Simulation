@@ -35,15 +35,30 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 
         tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, 0));
         tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
+
     }
 
 
-    //MyMath::transformArray(tool_lines, coords);
+    for (float angle = 0; angle < 2 * pi; angle += pi / 20)
+    {
+        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
+        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, H));
 
-    for (int i = 0; i < tool_lines.size(); i++)
+        tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, H));
+        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, H));
+
+        tool_lines.push_back(glm::vec3(sinf(angle + pi / 20) * D, cosf(angle + pi / 20) * D, 0));
+        tool_lines.push_back(glm::vec3(sinf(angle) * D, cosf(angle) * D, 0));
+
+    }
+
+
+    for (int i = 0; i < tool_lines.size() /2; i++)
     {
         tool_lines[i] = MyMath::transform(tool_lines[i], coords);
     }
+
+
 
     tool_offset_line.clear();
 
@@ -53,6 +68,9 @@ void Tool::Generate_Tool_lines(float D_, float H_, Coordinates coords)
 
 void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 {
+
+    tool_normals.clear();
+
     resolution = blank->resolution;
 
     X_grid_size = blank->X_grid_size;
@@ -72,7 +90,7 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
     
     for (int i = 0; i < Grid_size; i++)
     {
-        Grid[i].resize(1);
+        Grid[i].resize(2);
     }
 
 
@@ -90,10 +108,15 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
             float x = (i % X_grid_size) - X_grid_size / 2;
             float y = (i / X_grid_size) % Y_grid_size - Y_grid_size / 2;
 
-            glm::vec4 new_point = GetToolDexel(x * resolution, y * resolution, tool_coords);
+            ToolDexel dexel = GetToolDexel(x * resolution, y * resolution, tool_coords);
 
-            Grid[i][0].start = new_point.z;
-            Grid[i][0].end = new_point.z + new_point.w;
+            Grid[i][0].start = dexel.start_point;
+            Grid[i][0].end = dexel.start_point + dexel.len / 2;
+            Grid[i][0].normal = dexel.start_normal;
+
+            Grid[i][1].start = dexel.start_point + dexel.len / 2;
+            Grid[i][1].end = dexel.start_point + dexel.len;
+            Grid[i][1].normal = dexel.end_normal;
         });
 
 
@@ -102,12 +125,14 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
     {
         if (Grid[i][0].end - Grid[i][0].start < 1)
         {
-            Grid[i][0].color = -1;
+            Grid[i][0].color = -1;          
+            Grid[i][1].color = -1;
         }
         else
         {
             Grid[i][0].color = 1;
-            Num_of_Dexels += 1;
+            Grid[i][1].color = 2;
+            Num_of_Dexels += 2;
         }
     }  
 }
@@ -126,8 +151,16 @@ void Tool::Clear_Arrays()
 
 
 
-glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
+ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
 {
+    
+
+    ToolDexel dexel;
+    dexel.start_normal = glm::vec3(1, 1, 1);
+    dexel.end_normal = glm::vec3(1, 1, 1);
+
+
+
     glm::vec3 origin_0 = glm::vec3(dexel_x, dexel_y, 0.0f);
     glm::vec3 origin_1 = glm::vec3(dexel_x, dexel_y, 2 * H);
 
@@ -170,6 +203,20 @@ glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
             ToolPoint1 = glm::vec3(0, 0, 0);
             ToolPoint2 = glm::vec3(0, 0, 0);
         }
+        if (coords.A == 0 || coords.A == 180 || coords.A == -180)
+        {
+            dexel.start_normal = glm::vec3(0.f, 0.f, -1.f);
+            dexel.end_normal = glm::vec3(0.f, 0.f, 1.f);
+        }
+        else
+        {
+            dexel.start_normal = glm::vec3(0.f, 0.f, 1.f);
+            dexel.end_normal = glm::vec3(0.f, 0.f, -1.f);
+        }
+
+        dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
+        dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
+        
     }
 
     else if (fabs(denominator - 0) <= 1e-6) // Вектор параллелен плоскости цилиндра
@@ -195,6 +242,11 @@ glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
             ToolPoint1 = glm::vec3(0, 0, 0);
             ToolPoint2 = glm::vec3(0, 0, 0);
         }
+
+
+        dexel.start_normal = ToolPoint1;
+        dexel.end_normal = ToolPoint2;
+
     }
 
     else // Общий случай
@@ -212,6 +264,7 @@ glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
             ToolPoint1 = int_points.first;
             ToolPoint2 = int_points.second;
 
+
             if (ToolPoint1.z > ToolPoint2.z) // Сортируем точки по Z
             {
                 glm::vec3 tmp = ToolPoint1;
@@ -224,11 +277,23 @@ glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
             if (ToolPoint1.z < 0 || ToolPoint1.z > H)
             {
                 ToolPoint1 = MyMath::intersectRayToPlane(new_ray, near_plane);
+                dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
+            }
+            else
+            {
+                dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
+                dexel.end_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
             }
 
             if (ToolPoint2.z > H || ToolPoint2.z < 0)
             {
                 ToolPoint2 = MyMath::intersectRayToPlane(new_ray, far_plane);
+                dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
+            }
+            else
+            {
+                dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
+                dexel.end_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
             }
 
             if (ToolPoint1.x * ToolPoint1.x + ToolPoint1.y * ToolPoint1.y > D * D)
@@ -255,9 +320,11 @@ glm::vec4 Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
     ToolPoint1 = MyMath::transform(ToolPoint1, coords);
     ToolPoint2 = MyMath::transform(ToolPoint2, coords);
 
+    
+    dexel.start_point = ToolPoint1.z;  
+    dexel.len = fabs(ToolPoint2.z - ToolPoint1.z);
 
-
-    return glm::vec4(ToolPoint1, fabs(ToolPoint2.z - ToolPoint1.z));
+    return dexel;
 }
 
 float Tool::Get_X_From_Grid_By_i(int i)
