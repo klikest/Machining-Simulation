@@ -107,18 +107,18 @@ void Render::Draw(GLFWwindow* window, float aspect, GUI* gui)
     main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Generate_draw_array_time, gen_draw_time_ms.count());
 
 
+    camera.SetCamMatrixToShader(lines->shader.ID);
+    lines->Draw(main_scene->scene_grid->machine_coords);
     main_scene->Draw();
 
 
     auto t4 = high_resolution_clock::now();
     duration<double, std::milli> render_time_ms = t4 - t3;
-    main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Render_scene_time, render_time_ms.count());
+    //main_scene->scene_grid->TimeData.AddDataToArray(main_scene->scene_grid->TimeData.Render_scene_time, render_time_ms.count());
 
 
 
-    camera.SetCamMatrixToShader(lines->shader.ID);
-    //lines->AddCoords(glm::vec3(0, 0, 0));
-    lines->Draw(main_scene->scene_grid->machine_coords);
+    
 
 }
 

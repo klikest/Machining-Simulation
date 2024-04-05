@@ -489,7 +489,41 @@ void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
 
 void DexelGrid::SimplifyBlank(Blank* blank)
 {
+    for (int i = 0; i < blank->Grid_size; i++)
+    {
 
+
+        for (int num = 0; num < blank->Grid[i].size() - 1; num++)
+        {
+            float blank_start_1 = blank->Grid[i][num].start;
+            float blank_end_1 = blank->Grid[i][num].end;
+
+            float blank_start_2 = blank->Grid[i][num + 1].start;
+            float blank_end_2 = blank->Grid[i][num + 1].end;
+
+            //                Blank dexel 1
+            //              --------
+            //           ---------------
+            //                Blank dexel 2
+            if (blank_start_1 >= blank_start_2 && blank_end_1 <= blank_end_2)
+            {
+                blank->Grid[i].erase(blank->Grid[i].begin() + num);
+                blank->Num_of_Dexels -= 1;
+            }
+
+
+            //                Blank dexel 1
+            //             -----------------
+            //                -----------
+            //                Blank dexel 2
+            if (blank_start_1 <= blank_start_2 && blank_end_1 >= blank_end_2)
+            {
+                blank->Grid[i].erase(blank->Grid[i].begin() + num + 1);
+                blank->Num_of_Dexels -= 1;
+            }
+            
+        }
+    }
 }
 
 void DexelGrid::DeleteDrawArrays()

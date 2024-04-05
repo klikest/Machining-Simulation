@@ -290,15 +290,15 @@ void GUI::RenderSceneInfo(Render* render)
     ImPlot::PlotLine("Cut volume by iteration, mm^3", x_data.data(), render->main_scene->scene_grid->TimeData.Cut_Volume.data(), x_data.size());
     ImPlot::EndPlot();
 
+    render->main_scene->scene_grid->TimeData.AddDataToArray(render->main_scene->scene_grid->TimeData.Render_scene_time, render->global_render_time);
 
     add_data_to_plot(render);
     ImPlot::SetNextAxesToFit();
     ImPlot::BeginPlot("Efficiency", ImVec2(-1, -1), ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_RangeFit);
-    //ImPlot::PlotLine("Main scene render time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Render_scene_time.data(), x_data.size());
+    ImPlot::PlotLine("Full render time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Render_scene_time.data(), x_data.size());
     ImPlot::PlotLine("Boolean operation, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Boolean_op_time.data(), x_data.size());
     ImPlot::PlotLine("Generate draw array, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_draw_array_time.data(), x_data.size());
     ImPlot::PlotLine("Generate tool time, ms", x_data.data(), render->main_scene->scene_grid->TimeData.Generate_tool_time.data(), x_data.size());
-    ImPlot::PlotLine("Full render time, ms", x_data.data(), render_time.data(), x_data.size());
     ImPlot::EndPlot();
 
 

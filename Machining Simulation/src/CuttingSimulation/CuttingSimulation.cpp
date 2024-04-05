@@ -84,13 +84,14 @@ void CuttingSimulation::Run()
 
 		ptr_fbo->Unbind();
 
+		
 
 		glfwSwapBuffers(SimulationWindow);
 
 		auto t2 = high_resolution_clock::now();
-		duration<double, std::milli> ms_double = t2 - t1;
+		duration<double, std::milli> render_time_ms = t2 - t1;
 
-		ptr_render_scene->global_render_time = ms_double.count();
+		ptr_render_scene->global_render_time = render_time_ms.count();
 
 	}
 }
