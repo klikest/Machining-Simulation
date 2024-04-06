@@ -15,7 +15,7 @@ DexelGrid::DexelGrid()
     blank_H = 100;
     machine_coords.offset = 15;
 
-    resolution = 1;
+    resolution = 0.2;
 
     TimeData.CreateArrays();
 }
@@ -24,6 +24,9 @@ DexelGrid::DexelGrid()
 
 void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 {    
+
+    int num_tool_dexels_in_list = 2;
+
     if (blank->Grid != nullptr)
     {
         DeleteDrawArrays();
@@ -50,7 +53,7 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 
             }
 
-            for (int j = 0; j < tool->Grid[i].size(); j++)
+            for (int j = 0; j < num_tool_dexels_in_list; j++)
             {
                 if (tool->Grid != nullptr && tool->Grid[i][j].color > -1)
                 {
@@ -70,14 +73,127 @@ void DexelGrid::Generate_Draw_Arrays(Blank* blank, Tool* tool)
 
 void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
 {
-
+    int num_tool_dexels_in_list = 2;
     float acc = blank->resolution / 10;
 
+    /*
+
+    for (int i = 0; i < blank->Grid_size; i++)
+    {
+
+        if (i > blank->X_grid_size && i < blank->Grid_size - blank->X_grid_size && tool->Grid[i][0].color > -1 && blank->Grid[i][0].color > -1)
+        {
+            for (int num = 0; num < blank->Grid[i].size(); num++)
+            {
+
+                float tool_up_min = tool->Grid[i + tool->X_grid_size][0].start;
+                float tool_up_max = tool->Grid[i + tool->X_grid_size][0].end;
+
+                float tool_down_min = tool->Grid[i - tool->X_grid_size][0].start;
+                float tool_down_max = tool->Grid[i - tool->X_grid_size][0].end;
+
+                float tool_left_min = tool->Grid[i + 1][0].start;
+                float tool_left_max = tool->Grid[i + 1][0].end;
+
+                float tool_right_min = tool->Grid[i - 1][0].start;
+                float tool_right_max = tool->Grid[i - 1][0].end;
+
+
+                float tool_start = fminf(fminf(tool_up_min, tool_down_min), fminf(tool_left_min, tool_right_min));
+                float tool_end = fmaxf(fmaxf(tool_up_max, tool_down_max), fmaxf(tool_left_max, tool_right_max));
+
+                glm::vec3 new_normal =
+                    tool->Grid[i + tool->X_grid_size][0].normal
+                    + tool->Grid[i - tool->X_grid_size][0].normal
+                    + tool->Grid[i + 1][0].normal
+                    + tool->Grid[i - 1][0].normal;
+
+
+                float blank_start = blank->Grid[i][num].start;
+                float blank_end = blank->Grid[i][num].end;
+                int blank_color = blank->Grid[i][num].color;
+                glm::vec3 blank_normal = blank->Grid[i][num].normal;
+
+
+
+                if (true)
+                {
+                //         Tool
+                //    --------------
+                //           ---------------
+                //                Blank
+                    if (tool_end > blank_start &&
+                        tool_start < blank_start &&
+                        tool_end < blank_end)
+                    {
+                        blank->Grid[i][num].start = tool_end;
+                        blank->Grid[i].push_back(Dexel(blank_start, tool_end, tool->Grid[i][0].color, -new_normal));
+
+                        len_of_cut += tool_end - blank_start;
+                        blank->Num_of_Dexels += 1;
+                    }
+
+                    //                  Tool
+                    //             --------------
+                    //    ---------------
+                    //         Blank
+                    if (tool_start > blank_start &&
+                        tool_start < blank_end &&
+                        tool_end > blank_end)
+                    {
+                        blank->Grid[i].push_back(Dexel(tool_start, blank_end, tool->Grid[i][0].color, -new_normal));
+                        blank->Grid[i][num].end = tool_start;
+                        len_of_cut += blank_end - tool_start;
+                        blank->Num_of_Dexels += 1;
+                    }
+
+                    //             Tool
+                    //     --------------------
+                    //         ------------
+                    //             Blank
+                    if (tool_start < blank_start &&
+                        tool_end > blank_end)
+                    {
+
+                        blank->Grid[i][num].normal = -new_normal;
+                        blank->Grid[i][num].color = tool->Grid[i][0].color;
+                    }
+
+
+                    //             Tool
+                    //         ------------
+                    //     ---------------------
+                    //             Blank
+                    if (tool_start > blank_start &&
+                        tool_end < blank_end)
+                    {
+                        Dexel new_left_dexel = Dexel(blank_start, tool_start, blank_color, blank_normal);
+                        Dexel new_right_dexel = Dexel(tool_end, blank_end, blank_color, blank_normal);
+                        Dexel new_middle_dexel = Dexel(tool_start, tool_end, tool->Grid[i][0].color, -new_normal);
+
+
+                        blank->Grid[i][num] = new_left_dexel;
+                        blank->Grid[i].push_back(new_middle_dexel);
+                        blank->Grid[i].push_back(new_right_dexel);
+
+                        blank->Num_of_Dexels += 2;
+                    }
+                }
+
+               
+            }
+        }
+
+    }
+    */
+
+
+    
     for (int i = 0; i < blank->Grid_size; i++)
     {
         if (i > blank->X_grid_size && i < blank->Grid_size - blank->X_grid_size &&  tool->Grid[i][0].color > -1) /// под декселем инструмента находится дексель заготовки
         {
-            for (int tool_dexel = 0; tool_dexel < tool->Grid[i].size(); tool_dexel++)
+            for (int tool_dexel = 0; tool_dexel < num_tool_dexels_in_list; tool_dexel++)
             {
                 float tool_start = tool->Grid[i][tool_dexel].start;
                 float tool_end = tool->Grid[i][tool_dexel].end;
@@ -240,7 +356,7 @@ void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
 
         if (i > 0 && i < blank->Grid_size - 1 && tool->Grid[i][0].color > -1) /// справа или слева от декселя инструмента находится дексель заготовки
         {
-            for (int tool_dexel = 0; tool_dexel < tool->Grid[i].size(); tool_dexel++)
+            for (int tool_dexel = 0; tool_dexel < num_tool_dexels_in_list; tool_dexel++)
             {
                 float tool_start = tool->Grid[i][tool_dexel].start;
                 float tool_end = tool->Grid[i][tool_dexel].end;
@@ -405,17 +521,20 @@ void DexelGrid::Set_Normals_and_Color(Blank* blank, Tool* tool)
 
 
     }
+
+
 }
 
 
 void DexelGrid::BooleanOperation(Blank* blank, Tool* tool)
 {
     len_of_cut = 0;
+    int num_tool_dexels_in_list = 2;
 
     for (int i = 0; i < blank->Grid_size; i++)
     { 
 
-        for (int tool_dexel = 0; tool_dexel < tool->Grid[i].size(); tool_dexel++)
+        for (int tool_dexel = 0; tool_dexel < num_tool_dexels_in_list; tool_dexel++)
         {
             float tool_start = tool->Grid[i][tool_dexel].start;
             float tool_end = tool->Grid[i][tool_dexel].end;
@@ -516,10 +635,57 @@ void DexelGrid::SimplifyBlank(Blank* blank)
             //             -----------------
             //                -----------
             //                Blank dexel 2
-            if (blank_start_1 <= blank_start_2 && blank_end_1 >= blank_end_2)
+            else if (blank_start_1 <= blank_start_2 && blank_end_1 >= blank_end_2)
             {
                 blank->Grid[i].erase(blank->Grid[i].begin() + num + 1);
                 blank->Num_of_Dexels -= 1;
+            }
+
+
+            //        С этим разобратся!
+
+            //                Blank dexel 1
+            //             --------
+            //                     ------
+            //                Blank dexel 2
+            else if (fabsf(blank_end_1 - blank_start_2) < 0.01 && blank->Grid[i][num].color == blank->Grid[i][num + 1].color)
+            {
+                glm::vec3 delta_normal = blank->Grid[i][num].normal - blank->Grid[i][num+1].normal;
+                
+                if (delta_normal.x < blank->Grid[i][num].normal.x / 5 &&
+                    delta_normal.y < blank->Grid[i][num].normal.y / 5 &&
+                    delta_normal.z < blank->Grid[i][num].normal.z / 5)
+                {
+                    //blank->Grid[i][num].end = blank_end_2;
+                    //blank->Grid[i].erase(blank->Grid[i].begin() + num + 1);
+                    //blank->Num_of_Dexels -= 1;
+                }
+                
+            }
+
+            //                Blank dexel 1
+            //                    --------
+            //              ------
+            //                Blank dexel 2
+            else if (fabsf(blank_end_2 - blank_start_1) < 0.01 && blank->Grid[i][num].color == blank->Grid[i][num + 1].color)
+            {
+                glm::vec3 delta_normal = blank->Grid[i][num].normal - blank->Grid[i][num + 1].normal;
+
+                if (delta_normal.x < blank->Grid[i][num].normal.x / 5 &&
+                    delta_normal.y < blank->Grid[i][num].normal.y / 5 &&
+                    delta_normal.z < blank->Grid[i][num].normal.z / 5)
+                {
+                    //blank->Grid[i][num].start = blank_start_2;
+                    //blank->Grid[i].erase(blank->Grid[i].begin() + num + 1);
+                    //blank->Num_of_Dexels -= 1;
+                }
+
+            }
+
+            else if (fabsf(blank_end_1 - blank_start_1) < 0.001)
+            {
+                    blank->Grid[i].erase(blank->Grid[i].begin() + num);
+                    blank->Num_of_Dexels -= 1;
             }
             
         }

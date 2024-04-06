@@ -62,11 +62,11 @@ int MyMath::Get_Grid_size(float grid_width, float resolution)
 {
     if ((int)ceil(grid_width / resolution) % 2 == 1)
     {
-        return ceil(grid_width / resolution);
+        return ceil(grid_width / resolution) + 2;
     }
     else
     {
-        return ceil(grid_width / resolution) + 1;
+        return ceil(grid_width / resolution) + 3;
     }
 
     return 0;

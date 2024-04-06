@@ -5,6 +5,9 @@
 #include <GLM/gtc/matrix_transform.hpp>
 #include <vector>
 #include <cmath> 
+#include <algorithm>
+#include <execution>
+
 #include "Dexel.h"
 #include "MyMath.h"
 #include "Blank.h"

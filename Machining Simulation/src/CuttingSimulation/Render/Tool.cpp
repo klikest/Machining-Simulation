@@ -67,16 +67,17 @@ void Tool::Generate_Toool_Dexels(Blank* blank, Coordinates mashine_coords)
 
     tool_coords.X *= -1;
 
-    Grid_size = X_grid_size * Y_grid_size;
-
+    
     Clear_Arrays();
 
-    //Grid = new Dexel[Grid_size];
-    Grid = new std::vector<Dexel>[Grid_size];
+    Grid_size = X_grid_size * Y_grid_size;
+
+    Grid = new Dexel*[Grid_size];
+    //Grid = new std::vector<Dexel>[Grid_size];
     
     for (int i = 0; i < Grid_size; i++)
     {
-        Grid[i].resize(2);
+        Grid[i] = new Dexel[2];
     }
 
 
@@ -127,6 +128,12 @@ void Tool::Clear_Arrays()
 {
     if (Grid != nullptr)
     {
+        for (int i = 0; i < Grid_size; i++)
+        {
+            delete[] Grid[i];
+            Grid[i] = nullptr;
+        }
+
         delete[] Grid;
         Grid = nullptr;
     }
@@ -140,6 +147,7 @@ void Tool::Clear_Arrays()
 ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
 {
     
+    bool is_dexel_exists = false;
 
     ToolDexel dexel;
     dexel.start_normal = glm::vec3(1, 1, 1);
@@ -182,6 +190,23 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
         {
             ToolPoint1 = intersectionPoint1;
             ToolPoint2 = intersectionPoint2;
+
+            is_dexel_exists = true;
+
+            if (coords.A == 0 || coords.A == 180 || coords.A == -180)
+            {
+                dexel.start_normal = glm::vec3(0.f, 0.f, -1.f);
+                dexel.end_normal = glm::vec3(0.f, 0.f, 1.f);
+            }
+            else
+            {
+                dexel.start_normal = glm::vec3(0.f, 0.f, 1.f);
+                dexel.end_normal = glm::vec3(0.f, 0.f, -1.f);
+            }
+
+            dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
+            dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
+
         }
 
         else // Если вектор снаружи окружности - записываем на его место нулевой вектор
@@ -189,20 +214,7 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
             ToolPoint1 = glm::vec3(0, 0, 0);
             ToolPoint2 = glm::vec3(0, 0, 0);
         }
-        if (coords.A == 0 || coords.A == 180 || coords.A == -180)
-        {
-            dexel.start_normal = glm::vec3(0.f, 0.f, -1.f);
-            dexel.end_normal = glm::vec3(0.f, 0.f, 1.f);
-        }
-        else
-        {
-            dexel.start_normal = glm::vec3(0.f, 0.f, 1.f);
-            dexel.end_normal = glm::vec3(0.f, 0.f, -1.f);
-        }
 
-        dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
-        dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
-        
     }
 
     else if (fabs(denominator - 0) <= 1e-6) // Вектор параллелен плоскости цилиндра
@@ -215,6 +227,8 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
 
                 ToolPoint1 = int_points.first;
                 ToolPoint2 = int_points.second;
+
+                is_dexel_exists = true;
             }
 
             else // Если вектор не пересекает окружность - записываем на его место нулевой вектор
@@ -222,6 +236,7 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
                 ToolPoint1 = glm::vec3(0, 0, 0);
                 ToolPoint2 = glm::vec3(0, 0, 0);
             }
+            
         }
         else // Если вектор не попадает между плоскостей инструмента - записываем на его место нулевой вектор
         {
@@ -289,7 +304,15 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
                     ToolPoint1 = glm::vec3(0, 0, 0);
                     ToolPoint2 = glm::vec3(0, 0, 0);
                 }
+                else
+                {
+                    is_dexel_exists = true;
+                }
 
+            }
+            else
+            {
+                is_dexel_exists = true;
             }
         }
 
@@ -309,6 +332,13 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
     
     dexel.start_point = ToolPoint1.z;  
     dexel.len = fabs(ToolPoint2.z - ToolPoint1.z);
+
+
+    if (is_dexel_exists == false)
+    {
+        dexel.start_point = 1000000;
+        dexel.len = -1000000;
+    }
 
     return dexel;
 }

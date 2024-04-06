@@ -22,7 +22,7 @@ public:
 	float t = 0;
 	int step = 0;
 
-	float speed_of_sim = 1;
+	float speed_of_sim = 10;
 
 	void Parse_file(std::string path, Coordinates curret_coords);
 	void Zero_time();

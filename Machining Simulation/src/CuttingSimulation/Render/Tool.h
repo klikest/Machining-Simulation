@@ -30,8 +30,8 @@ class Tool
 {
 public:
 
-	//Dexel** Grid = nullptr;
-	std::vector<Dexel>* Grid = nullptr;
+	Dexel** Grid = nullptr;
+	//std::vector<Dexel>* Grid = nullptr;
 	int Num_of_Dexels = 0;
 
 	Coordinates tool_coords;
