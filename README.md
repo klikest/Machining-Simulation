@@ -8,6 +8,9 @@
 * Симуляция работы по управляющей программе (язык G)
 * Расчет и визуализация величины срезаемого материала, мм^3
 
+![image](https://github.com/klikest/Machining-Simulation/assets/122966791/5d38423d-bc41-445b-8e81-f17fe621ad90)
+![image](https://github.com/klikest/Machining-Simulation/assets/122966791/a29d085e-910f-4e5c-bf6f-eefe78b8bd81)
+
 
 ## Как использовать:
 Последнюю версию программы можно скачать в разделе Release
