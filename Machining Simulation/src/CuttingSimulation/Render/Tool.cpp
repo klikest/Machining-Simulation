@@ -204,8 +204,21 @@ ToolDexel Tool::GetToolDexel(float dexel_x, float dexel_y, Coordinates coords)
                 dexel.end_normal = glm::vec3(0.f, 0.f, -1.f);
             }
 
-            dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
-            dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
+
+
+            if (x * x + y * y <= (D) * (D) && x * x + y * y >= 0.95 * (D) * (D))
+            {
+                dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
+                dexel.end_normal = MyMath::transform(ToolPoint1 + glm::vec3(ToolPoint1.x, ToolPoint1.y, 0), coords) - MyMath::transform(ToolPoint1, coords);
+            }
+
+            else
+            {
+                dexel.start_normal = MyMath::transform(ToolPoint1 + glm::vec3(0, 0, -1), coords) - MyMath::transform(ToolPoint1, coords);
+                dexel.end_normal = MyMath::transform(ToolPoint2 + glm::vec3(0, 0, 1), coords) - MyMath::transform(ToolPoint2, coords);
+
+            }
+
 
         }
 
