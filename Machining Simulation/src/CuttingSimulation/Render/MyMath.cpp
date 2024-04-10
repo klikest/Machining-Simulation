@@ -6,53 +6,84 @@
 
 void MyMath::transformArray(std::vector<glm::vec3>& my_array, Coordinates coords)
 {
+    glm::mat4 rez_matrix = get_tranform_mat(coords);
+
     for (int i = 0; i < my_array.size(); i++)
     {
-        my_array[i] = transform(my_array[i], coords);
+        glm::vec4 new_point = rez_matrix * glm::vec4(my_array[i], 1);
+        my_array[i] = glm::vec3(new_point.x, new_point.y, new_point.z);
     }
 }
 
 void MyMath::inv_transformArray(std::vector<glm::vec3>& my_array, Coordinates coords)
 {
+    glm::mat4 rez_matrix = get_tranform_mat(coords);
+
     for (int i = 0; i < my_array.size(); i++)
     {
-        my_array[i] = inv_transform(my_array[i], coords);
+        glm::vec4 new_point = glm::inverse(rez_matrix) * glm::vec4(my_array[i], 1);
+        my_array[i] = glm::vec3(new_point.x, new_point.y, new_point.z);
     }
 }
 
+void MyMath::transform_array_by_mat(std::vector<glm::vec3>& my_array, glm::mat4 matrix)
+{
+    for (int i = 0; i < my_array.size(); i++)
+    {
+        glm::vec4 new_point = matrix * glm::vec4(my_array[i], 1);
+        my_array[i] = glm::vec3(new_point.x, new_point.y, new_point.z);
+    }
+}
+
+glm::mat4 MyMath::get_tranform_mat(Coordinates coords)
+{
+    //glm::mat4 rot = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 trans_1 = glm::translate(glm::mat4(1.0f), glm::vec3(coords.Y, coords.Z, coords.X));
+    glm::mat4 trans_2 = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -coords.offset));
+    glm::mat4 rot_2 = glm::rotate(glm::mat4(1.0f), glm::radians(coords.A), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 trans_3 = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, coords.offset));
+    glm::mat4 rot_3 = glm::rotate(glm::mat4(1.0f), glm::radians(coords.C), glm::vec3(0.0, 0.0, 1.0));
+
+    glm::mat4 rez_matrix = rot_3 * trans_3 * rot_2 * trans_2 * trans_1; //* rot;
+
+    return rez_matrix;
+}
+
+glm::mat4 MyMath::get_blank_tranform_mat(Coordinates coords)
+{
+    glm::mat4 trans_1 = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, coords.X));
+    glm::mat4 trans_2 = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -coords.offset));
+    glm::mat4 rot_2 = glm::rotate(glm::mat4(1.0f), glm::radians(coords.A), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 trans_3 = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, coords.offset));
+
+    glm::mat4 rot_3 = glm::rotate(glm::mat4(1.0f), glm::radians(coords.C), glm::vec3(0.0, 0.0, 1.0));
+
+    glm::mat4 rez_matrix = rot_3 * trans_3 * rot_2 * trans_2 * trans_1;
+
+    return rez_matrix;
+}
+
+
 glm::vec3 MyMath::transform(glm::vec3 point, Coordinates coords)
 {
-    glm::vec4 pos_1 = glm::vec4(point.x, point.y, point.z + coords.offset, 0);
+    glm::vec4 Point = glm::vec4(point.x, point.y, point.z, 1.0f);
 
-    glm::mat4 rotate_y = glm::mat4(1.0f);
-    rotate_y = glm::rotate(rotate_y, glm::radians(coords.A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
+    glm::mat4 rez_matrix = get_tranform_mat(coords);
 
-    glm::vec4 pos_234 = (rotate_y * pos_1) + glm::vec4(coords.Z, coords.Y, -coords.offset + coords.X, 0);
+    Point = rez_matrix * Point;
 
-    glm::mat4 rotate_x = glm::mat4(1.0f);
-    rotate_x = glm::rotate(rotate_x, glm::radians(coords.C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
-
-    glm::vec4 pos_5 = rotate_x * pos_234;
-
-    return glm::vec3(pos_5.x, pos_5.y, pos_5.z);
+    return glm::vec3(Point.x, Point.y, Point.z);
 }
 
 glm::vec3 MyMath::inv_transform(glm::vec3 point, Coordinates coords)
 {
+    glm::vec4 Point = glm::vec4(point.x, point.y, point.z, 1.0f);
 
-    glm::mat4 rotate_x = glm::mat4(1.0f);
-    rotate_x = glm::rotate(rotate_x, glm::radians(-coords.C), glm::vec3(0.0f, 0.0f, 1.0f)); // Матрица поворота вокруг оси X
+    glm::mat4 rez_matrix = get_tranform_mat(coords);
 
-    glm::vec4 pos_5 = rotate_x * glm::vec4(point.x, point.y, point.z, 1);
-    glm::vec4 pos_43 = pos_5 - glm::vec4(coords.Z, coords.Y, coords.X - coords.offset, 0);
+    Point = glm::inverse(rez_matrix) * Point;
 
-    glm::mat4 rotate_y = glm::mat4(1.0f);
-    rotate_y = glm::rotate(rotate_y, glm::radians(-coords.A), glm::vec3(0.0f, 1.0f, 0.0f)); // Матрица поворота вокруг оси А
-
-    glm::vec4 pos21 = (rotate_y * pos_43) - glm::vec4(0, 0, coords.offset, 0);
-
-    return glm::vec3(pos21.x, pos21.y, pos21.z);
-
+    return glm::vec3(Point.x, Point.y, Point.z);
 }
 
 

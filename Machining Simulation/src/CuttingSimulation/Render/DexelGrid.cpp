@@ -5,17 +5,17 @@ DexelGrid::DexelGrid()
     blank = new Blank();
     tool = new Tool();
 
-    machine_coords.X = -130;
-    machine_coords.Y = 68;
+    machine_coords.X = -0;
+    machine_coords.Y = 0;
     machine_coords.Z = 0;
-    machine_coords.A = 15;
+    machine_coords.A = 0;
     tool_D = 125;
     tool_H = 10;
     blank_D = 20;
-    blank_H = 100;
+    blank_H = 15;
     machine_coords.offset = 15;
 
-    resolution = 0.2;
+    resolution = 1;
 
     TimeData.CreateArrays();
 }

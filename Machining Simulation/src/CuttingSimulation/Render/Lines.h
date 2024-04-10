@@ -22,6 +22,8 @@ public:
 
 	void Init();
 
+	void AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color, glm::mat4 transform_mat);
+
 	void AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color);
 	void AddLines(std::vector<float> new_vertices, glm::vec3 new_color);
 	void AddLines(std::vector<float> new_vertices, std::vector<float> new_colors);

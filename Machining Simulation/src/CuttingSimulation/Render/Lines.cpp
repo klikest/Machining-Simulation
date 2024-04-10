@@ -15,7 +15,7 @@ void Lines::Init()
     glGenBuffers(1, &VBO_colors);
 }
 
-void Lines::AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color)
+void Lines::AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color, glm::mat4 transform_mat)
 {
 
     std::vector<float> new_colors;
@@ -38,6 +38,8 @@ void Lines::AddLines(std::vector<glm::vec3> new_vertices, glm::vec3 new_color)
 
         count += 1;
     }
+
+    MyMath::transform_array_by_mat(new_vert, transform_mat);
 
     vertices.insert(vertices.end(), new_vert.begin(), new_vert.end());
     colors.insert(colors.end(), new_colors.begin(), new_colors.end());

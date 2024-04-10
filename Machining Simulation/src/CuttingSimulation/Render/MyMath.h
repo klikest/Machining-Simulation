@@ -27,6 +27,12 @@ public:
     static void transformArray(std::vector<glm::vec3>& my_array, Coordinates coords);
     static void inv_transformArray(std::vector<glm::vec3>& my_array, Coordinates coords);
 
+    static void transform_array_by_mat(std::vector<glm::vec3>& my_array, glm::mat4 matrix);
+
+    static glm::mat4 get_tranform_mat(Coordinates coords);
+
+    static glm::mat4 get_blank_tranform_mat(Coordinates coords);
+
     static glm::vec3 transform(glm::vec3 point, Coordinates coords);
     static glm::vec3 inv_transform(glm::vec3 point, Coordinates coords);
 

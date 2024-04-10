@@ -53,6 +53,11 @@ void Scene::Draw()
     glUniform1f(glGetUniformLocation(shader.ID, "Machine_C"), scene_grid->machine_coords.C);
     glUniform1i(glGetUniformLocation(shader.ID, "Machine_is_transform"), scene_grid->machine_coords.is_transform);
 
+    glm::mat4 inv_transform_mat = glm::inverse(MyMath::get_blank_tranform_mat(scene_grid->machine_coords));
+
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "inv_transform_mat"), 1, GL_FALSE, glm::value_ptr(inv_transform_mat));
+
+
     GLfloat colors_to_choose[9] = {0.8, 0.8, 0.8,   0.29, 0.72, 0.33,  0.47, 0.15, 0.89 };
 
     glUniform3fv(glGetUniformLocation(shader.ID, "colors_choose"), 9, colors_to_choose );
